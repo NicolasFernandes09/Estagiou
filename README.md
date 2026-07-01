@@ -2,11 +2,11 @@
 
 Sistema web e mobile para publicação e gerenciamento de vagas de emprego, estágio e outras oportunidades, com painel administrativo, API pública e integração com empresas parceiras.
 
-## 📋 Sobre o Projeto
+## Sobre o Projeto
 
 O Mural de Oportunidades permite que empresas parceiras cadastrem vagas (estágio, CLT, jovem aprendiz, freelancer, entre outros) que ficam disponíveis para consulta via web e aplicativo mobile. Administradores possuem acesso total ao sistema, podendo gerenciar empresas, vagas, usuários e parceiros.
 
-## ✨ Funcionalidades
+## Funcionalidades
 
 ### Administração
 - Administrador geral com acesso total ao sistema.
@@ -52,7 +52,7 @@ O Mural de Oportunidades permite que empresas parceiras cadastrem vagas (estági
 - Layout responsivo para desktop e mobile.
 - Logos e banners ajustados sem distorções.
 
-## 🗂️ Estrutura de Dados
+## Estrutura de Dados
 
 O banco de dados deve contemplar as seguintes entidades:
 - Usuários
@@ -61,7 +61,7 @@ O banco de dados deve contemplar as seguintes entidades:
 - Favoritos
 - Parceiros
 
-## ✅ Roteiro de Implementação
+## Roteiro de Implementação
 
 - [ ] Criar banco de dados completo (usuários, empresas, vagas, favoritos e parceiros).
 - [ ] Implementar autenticação segura com login e senha criptografada.
@@ -79,14 +79,14 @@ O banco de dados deve contemplar as seguintes entidades:
 - [ ] Garantir responsividade e boa apresentação das imagens.
 - [ ] Cadastrar e gerenciar empresas parceiras.
 
-## 🛠️ Tecnologias
+## Tecnologias
 
 > *Preencher com as tecnologias utilizadas no projeto (ex.: linguagem de back-end, framework, banco de dados, framework mobile, etc.).*
 
-## 🚀 Como Executar
+## Como Executar
 
 > *Preencher com instruções de instalação, configuração do banco de dados e execução do projeto (web e mobile).*
 
-## 📄 Licença
+## Licença
 
 > *Preencher com a licença do projeto, se aplicável.*
