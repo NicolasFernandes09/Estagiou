@@ -1,4 +1,4 @@
-# Mural de Oportunidades
+# Estagiou
 
 Sistema web e mobile para publicação e gerenciamento de vagas de emprego, estágio e outras oportunidades, com painel administrativo, API pública e integração com empresas parceiras.
 
