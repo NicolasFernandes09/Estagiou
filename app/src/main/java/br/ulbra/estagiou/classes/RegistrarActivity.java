@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import br.ulbra.estagiou.R;
 
 public class RegistrarActivity extends AppCompatActivity {
-    EditText edNome, edUser, edPas1, edPas2;
-    Button btSalvar;
+    EditText edNome, edGmail, edPas1, edPas2;
+    Button btSalvar, btVoltarLogin; // Adicionado btVoltarLogin aqui
     DBHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,18 +20,29 @@ public class RegistrarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registrar);
         db = new DBHelper(this);
 
-        edNome = (EditText)findViewById(R.id.edNome);
-        edUser = (EditText)findViewById(R.id.edUser);
-        edPas1 = (EditText)findViewById(R.id.edPass1);
-        edPas2 = (EditText)findViewById(R.id.edPass2);
+        edNome = (EditText)findViewById(R.id.edtNome);
+        edGmail = (EditText)findViewById(R.id.edtGmail);
+        edPas1 = (EditText)findViewById(R.id.edtPass1);
+        edPas2 = (EditText)findViewById(R.id.edtPass2);
 
+        btSalvar = (Button)findViewById(R.id.btnRegistrar);
 
-        btSalvar = (Button)findViewById(R.id.btSalvar);
+        // Mapeando o botão "Entrar" do XML de registro
+        btVoltarLogin = (Button)findViewById(R.id.btnEntrar2);
+
+        // Configurando o clique para voltar para a tela de Login
+        btVoltarLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish(); // Destrói a RegistrarActivity e volta para a MainActivity
+            }
+        });
 
         btSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String userName = edUser.getText().toString();
+                String userName = edNome.getText().toString();
+                String email = edGmail.getText().toString();
                 String pas1 = edPas1.getText().toString();
                 String pas2 = edPas2.getText().toString();
                 if (userName.equals("")) {
@@ -43,8 +54,8 @@ public class RegistrarActivity extends AppCompatActivity {
                 }else{
                     long res = db.criarUtilizador(userName,pas1);
                     if(res>0){
-//nesta parte você poderá chamar a tela principal do sistema autenticado
-                        Toast.makeText(RegistrarActivity.this, "Resgistro OK", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegistrarActivity.this, "Registro OK", Toast.LENGTH_SHORT).show();
+                        finish(); // Opcional: fecha a tela de cadastro após registrar com sucesso para ele logar
                     }else{
                         Toast.makeText(RegistrarActivity.this, "Senha inválida!", Toast.LENGTH_SHORT).show();
                     }
@@ -53,4 +64,3 @@ public class RegistrarActivity extends AppCompatActivity {
         });
     }
 }
-

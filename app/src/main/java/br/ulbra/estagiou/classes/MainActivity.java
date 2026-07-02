@@ -1,5 +1,6 @@
 package br.ulbra.estagiou.classes;
 
+import android.content.Intent; // IMPORTANTE: Adicione esta linha se o Android Studio não importar sozinho
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +13,7 @@ import br.ulbra.estagiou.R;
 
 public class MainActivity extends AppCompatActivity {
     EditText edUsuario, edSenha, edEmail;
-    Button btLogin;
+    Button btLogin, btCriarConta; // Adicionado o botão btCriarConta aqui
     DBHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,19 @@ public class MainActivity extends AppCompatActivity {
         edEmail = (EditText)findViewById(R.id.edtEmail);
         edSenha = (EditText)findViewById(R.id.edtSenha);
         btLogin = (Button)findViewById(R.id.btnEntrar);
+
+        // Mapeando o botão "Criar conta" do seu XML
+        btCriarConta = (Button)findViewById(R.id.btnConta);
+
+        // Configurando o clique para ir para a tela de Registro
+        btCriarConta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, RegistrarActivity.class);
+                startActivity(intent);
+            }
+        });
+
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,4 +61,3 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 }
-
