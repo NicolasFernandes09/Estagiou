@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/todos"
+        android:title="Todos" />
+    <item
+        android:id="@+id/estagio"
+        android:title="Estagio" />
+    <item
+        android:id="@+id/jovenAp"
+        android:title="Jovem Aprendiz" />
+    <item
+        android:id="@+id/clt"
+        android:title="CLT" />
+    <item
+        android:id="@+id/freeLancer"
+        android:title="Free Lancer" />
+</menu>
