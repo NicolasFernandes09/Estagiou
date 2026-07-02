@@ -52,7 +52,7 @@ public class RegistrarActivity extends AppCompatActivity {
                 }else if(!pas1.equals(pas2)){
                     Toast.makeText(RegistrarActivity.this, "As senhas não correspondem ao login do usuário", Toast.LENGTH_SHORT).show();
                 }else{
-                    long res = db.criarUtilizador(userName,pas1);
+                    long res = db.criarUtilizador(userName, email, pas1);
                     if(res>0){
                         Toast.makeText(RegistrarActivity.this, "Registro OK", Toast.LENGTH_SHORT).show();
                         finish(); // Opcional: fecha a tela de cadastro após registrar com sucesso para ele logar
