@@ -13,17 +13,20 @@ body {
 .login-container {
     width: 100%;
     min-height: 100vh;
-    display: table;
-    table-layout: fixed;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
 }
-.brand-panel{
-    display: table-cell;
-    width: 50%;
+.brand-panel {
+    flex: 1 1 420px;
+    min-height: 500px;
     background-color: #FF6D00;
     color: #ffffff;
     vertical-align: middle;
     padding: 60px;
     position: relative;
+    display: flex;
+    align-items: center;
 }
 .brand-panel::before {
     content: "";
@@ -36,7 +39,7 @@ body {
     right: -50px;
     opacity: 0.5;
 }
-.brand-content :after {
+.brand-content::after {
     content: "";
     position: absolute;
     width: 200px;
@@ -57,11 +60,12 @@ body {
     line-height: 1.5;
 }
 .form-panel {
-    display: table-cell;
-    width: 80%;
+    flex: 1 1 420px;
     background-color: #ffffff;
     vertical-align: middle;
     padding: 60px;
+    display: flex;
+    align-items: center;
 }
 .form-content {
     width: 100%;
@@ -133,4 +137,69 @@ body {
 }
 .toggle-link:hover {
     text-decoration: underline;
+}
+@media screen and (max-width: 992px) {
+  .logo a {
+    font-size: 0.95rem;
+  }
+
+  .nav-links {
+    gap: 1rem;
+  }
+
+  .nav-links a {
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .topo {
+    height: auto;
+    padding: 10px 4%;
+    flex-wrap: wrap;
+  }
+
+  .logo {
+    order: 1;
+  }
+
+  .theme-btn {
+    order: 2;
+    height: 32px;
+    padding: 0 12px;
+  }
+
+  .nav {
+    order: 3;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .nav-links {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+  }
+
+  .nav-links a {
+    font-size: 0.75rem;
+  }
+
+  .home-section {
+    min-height: auto;
+    padding: 6rem 5% 4rem 5%;
+  }
+
+  .main-title {
+    font-size: 2.2rem;
+  }
+
+  .home-content p {
+    font-size: 1rem;
+  }
+
+  .cta-btn {
+    width: 100%;
+    max-width: 300px;
+  }
 }
