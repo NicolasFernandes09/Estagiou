@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Estagiou
 
 Sistema web e mobile para publicação e gerenciamento de vagas de emprego, estágio e outras oportunidades, com painel administrativo, API pública e integração com empresas parceiras.
@@ -90,3 +91,6 @@ O banco de dados deve contemplar as seguintes entidades:
 ## Licença
 
 > *Preencher com a licença do projeto, se aplicável.*
+=======
+#Estagiou
+>>>>>>> origin/RafaelKlein-main
