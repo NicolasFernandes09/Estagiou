@@ -50,7 +50,7 @@
         <p>Escolha uma seção para acessar:</p>
         <ul>
             <li><a href="empresas.php">Empresas</a></li>
-            <li><a href="usuarios.php">Usuários</a></li>
+            <li><a href="login.php">Usuários</a></li>
             <li><a href="vagas.php">Vagas</a></li>
         </ul>
     </div>
