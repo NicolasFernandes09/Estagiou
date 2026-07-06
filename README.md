@@ -86,14 +86,27 @@ O banco de dados deve contemplar as seguintes entidades:
 - [ ] Garantir responsividade e boa apresentação das imagens.
 - [ ] Cadastrar e gerenciar empresas parceiras.
 
-## Tecnologias
+## Tecnologias utilizadas Web
 
-> *Preencher com as tecnologias utilizadas no projeto (ex.: linguagem de back-end, framework, banco de dados, framework mobile, etc.).*
+- **PHP** — estrutura semântica das páginas
+- **CSS** — estilos e responsividade 
 
 ## Como Executar
 
-> *Preencher com instruções de instalação, configuração do banco de dados e execução do projeto (web e mobile).*
+Clone o repositório:
+git clone <URL_DO_REPOSITORIO>
+Configure o banco de dados:
+Crie o banco no MySQL.
+Importe o arquivo banco.sql.
+Atualize as credenciais no arquivo config.php.
 
-## Licença
+## Execução
+Web
 
-> *Preencher com a licença do projeto, se aplicável.*
+Inicie o Apache e o MySQL (XAMPP) e acesse:
+
+http://localhost/nome-do-projeto
+
+## Observações
+
+Este repositório contém apenas a versão alpha do projeto, projeto está em desenvolvimento.
