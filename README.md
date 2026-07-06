@@ -10,12 +10,12 @@ O Mural de Oportunidades permite que empresas parceiras cadastrem vagas (estági
 
 ### Administração
 - Administrador geral com acesso total ao sistema.
-- Visualização de dados das empresas: nome, contato do RH, e-mail, telefone, endereço.
+- Visualização de dados das empresas: nome, contato do RH, e-mail, telefone, endereço, cnpj.
 - Visualização de todas as vagas, usuários e parceiros.
 
 ### Cadastro de Empresas
 - Impede cadastro de empresas com nome duplicado.
-- Campos obrigatórios: nome, e-mail, telefone, endereço, contato do RH e logo.
+- Dados obrigatórios: nome, e-mail, telefone, endereço, contato do RH e logo.
 - Upload de imagem obrigatório, armazenada em coluna específica no banco de dados.
 
 ### Cadastro de Vagas
@@ -51,6 +51,13 @@ O Mural de Oportunidades permite que empresas parceiras cadastrem vagas (estági
 ### Interface
 - Layout responsivo para desktop e mobile.
 - Logos e banners ajustados sem distorções.
+
+
+## Interface Visual
+...
+## Estrutura de Diagramas
+...
+
 
 ## Estrutura de Dados
 
