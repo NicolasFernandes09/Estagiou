@@ -1,96 +1,66 @@
-<<<<<<< HEAD
 # Estagiou
 
-Sistema web e mobile para publicação e gerenciamento de vagas de emprego, estágio e outras oportunidades, com painel administrativo, API pública e integração com empresas parceiras.
+Aplicativo Android para consulta de vagas de estágio, jovem aprendiz, freelancer e CLT, com cadastro de usuários, login, perfil, favoritos, filtros de busca e envio de currículo por e-mail.
 
 ## Sobre o Projeto
 
-O Mural de Oportunidades permite que empresas parceiras cadastrem vagas (estágio, CLT, jovem aprendiz, freelancer, entre outros) que ficam disponíveis para consulta via web e aplicativo mobile. Administradores possuem acesso total ao sistema, podendo gerenciar empresas, vagas, usuários e parceiros.
+O Estagiou é um aplicativo mobile desenvolvido em Java no Android Studio. A proposta do app é facilitar a visualização de oportunidades profissionais, permitindo que o usuário encontre vagas, filtre por tipo de contratação, salve oportunidades favoritas e consulte os detalhes de cada vaga.
+
+Nesta versão, o projeto está focado na experiência mobile do usuário, com telas de login, cadastro, listagem de vagas, detalhes da vaga, favoritos e perfil.
 
 ## Funcionalidades
 
-### Administração
-- Administrador geral com acesso total ao sistema.
-- Visualização de dados das empresas: nome, contato do RH, e-mail, telefone, endereço.
-- Visualização de todas as vagas, usuários e parceiros.
-
-### Cadastro de Empresas
-- Impede cadastro de empresas com nome duplicado.
-- Campos obrigatórios: nome, e-mail, telefone, endereço, contato do RH e logo.
-- Upload de imagem obrigatório, armazenada em coluna específica no banco de dados.
-
-### Cadastro de Vagas
-- Campos obrigatórios: título, descrição, salário/bolsa, empresa vinculada, tipo de contratação, cidade, data de publicação, data limite de inscrição e logo/banner da empresa.
-
-### Regras de Negócio
-- Vagas só podem ser excluídas após a data limite de inscrição.
-- Sistema deve possuir no mínimo 5 empresas parceiras cadastradas.
-- Usuários podem favoritar vagas (favoritos registrados no banco de dados).
-- Filtro de busca por título da vaga.
-
-### Dashboard Administrativo
-- Total de vagas.
-- Total de empresas.
-- Total de tipos de contratação.
-- Últimas 5 vagas cadastradas.
-
-### API
-- Endpoint JSON com todas as vagas ativas.
-- Retorno inclui: empresa, cargo, descrição, salário, cidade, contato, data limite de inscrição e logo/banner.
-
-### Aplicativo Mobile
-**Feed de vagas:** logo da empresa, nome da empresa, cargo e tipo da vaga.
-
-**Tela de detalhes:** empresa, cargo, descrição, salário, cidade, contato e data limite de inscrição.
-
-### Autenticação
-- Login por usuário e senha.
+- Cadastro de usuários.
+- Login com usuário e senha.
 - Senha mínima de 6 caracteres.
-- Senhas criptografadas com `password_hash()`.
-- Controle de sessão seguro.
+- Cadastro de foto de perfil.
+- Cadastro de descrição profissional e descrição pessoal.
+- Edição de perfil.
+- Confirmação antes de sair da conta.
+- Listagem de vagas disponíveis.
+- Busca por vaga, empresa ou cidade.
+- Filtros por tipo de vaga: Todas, Estágio, Jovem Aprendiz, Freelancer e CLT.
+- Visualização dos detalhes da vaga.
+- Favoritar e desfavoritar vagas.
+- Página de favoritos atualizada conforme as vagas salvas.
+- Menu inferior com indicação visual da tela atual.
+- Assistente inicial para orientar o usuário na primeira utilização.
+- Envio de currículo em PDF abrindo o aplicativo de e-mail do celular.
 
-### Interface
-- Layout responsivo para desktop e mobile.
-- Logos e banners ajustados sem distorções.
+## Telas do Aplicativo
 
-## Estrutura de Dados
+### Login
+Tela inicial do aplicativo, onde o usuário informa usuário e senha para acessar o sistema.
 
-O banco de dados deve contemplar as seguintes entidades:
-- Usuários
-- Empresas
-- Vagas
-- Favoritos
-- Parceiros
+### Cadastro
+Tela para criação de conta, com nome completo, nome de usuário, e-mail, senha, confirmação de senha, foto de perfil e descrições do usuário.
 
-## Roteiro de Implementação
+### Vagas
+Tela principal do app, contendo campo de busca, filtros por tipo de contratação, cards de vagas e botão para acessar os detalhes de cada oportunidade.
 
-- [ ] Criar banco de dados completo (usuários, empresas, vagas, favoritos e parceiros).
-- [ ] Implementar autenticação segura com login e senha criptografada.
-- [ ] Desenvolver painel administrativo.
-- [ ] Criar CRUD de empresas.
-- [ ] Criar CRUD de vagas.
-- [ ] Implementar upload e armazenamento de imagens.
-- [ ] Criar dashboard com métricas e últimas vagas.
-- [ ] Desenvolver API JSON das vagas.
-- [ ] Criar sistema de favoritos.
-- [ ] Implementar filtros de busca por título.
-- [ ] Aplicar regras de negócio (empresa única e exclusão de vaga após prazo).
-- [ ] Desenvolver aplicativo Android consumindo a API.
-- [ ] Criar telas de feed e detalhes das vagas.
-- [ ] Garantir responsividade e boa apresentação das imagens.
-- [ ] Cadastrar e gerenciar empresas parceiras.
+### Detalhes da Vaga
+Tela com informações completas da oportunidade, como empresa, cargo, descrição, salário, cidade, contato, data limite de inscrição e instruções para envio de currículo.
 
-## Tecnologias
+### Favoritos
+Tela que exibe as vagas marcadas com coração. Ao desfavoritar uma vaga, ela deixa de aparecer na lista de favoritos.
 
-> *Preencher com as tecnologias utilizadas no projeto (ex.: linguagem de back-end, framework, banco de dados, framework mobile, etc.).*
+### Perfil
+Tela com dados do usuário logado, foto de perfil, e-mail, descrição profissional, descrição pessoal, botão para editar informações e opção para sair da conta.
 
-## Como Executar
+## Tecnologias Utilizadas
 
-> *Preencher com instruções de instalação, configuração do banco de dados e execução do projeto (web e mobile).*
+- Java
+- Android Studio
+- XML
+- SQLite
+- SharedPreferences
+- Volley
+- BCrypt
+- Gradle com Groovy DSL
 
-## Licença
+## Configuração do Projeto
 
-> *Preencher com a licença do projeto, se aplicável.*
-=======
-#Estagiou
->>>>>>> origin/RafaelKlein-main
+- Linguagem: Java
+- Minimum SDK: API 27, Android 8.1
+- Target SDK: 36
+- Package/Application ID: br.ulbra.estagiou
