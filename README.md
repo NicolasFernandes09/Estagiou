@@ -55,9 +55,10 @@ O Mural de Oportunidades permite que empresas parceiras cadastrem vagas (estági
 
 ## Interface Visual
 ...
-## Estrutura de Diagramas
-...
 
+## Estrutura de Diagramas
+
+![diagrama](Estagiou/img/diagrama.jpeg)
 
 ## Estrutura de Dados
 
@@ -68,36 +69,23 @@ O banco de dados deve contemplar as seguintes entidades:
 - Favoritos
 - Parceiros
 
-## Roteiro de Implementação
-
-- [ ] Criar banco de dados completo (usuários, empresas, vagas, favoritos e parceiros).
-- [ ] Implementar autenticação segura com login e senha criptografada.
-- [ ] Desenvolver painel administrativo.
-- [ ] Criar CRUD de empresas.
-- [ ] Criar CRUD de vagas.
-- [ ] Implementar upload e armazenamento de imagens.
-- [ ] Criar dashboard com métricas e últimas vagas.
-- [ ] Desenvolver API JSON das vagas.
-- [ ] Criar sistema de favoritos.
-- [ ] Implementar filtros de busca por título.
-- [ ] Aplicar regras de negócio (empresa única e exclusão de vaga após prazo).
-- [ ] Desenvolver aplicativo Android consumindo a API.
-- [ ] Criar telas de feed e detalhes das vagas.
-- [ ] Garantir responsividade e boa apresentação das imagens.
-- [ ] Cadastrar e gerenciar empresas parceiras.
 
 ## Tecnologias utilizadas Web
 
 - **PHP** — estrutura semântica das páginas
-- **CSS** — estilos e responsividade 
+- **CSS** — estilos e responsividade
+  
 
 ## Como Executar
 
 Clone o repositório:
 git clone <URL_DO_REPOSITORIO>
+
 Configure o banco de dados:
 Crie o banco no MySQL.
+
 Importe o arquivo banco.sql.
+
 Atualize as credenciais no arquivo config.php.
 
 ## Execução
