@@ -1,6 +1,6 @@
 <?php
 
-class Empresa {
+class Empresas {
 
     private $conn;
     private $table_name = "empresas";

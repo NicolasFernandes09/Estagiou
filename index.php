@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+require_once __DIR__ . '/api/conexao.php';
+require_once __DIR__ . '/classes/Empresas.php';
+
 // Recupera erros e valores antigos (se o cadastro anterior falhou)
 $erros   = $_SESSION['erros'] ?? [];
 $antigos = $_SESSION['antigos'] ?? [];
@@ -18,6 +21,74 @@ function erro(array $erros, string $campo): string
     return isset($erros[$campo])
         ? '<span class="erro-msg">' . htmlspecialchars($erros[$campo], ENT_QUOTES, 'UTF-8') . '</span>'
         : '';
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome_empresa'])) {
+    $erros = [];
+    $dados = [
+        'nome_empresa' => trim($_POST['nome_empresa'] ?? ''),
+        'telefone' => trim($_POST['telefone'] ?? ''),
+        'email' => trim($_POST['email'] ?? ''),
+        'senha' => trim($_POST['senha'] ?? ''),
+        'endereco' => trim($_POST['endereco'] ?? ''),
+    ];
+
+    if ($dados['nome_empresa'] === '') {
+        $erros['nome_empresa'] = 'Informe o nome da empresa.';
+    }
+
+    if ($dados['telefone'] === '') {
+        $erros['telefone'] = 'Informe o telefone.';
+    }
+
+    if ($dados['email'] === '' || !filter_var($dados['email'], FILTER_VALIDATE_EMAIL)) {
+        $erros['email'] = 'Informe um e-mail válido.';
+    }
+
+    if (strlen($dados['senha']) < 6) {
+        $erros['senha'] = 'A senha deve ter pelo menos 6 caracteres.';
+    }
+
+    $logoNome = '';
+    if (!isset($_FILES['logo']) || $_FILES['logo']['error'] !== UPLOAD_ERR_OK) {
+        $erros['logo'] = 'Envie a logo da empresa.';
+    } else {
+        $extensao = pathinfo($_FILES['logo']['name'], PATHINFO_EXTENSION);
+        $logoNome = 'logo_' . uniqid('', true) . ($extensao ? '.' . $extensao : '');
+        $caminhoDestino = __DIR__ . '/img/' . $logoNome;
+
+        if (!move_uploaded_file($_FILES['logo']['tmp_name'], $caminhoDestino)) {
+            $erros['logo'] = 'Não foi possível salvar a logo.';
+        } else {
+            $logoNome = 'img/' . $logoNome;
+        }
+    }
+
+    if (empty($erros)) {
+        try {
+            $empresaModel = new Empresas($conn);
+            $empresaModel->cadastrar(
+                $dados['nome_empresa'],
+                $dados['email'],
+                $dados['senha'],
+                $dados['endereco'],
+                $dados['telefone'],
+                $logoNome
+            );
+
+            $_SESSION['sucesso'] = true;
+            header('Location: index.php');
+            exit;
+        } catch (Exception $e) {
+            $erros['geral'] = $e->getMessage();
+        }
+    }
+
+    $_SESSION['erros'] = $erros;
+    $_SESSION['antigos'] = $dados;
+    $_SESSION['sucesso'] = false;
+    header('Location: index.php');
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -50,7 +121,7 @@ function erro(array $erros, string $campo): string
                 <div class="alerta alerta-erro"><?= htmlspecialchars($erros['geral'], ENT_QUOTES, 'UTF-8') ?></div>
             <?php endif; ?>
 
-            <form action="cadastrarEmpresa.php" method="POST" enctype="multipart/form-data" novalidate>
+            <form action="index.php" method="POST" enctype="multipart/form-data" novalidate>
                 <div class="grade">
                     <div class="campo">
                         <label>Nome da empresa *</label>
