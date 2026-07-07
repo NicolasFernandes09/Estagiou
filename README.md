@@ -54,13 +54,17 @@ O Mural de Oportunidades permite que empresas parceiras cadastrem vagas (estági
 
 
 ## Interface Visual
-...
 
-## Estrutura de Diagramas
+![visual1](img/cadastro.png)
+![visual2](img/login.png)
 
-![diagrama](Estagiou/img/diagrama.jpeg)
+## Estrutura de Diagrama
+
+![Diagrama](img/diagrama.png)
 
 ## Estrutura de Dados
+
+![Dados](img/diagrama2.png)
 
 O banco de dados deve contemplar as seguintes entidades:
 - Usuários
