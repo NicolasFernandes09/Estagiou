@@ -1,5 +1,5 @@
 <?php
-
+//Credenciais do banco/API
 $host = "127.0.0.1";
 $usuario = "root";
 $senha = "";
