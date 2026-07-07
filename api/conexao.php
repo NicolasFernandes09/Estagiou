@@ -3,7 +3,7 @@
 $host = "localhost";
 $usuario = "root";
 $senha = "";
-$banco = "mural_oportunidades";
+$banco = "db_estagiou";
 
 $conn = new mysqli($host, $usuario, $senha, $banco);
 
