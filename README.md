@@ -8,6 +8,13 @@ O Mural de Oportunidades permite que empresas parceiras cadastrem vagas (estági
 
 ## Funcionalidades
 
+- Cadastrar Usuários
+- Efetuar Login
+- Editar Perfil
+- Visualização de Vaga
+- Candidatar-se a Vaga
+- Favoritar Vaga
+
 ### Administração
 - Administrador geral com acesso total ao sistema.
 - Visualização de dados das empresas: nome, contato do RH, e-mail, telefone, endereço, cnpj.
@@ -66,24 +73,18 @@ O Mural de Oportunidades permite que empresas parceiras cadastrem vagas (estági
 
 ![Dados](img/diagrama2.png)
 
-O banco de dados deve contemplar as seguintes entidades:
+O banco de dados  contempla as seguintes entidades:
 - Usuários
 - Empresas
 - Vagas
 - Favoritos
 - Parceiros
 
-
-## Tecnologias utilizadas Web
-
-- **PHP** — estrutura semântica das páginas
-- **CSS** — estilos e responsividade
   
-
 ## Como Executar
 
 Clone o repositório:
-git clone <URL_DO_REPOSITORIO>
+git clone https://github.com/NicolasFernandes09/Estagiou.git
 
 Configure o banco de dados:
 Crie o banco no MySQL.
@@ -97,7 +98,12 @@ Web
 
 Inicie o Apache e o MySQL (XAMPP) e acesse:
 
-http://localhost/nome-do-projeto
+http://localhost/index.php
+
+## Tecnologias utilizadas Web
+
+- **PHP** — estrutura semântica das páginas
+- **CSS** — estilos e responsividade
 
 ## Observações
 
