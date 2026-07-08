@@ -1,10 +1,9 @@
 <?php
-// Credenciais do banco/API
-$host = getenv('DB_HOST') ?: '127.0.0.1';
-$usuario = getenv('DB_USER') ?: 'root';
-$senha = getenv('DB_PASS') ?: '';
-$banco = getenv('DB_NAME') ?: 'db_estagiou';
-$porta = getenv('DB_PORT') ?: 3306;
+//Credenciais do banco/API
+$host = "172.29.20.169";
+$usuario = "root";
+$senha = "";
+$banco = "db_estagiou";
 
 $conn = new mysqli($host, $usuario, $senha, $banco, $porta);
 
