@@ -1,0 +1,769 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootTelaVagas"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/estagiou_panel_bg"
+    tools:context=".classes.MainActivity">
+
+    <ScrollView
+        android:id="@+id/telaVagas"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="112dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerVagas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:minHeight="720dp"
+        android:paddingStart="0dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="0dp"
+        android:paddingBottom="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/vagasCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_full_panel"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_max="460dp">
+
+            <LinearLayout
+                android:id="@+id/headerVagas"
+                android:layout_width="0dp"
+                android:layout_height="168dp"
+                android:background="@drawable/bg_header_orange_full"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/txtTituloVagas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:text="Vagas"
+                    android:textColor="@color/white"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtSubtituloVagas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Oportunidades para começar sua carreira"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/viewCirculoLaranjaVagas"
+                android:layout_width="136dp"
+                android:layout_height="136dp"
+                android:background="@drawable/bg_circle_orange"
+                android:translationX="-18dp"
+                android:translationY="-43dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/viewCirculoAmareloVagas"
+                android:layout_width="196dp"
+                android:layout_height="196dp"
+                android:background="@drawable/bg_circle_gold"
+                android:translationX="68dp"
+                android:translationY="68dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/vagasContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="28dp"
+                android:paddingTop="24dp"
+                android:paddingEnd="28dp"
+                android:paddingBottom="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/headerVagas">
+
+                <EditText
+                    android:id="@+id/edtBuscaVaga"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:autofillHints="none"
+                    android:background="@drawable/bg_search_box"
+                    android:drawableStart="@drawable/ic_search_20"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:hint="Buscar vaga, empresa ou cidade"
+                    android:inputType="text"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="18dp"
+                    android:singleLine="true"
+                    android:textColor="@color/estagiou_text_primary"
+                    android:textColorHint="@color/estagiou_hint"
+                    android:textSize="16sp" />
+
+                <HorizontalScrollView
+                    android:id="@+id/scrollFiltrosVagas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:overScrollMode="never"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:id="@+id/filtrosVagas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btnFiltroTodas"
+                            android:layout_width="93dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_filter_selected"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:paddingStart="0dp"
+                            android:paddingEnd="0dp"
+                            android:text="Todas"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <Button
+                            android:id="@+id/btnFiltroEstagio"
+                            android:layout_width="107dp"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="12dp"
+                            android:background="@drawable/bg_filter_outline"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:paddingStart="0dp"
+                            android:paddingEnd="0dp"
+                            android:text="Estágio"
+                            android:textAllCaps="false"
+                            android:textColor="@color/estagiou_orange_corporate"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <Button
+                            android:id="@+id/btnFiltroJovemAprendiz"
+                            android:layout_width="150dp"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="12dp"
+                            android:background="@drawable/bg_filter_outline"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:paddingStart="0dp"
+                            android:paddingEnd="0dp"
+                            android:text="Jovem Aprendiz"
+                            android:textAllCaps="false"
+                            android:textColor="@color/estagiou_orange_corporate"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <Button
+                            android:id="@+id/btnFiltroFreelancer"
+                            android:layout_width="118dp"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="12dp"
+                            android:background="@drawable/bg_filter_outline"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:paddingStart="0dp"
+                            android:paddingEnd="0dp"
+                            android:text="Freelancer"
+                            android:textAllCaps="false"
+                            android:textColor="@color/estagiou_orange_corporate"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <Button
+                            android:id="@+id/btnFiltroClt"
+                            android:layout_width="76dp"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="2dp"
+                            android:background="@drawable/bg_filter_outline"
+                            android:gravity="center"
+                            android:includeFontPadding="false"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:paddingStart="0dp"
+                            android:paddingEnd="0dp"
+                            android:text="CLT"
+                            android:textAllCaps="false"
+                            android:textColor="@color/estagiou_orange_corporate"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <LinearLayout
+                    android:id="@+id/cardVaga1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:background="@drawable/bg_job_card"
+                    android:minHeight="172dp"
+                    android:orientation="horizontal"
+                    android:paddingStart="18dp"
+                    android:paddingTop="20dp"
+                    android:paddingEnd="18dp"
+                    android:paddingBottom="18dp">
+
+                    <TextView
+                        android:id="@+id/txtSiglaEmpresa1"
+                        android:layout_width="68dp"
+                        android:layout_height="68dp"
+                        android:background="@drawable/bg_company_badge"
+                        android:gravity="center"
+                        android:text="TS"
+                        android:textColor="@color/estagiou_orange_corporate"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/containerDadosVaga1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txtEmpresaVaga1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="TechSul Sistemas"
+                            android:textColor="@color/estagiou_text_secondary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtTituloVaga1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Estágio em Suporte de TI"
+                            android:textColor="@color/estagiou_text_primary"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtCidadeVaga1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="Canoas/RS"
+                            android:textColor="@color/estagiou_text_secondary"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:id="@+id/linhaAcoesVaga1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:gravity="start"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txtTipoVaga1"
+                                android:layout_width="116dp"
+                                android:layout_height="31dp"
+                                android:background="@drawable/bg_type_pill"
+                                android:gravity="center"
+                                android:text="Estágio"
+                                android:textColor="@color/estagiou_orange_corporate"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <Button
+                                android:id="@+id/btnDetalhesVaga1"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_marginTop="8dp"
+                                android:background="@android:color/transparent"
+                                android:backgroundTint="@color/estagiou_transparent"
+                                android:gravity="start|center_vertical"
+                                android:includeFontPadding="true"
+                                android:minWidth="0dp"
+                                android:minHeight="0dp"
+                                android:paddingStart="0dp"
+                                android:paddingEnd="0dp"
+                                android:singleLine="true"
+                                android:text="Ver detalhes ›"
+                                android:textAllCaps="false"
+                                android:textColor="@color/estagiou_orange_corporate"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <CheckBox
+                        android:id="@+id/checkFavoritoVaga1"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="@android:color/transparent"
+                        android:button="@drawable/selector_favorite_heart"
+                        android:contentDescription="Favoritar"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:padding="0dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cardVaga2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:background="@drawable/bg_job_card"
+                    android:minHeight="172dp"
+                    android:orientation="horizontal"
+                    android:paddingStart="18dp"
+                    android:paddingTop="20dp"
+                    android:paddingEnd="18dp"
+                    android:paddingBottom="18dp">
+
+                    <TextView
+                        android:id="@+id/txtSiglaEmpresa2"
+                        android:layout_width="68dp"
+                        android:layout_height="68dp"
+                        android:background="@drawable/bg_company_badge"
+                        android:gravity="center"
+                        android:text="FP"
+                        android:textColor="@color/estagiou_orange_corporate"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/containerDadosVaga2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txtEmpresaVaga2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Farmácias do Povo"
+                            android:textColor="@color/estagiou_text_secondary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtTituloVaga2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Jovem Aprendiz Adm."
+                            android:textColor="@color/estagiou_text_primary"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtCidadeVaga2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="Sapucaia do Sul/RS"
+                            android:textColor="@color/estagiou_text_secondary"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:id="@+id/linhaAcoesVaga2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:gravity="start"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txtTipoVaga2"
+                                android:layout_width="132dp"
+                                android:layout_height="31dp"
+                                android:background="@drawable/bg_type_pill"
+                                android:gravity="center"
+                                android:text="Jovem Aprendiz"
+                                android:textColor="@color/estagiou_orange_corporate"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <Button
+                                android:id="@+id/btnDetalhesVaga2"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_marginTop="8dp"
+                                android:background="@android:color/transparent"
+                                android:backgroundTint="@color/estagiou_transparent"
+                                android:gravity="start|center_vertical"
+                                android:includeFontPadding="true"
+                                android:minWidth="0dp"
+                                android:minHeight="0dp"
+                                android:paddingStart="0dp"
+                                android:paddingEnd="0dp"
+                                android:singleLine="true"
+                                android:text="Ver detalhes ›"
+                                android:textAllCaps="false"
+                                android:textColor="@color/estagiou_orange_corporate"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <CheckBox
+                        android:id="@+id/checkFavoritoVaga2"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="@android:color/transparent"
+                        android:button="@drawable/selector_favorite_heart"
+                        android:contentDescription="Favoritar"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:padding="0dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cardVaga3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:background="@drawable/bg_job_card"
+                    android:minHeight="172dp"
+                    android:orientation="horizontal"
+                    android:paddingStart="18dp"
+                    android:paddingTop="20dp"
+                    android:paddingEnd="18dp"
+                    android:paddingBottom="18dp">
+
+                    <TextView
+                        android:id="@+id/txtSiglaEmpresa3"
+                        android:layout_width="68dp"
+                        android:layout_height="68dp"
+                        android:background="@drawable/bg_company_badge"
+                        android:gravity="center"
+                        android:text="AS"
+                        android:textColor="@color/estagiou_orange_corporate"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/containerDadosVaga3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txtEmpresaVaga3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Atlas Soluções"
+                            android:textColor="@color/estagiou_text_secondary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtTituloVaga3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Estágio em Marketing"
+                            android:textColor="@color/estagiou_text_primary"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtCidadeVaga3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="Esteio/RS"
+                            android:textColor="@color/estagiou_text_secondary"
+                            android:textSize="15sp" />
+
+                        <LinearLayout
+                            android:id="@+id/linhaAcoesVaga3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:gravity="start"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txtTipoVaga3"
+                                android:layout_width="116dp"
+                                android:layout_height="31dp"
+                                android:background="@drawable/bg_type_pill"
+                                android:gravity="center"
+                                android:text="Estágio"
+                                android:textColor="@color/estagiou_orange_corporate"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <Button
+                                android:id="@+id/btnDetalhesVaga3"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_marginTop="8dp"
+                                android:background="@android:color/transparent"
+                                android:backgroundTint="@color/estagiou_transparent"
+                                android:gravity="start|center_vertical"
+                                android:includeFontPadding="true"
+                                android:minWidth="0dp"
+                                android:minHeight="0dp"
+                                android:paddingStart="0dp"
+                                android:paddingEnd="0dp"
+                                android:singleLine="true"
+                                android:text="Ver detalhes ›"
+                                android:textAllCaps="false"
+                                android:textColor="@color/estagiou_orange_corporate"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <CheckBox
+                        android:id="@+id/checkFavoritoVaga3"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="@android:color/transparent"
+                        android:button="@drawable/selector_favorite_heart"
+                        android:contentDescription="Favoritar"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:padding="0dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtSemResultadosVagas"
+                    android:layout_width="match_parent"
+                    android:layout_height="92dp"
+                    android:layout_marginTop="22dp"
+                    android:gravity="center"
+                    android:text="Nenhuma vaga encontrada"
+                    android:textColor="@color/estagiou_text_secondary"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/bottomVagas"
+                android:layout_width="0dp"
+                android:layout_height="86dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="36dp"
+                android:paddingEnd="36dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vagasContent">
+
+                <LinearLayout
+                    android:id="@+id/navInicio"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imgInicio"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:contentDescription="Início"
+                        android:src="@drawable/ic_home_22" />
+
+                    <TextView
+                        android:id="@+id/txtInicio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:text="Início"
+                        android:textColor="@color/estagiou_orange_corporate"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/navFavoritos"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imgFavoritos"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:contentDescription="Favoritos"
+                        android:src="@drawable/ic_heart_filled_22" />
+
+                    <TextView
+                        android:id="@+id/txtFavoritos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:text="Favoritos"
+                        android:textColor="@color/estagiou_hint"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/navPerfil"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imgPerfil"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:contentDescription="Perfil"
+                        android:src="@drawable/ic_profile_22" />
+
+                    <TextView
+                        android:id="@+id/txtPerfil"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:text="Perfil"
+                        android:textColor="@color/estagiou_hint"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/bottomVagasFixo"
+        android:layout_width="match_parent"
+        android:layout_height="86dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/bg_full_panel"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="36dp"
+        android:paddingEnd="36dp">
+
+        <LinearLayout
+            android:id="@+id/navInicioFixoVagas"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgInicioFixoVagas"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="Início"
+                android:src="@drawable/ic_home_22" />
+
+            <TextView
+                android:id="@+id/txtInicioFixoVagas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="Início"
+                android:textColor="@color/estagiou_orange_corporate"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/navFavoritosFixoVagas"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgFavoritosFixoVagas"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="Favoritos"
+                android:src="@drawable/ic_heart_filled_22" />
+
+            <TextView
+                android:id="@+id/txtFavoritosFixoVagas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="Favoritos"
+                android:textColor="@color/estagiou_hint"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/navPerfilFixoVagas"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgPerfilFixoVagas"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="Perfil"
+                android:src="@drawable/ic_profile_22" />
+
+            <TextView
+                android:id="@+id/txtPerfilFixoVagas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="Perfil"
+                android:textColor="@color/estagiou_hint"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

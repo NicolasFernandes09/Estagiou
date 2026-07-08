@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="22dp"
+    android:background="@drawable/bg_job_card"
+    android:minHeight="172dp"
+    android:orientation="horizontal"
+    android:paddingStart="18dp"
+    android:paddingTop="20dp"
+    android:paddingEnd="18dp"
+    android:paddingBottom="18dp">
+
+    <TextView
+        android:id="@+id/txtSiglaEmpresaItem"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:background="@drawable/bg_company_badge"
+        android:gravity="center"
+        android:textColor="@color/estagiou_orange_corporate"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/containerDadosVagaItem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtEmpresaVagaItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/estagiou_text_secondary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtTituloVagaItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/estagiou_text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtCidadeVagaItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/estagiou_text_secondary"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:id="@+id/linhaAcoesVagaItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="start"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtTipoVagaItem"
+                android:layout_width="138dp"
+                android:layout_height="31dp"
+                android:background="@drawable/bg_type_pill"
+                android:gravity="center"
+                android:textColor="@color/estagiou_orange_corporate"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnDetalhesVagaItem"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/transparent"
+                android:backgroundTint="@color/estagiou_transparent"
+                android:gravity="start|center_vertical"
+                android:includeFontPadding="true"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:singleLine="true"
+                android:text="Ver detalhes &#8250;"
+                android:textAllCaps="false"
+                android:textColor="@color/estagiou_orange_corporate"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/checkFavoritoVagaItem"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@android:color/transparent"
+        android:button="@drawable/selector_favorite_heart"
+        android:contentDescription="Favoritar"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:padding="0dp" />
+</LinearLayout>

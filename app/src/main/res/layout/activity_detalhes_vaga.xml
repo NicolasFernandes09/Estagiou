@@ -1,0 +1,699 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootTelaDetalhesVaga"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/estagiou_panel_bg"
+    tools:context=".classes.MainActivity">
+
+    <ScrollView
+        android:id="@+id/telaDetalhesVaga"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="112dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerDetalhesVaga"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:minHeight="760dp"
+        android:paddingStart="0dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="0dp"
+        android:paddingBottom="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cardDetalhesVaga"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_full_panel"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingBottom="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_max="460dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/headerDetalhesVaga"
+                android:layout_width="0dp"
+                android:layout_height="170dp"
+                android:background="@drawable/bg_header_orange_full"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <View
+                    android:id="@+id/viewCirculoLaranjaDetalhes"
+                    android:layout_width="136dp"
+                    android:layout_height="136dp"
+                    android:background="@drawable/bg_circle_orange"
+                    android:translationX="-18dp"
+                    android:translationY="-43dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/viewCirculoAmareloDetalhes"
+                    android:layout_width="196dp"
+                    android:layout_height="196dp"
+                    android:background="@drawable/bg_circle_gold"
+                    android:translationX="68dp"
+                    android:translationY="68dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/btnVoltarDetalhes"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="28dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="Voltar"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:padding="0dp"
+                    android:src="@drawable/ic_back_orange_26"
+                    android:tint="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtTituloDetalhesVaga"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:includeFontPadding="false"
+                    android:text="Detalhes da vaga"
+                    android:textColor="@color/white"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/checkFavoritoDetalhes"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <CheckBox
+                    android:id="@+id/checkFavoritoDetalhes"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginEnd="28dp"
+                    android:background="@android:color/transparent"
+                    android:button="@drawable/selector_favorite_heart"
+                    android:buttonTint="@color/white"
+                    android:contentDescription="Favoritar"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:padding="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/cardResumoDetalhes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="26dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/bg_job_card"
+                android:minHeight="144dp"
+                android:orientation="horizontal"
+                android:paddingStart="22dp"
+                android:paddingTop="26dp"
+                android:paddingEnd="22dp"
+                android:paddingBottom="22dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/headerDetalhesVaga">
+
+                <TextView
+                    android:id="@+id/txtSiglaEmpresaDetalhes"
+                    android:layout_width="66dp"
+                    android:layout_height="66dp"
+                    android:background="@drawable/bg_company_badge"
+                    android:gravity="center"
+                    android:text="TS"
+                    android:textColor="@color/estagiou_orange_corporate"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/containerResumoDetalhes"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtEmpresaDetalhes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="TechSul Sistemas"
+                        android:textColor="@color/estagiou_text_secondary"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtCargoDetalhes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:singleLine="true"
+                        android:text="Estágio em Suporte de TI"
+                        android:textColor="@color/estagiou_text_primary"
+                        android:textSize="21sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/linhaTipoCidadeDetalhes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/txtTipoDetalhes"
+                            android:layout_width="108dp"
+                            android:layout_height="36dp"
+                            android:background="@drawable/bg_filter_selected"
+                            android:gravity="center"
+                            android:text="Estágio"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtCidadeDetalhes"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="22dp"
+                            android:layout_weight="1"
+                            android:text="Canoas/RS"
+                            android:textColor="@color/estagiou_text_secondary"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/secaoDescricao"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/bg_job_card"
+                android:orientation="vertical"
+                android:paddingStart="20dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardResumoDetalhes">
+
+                <TextView
+                    android:id="@+id/txtTituloDescricao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Descrição"
+                    android:textColor="@color/estagiou_text_primary"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtDescricaoVaga"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Auxiliar no atendimento técnico, organização de equipamentos e suporte aos usuários."
+                    android:textColor="@color/estagiou_text_primary"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/secaoSalario"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/bg_job_card"
+                android:orientation="vertical"
+                android:paddingStart="20dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/secaoDescricao">
+
+                <TextView
+                    android:id="@+id/txtTituloSalario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Salário"
+                    android:textColor="@color/estagiou_text_primary"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtSalarioVaga"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Bolsa auxílio: R$ 900 + vale-transporte"
+                    android:textColor="@color/estagiou_text_primary"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/secaoContato"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/bg_job_card"
+                android:orientation="vertical"
+                android:paddingStart="20dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/secaoSalario">
+
+                <TextView
+                    android:id="@+id/txtTituloContato"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cidade e contato"
+                    android:textColor="@color/estagiou_text_primary"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtCidadeContato"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Cidade: Canoas/RS"
+                    android:textColor="@color/estagiou_text_primary"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txtEmailContato"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Contato: vagas@techsul.com.br"
+                    android:textColor="@color/estagiou_text_primary"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/secaoDataLimite"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/bg_job_card"
+                android:orientation="vertical"
+                android:paddingStart="20dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/secaoContato">
+
+                <TextView
+                    android:id="@+id/txtTituloDataLimite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Data limite de inscrição"
+                    android:textColor="@color/estagiou_text_primary"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtDataLimite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Inscrições até 25/07/2026"
+                    android:textColor="@color/estagiou_text_primary"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/secaoCandidatura"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/bg_apply_box"
+                android:orientation="vertical"
+                android:paddingStart="20dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/secaoDataLimite">
+
+                <TextView
+                    android:id="@+id/txtTituloCandidatura"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Como se candidatar"
+                    android:textColor="@color/estagiou_orange_corporate"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtCandidatura"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Envie seu currículo em PDF para o e-mail com o assunto: Estágio TI - Seu nome"
+                    android:textColor="@color/estagiou_text_primary"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txtTituloAvisoCurriculo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="O que o botão faz"
+                    android:textColor="@color/estagiou_orange_corporate"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtAvisoCurriculo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="Ao tocar em Enviar currículo, escolha um arquivo PDF. O app tenta abrir seu e-mail com o PDF anexado, o contato da vaga e o assunto preenchidos."
+                    android:textColor="@color/estagiou_text_primary"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/txtPassosCurriculo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="1. Toque no botão.\n2. Escolha seu currículo em PDF.\n3. Confira o e-mail aberto e toque em enviar."
+                    android:textColor="@color/estagiou_text_primary"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/txtResumoEnvioCurriculo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Para: vagas@techsul.com.br\nAssunto: Candidatura - Estágio em Suporte de TI"
+                    android:textColor="@color/estagiou_text_primary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnEnviarCurriculo"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="38dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/bg_primary_button"
+                android:backgroundTint="@color/estagiou_orange_dynamic"
+                android:text="Enviar currículo"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/secaoCandidatura" />
+
+            <LinearLayout
+                android:id="@+id/secaoTutorialEmail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/bg_apply_box"
+                android:orientation="vertical"
+                android:paddingStart="20dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="16dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnEnviarCurriculo">
+
+                <TextView
+                    android:id="@+id/txtTituloTutorialEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Currículo anexado"
+                    android:textColor="@color/estagiou_orange_corporate"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtCurriculoAnexado"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="PDF selecionado."
+                    android:textColor="@color/estagiou_text_primary"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/txtTutorialEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Não consegui abrir um app de e-mail automaticamente. Abra seu app de e-mail, crie uma nova mensagem, anexe este PDF, envie para o contato da vaga e use o assunto indicado abaixo."
+                    android:textColor="@color/estagiou_text_primary"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/txtDadosTutorialEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Para: vagas@techsul.com.br\nAssunto: Candidatura - Estágio em Suporte de TI"
+                    android:textColor="@color/estagiou_text_primary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/bottomDetalhes"
+                android:layout_width="0dp"
+                android:layout_height="86dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="36dp"
+                android:paddingEnd="36dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/secaoTutorialEmail">
+
+                <LinearLayout
+                    android:id="@+id/navInicioDetalhes"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imgInicioDetalhes"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:contentDescription="Início"
+                        android:src="@drawable/ic_home_22" />
+
+                    <TextView
+                        android:id="@+id/txtInicioDetalhes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:text="Início"
+                        android:textColor="@color/estagiou_orange_corporate"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/navFavoritosDetalhes"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imgFavoritosDetalhes"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:contentDescription="Favoritos"
+                        android:src="@drawable/ic_heart_filled_22" />
+
+                    <TextView
+                        android:id="@+id/txtFavoritosDetalhes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:text="Favoritos"
+                        android:textColor="@color/estagiou_hint"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/navPerfilDetalhes"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/imgPerfilDetalhes"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:contentDescription="Perfil"
+                        android:src="@drawable/ic_profile_22" />
+
+                    <TextView
+                        android:id="@+id/txtPerfilDetalhes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:text="Perfil"
+                        android:textColor="@color/estagiou_hint"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/bottomDetalhesFixo"
+        android:layout_width="match_parent"
+        android:layout_height="86dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/bg_full_panel"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="36dp"
+        android:paddingEnd="36dp">
+
+        <LinearLayout
+            android:id="@+id/navInicioFixoDetalhes"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgInicioFixoDetalhes"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="Início"
+                android:src="@drawable/ic_home_22" />
+
+            <TextView
+                android:id="@+id/txtInicioFixoDetalhes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="Início"
+                android:textColor="@color/estagiou_orange_corporate"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/navFavoritosFixoDetalhes"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgFavoritosFixoDetalhes"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="Favoritos"
+                android:src="@drawable/ic_heart_filled_22" />
+
+            <TextView
+                android:id="@+id/txtFavoritosFixoDetalhes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="Favoritos"
+                android:textColor="@color/estagiou_hint"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/navPerfilFixoDetalhes"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgPerfilFixoDetalhes"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="Perfil"
+                android:src="@drawable/ic_profile_22" />
+
+            <TextView
+                android:id="@+id/txtPerfilFixoDetalhes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="Perfil"
+                android:textColor="@color/estagiou_hint"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
