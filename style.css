@@ -17,7 +17,6 @@ body{
     width:100%;
 }
 
-/* ---------- Painel lateral (marca) ---------- */
 .lado-marca{
     flex:0 0 38%;
     background:#ef5a00;
@@ -64,7 +63,6 @@ body{
     opacity:.95;
 }
 
-/* ---------- Painel do formulário ---------- */
 .lado-formulario{
     flex:1;
     background:#f8f3eb;
@@ -96,11 +94,10 @@ body{
     grid-column:1 / -1;
 }
 
-/* Oculta o campo "Contato do RH" (6º campo dentro do grid) */
 .grade .campo:nth-child(6){
     display:none;
 }
-/* "Endereço" (5º campo) passa a ocupar a linha inteira, evitando espaço vazio */
+
 .grade .campo:nth-child(5){
     grid-column:1 / -1;
 }
@@ -141,7 +138,6 @@ button:hover{
     background:#d94f00;
 }
 
-/* Mensagens de erro por campo */
 .erro-msg{
     display:block;
     color:#b3261e;
@@ -150,7 +146,6 @@ button:hover{
     margin-top:6px;
 }
 
-/* Alertas gerais (sucesso / erro de conexão etc.) */
 .alerta{
     padding:14px 16px;
     border-radius:12px;
@@ -169,9 +164,6 @@ button:hover{
     border:1px solid #f3b6b0;
 }
 
-/* ---------- Responsivo ---------- */
-
-/* Telas médias: reduz o painel lateral */
 @media (max-width:1100px){
     .lado-marca{
         flex:0 0 32%;
@@ -182,7 +174,6 @@ button:hover{
     }
 }
 
-/* Tablets: empilha os painéis, formulário continua largo */
 @media (max-width:900px){
     .tela{
         flex-direction:column;
@@ -201,7 +192,6 @@ button:hover{
     }
 }
 
-/* Celulares: um campo por linha */
 @media (max-width:600px){
     .lado-marca{
         min-height:180px;
