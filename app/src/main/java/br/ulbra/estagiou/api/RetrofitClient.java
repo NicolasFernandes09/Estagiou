@@ -9,36 +9,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-
     // Guarda uma única instância do Retrofit.
     // Evita criar várias conexões desnecessárias.
-
     private static Retrofit retrofit;
-
-
     public static Retrofit getRetrofit(){
-
         // Verifica se o Retrofit já foi criado.
-
-
         if(retrofit == null){
-
             // Cria o objeto Retrofit
-
             retrofit = new Retrofit.Builder()
-
                     // Endereço principal da API.
-                    // Sempre termina com /
-
-                    .baseUrl(
-                            "http://172.29.20.89/Estagiou/api/"
-                    )
-
+                    // Sempre termina com "/"
+                    .baseUrl("http://172.29.20.89/Estagiou/api/")
                     // Gson transforma JSON em objetos Java.
                     .addConverterFactory(GsonConverterFactory.create())
-
                     // Finaliza a configuração.
-
                     .build();
         }
 

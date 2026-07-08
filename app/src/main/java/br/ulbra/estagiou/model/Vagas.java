@@ -1,16 +1,18 @@
 package br.ulbra.estagiou.model;
 
 public class Vagas {
- private String titulo;
- private String descricao;
- private double salario;
- private String fechamentoData;
- private String tipoVaga;
+    private int vagasId;
+    private String titulo;
+    private String descricao;
+    private double salario;
+    private String fechamentoData;
+    private String tipoVaga;
 
     public Vagas() {
     }
 
-    public Vagas(String titulo, String descricao, double salario, String fechamentoData, String tipoVaga) {
+    public Vagas(int vagasId, String titulo, String descricao, double salario, String fechamentoData, String tipoVaga) {
+        this.vagasId = vagasId;
         this.titulo = titulo;
         this.descricao = descricao;
         this.salario = salario;
@@ -18,28 +20,12 @@ public class Vagas {
         this.tipoVaga = tipoVaga;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public int getVagasId() {
+        return vagasId;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public double getSalario() {
-        return salario;
-    }
-
-    public void setSalario(double salario) {
-        this.salario = salario;
+    public void setVagasId(int vagasId) {
+        this.vagasId = vagasId;
     }
 
     public String getFechamentoData() {
@@ -56,5 +42,29 @@ public class Vagas {
 
     public void setTipoVaga(String tipoVaga) {
         this.tipoVaga = tipoVaga;
+    }
+
+    public double getSalario() {
+        return salario;
+    }
+
+    public void setSalario(double salario) {
+        this.salario = salario;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 }
