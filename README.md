@@ -8,6 +8,7 @@ O Mural de Oportunidades permite que empresas parceiras cadastrem vagas (estági
 
 ## Funcionalidades
 
+<<<<<<< HEAD
 - Cadastrar Usuários
 - Efetuar Login
 - Editar Perfil
@@ -18,11 +19,20 @@ O Mural de Oportunidades permite que empresas parceiras cadastrem vagas (estági
 ### Administração
 - Administrador geral com acesso total ao sistema.
 - Visualização de dados das empresas: nome, contato do RH, e-mail, telefone, endereço, cnpj.
+=======
+### Administração
+- Administrador geral com acesso total ao sistema.
+- Visualização de dados das empresas: nome, contato do RH, e-mail, telefone, endereço.
+>>>>>>> 827772f1d5bb62c46139d0e84465506ad2ac1b0b
 - Visualização de todas as vagas, usuários e parceiros.
 
 ### Cadastro de Empresas
 - Impede cadastro de empresas com nome duplicado.
+<<<<<<< HEAD
 - Dados obrigatórios: nome, e-mail, telefone, endereço, contato do RH e logo.
+=======
+- Campos obrigatórios: nome, e-mail, telefone, endereço, contato do RH e logo.
+>>>>>>> 827772f1d5bb62c46139d0e84465506ad2ac1b0b
 - Upload de imagem obrigatório, armazenada em coluna específica no banco de dados.
 
 ### Cadastro de Vagas
@@ -59,6 +69,7 @@ O Mural de Oportunidades permite que empresas parceiras cadastrem vagas (estági
 - Layout responsivo para desktop e mobile.
 - Logos e banners ajustados sem distorções.
 
+<<<<<<< HEAD
 
 ## Interface Visual
 
@@ -74,12 +85,18 @@ O Mural de Oportunidades permite que empresas parceiras cadastrem vagas (estági
 ![Dados](img/diagrama2.png)
 
 O banco de dados  contempla as seguintes entidades:
+=======
+## Estrutura de Dados
+
+O banco de dados deve contemplar as seguintes entidades:
+>>>>>>> 827772f1d5bb62c46139d0e84465506ad2ac1b0b
 - Usuários
 - Empresas
 - Vagas
 - Favoritos
 - Parceiros
 
+<<<<<<< HEAD
   
 ## Como Executar
 
@@ -108,3 +125,34 @@ http://localhost/index.php
 ## Observações
 
 Este repositório contém apenas a versão alpha do projeto, projeto está em desenvolvimento.
+=======
+## Roteiro de Implementação
+
+- [ ] Criar banco de dados completo (usuários, empresas, vagas, favoritos e parceiros).
+- [ ] Implementar autenticação segura com login e senha criptografada.
+- [ ] Desenvolver painel administrativo.
+- [ ] Criar CRUD de empresas.
+- [ ] Criar CRUD de vagas.
+- [ ] Implementar upload e armazenamento de imagens.
+- [ ] Criar dashboard com métricas e últimas vagas.
+- [ ] Desenvolver API JSON das vagas.
+- [ ] Criar sistema de favoritos.
+- [ ] Implementar filtros de busca por título.
+- [ ] Aplicar regras de negócio (empresa única e exclusão de vaga após prazo).
+- [ ] Desenvolver aplicativo Android consumindo a API.
+- [ ] Criar telas de feed e detalhes das vagas.
+- [ ] Garantir responsividade e boa apresentação das imagens.
+- [ ] Cadastrar e gerenciar empresas parceiras.
+
+## Tecnologias
+
+> *Preencher com as tecnologias utilizadas no projeto (ex.: linguagem de back-end, framework, banco de dados, framework mobile, etc.).*
+
+## Como Executar
+
+> *Preencher com instruções de instalação, configuração do banco de dados e execução do projeto (web e mobile).*
+
+## Licença
+
+> *Preencher com a licença do projeto, se aplicável.*
+>>>>>>> 827772f1d5bb62c46139d0e84465506ad2ac1b0b
