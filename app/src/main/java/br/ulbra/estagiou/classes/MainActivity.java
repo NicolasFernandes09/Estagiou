@@ -11,25 +11,32 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import br.ulbra.estagiou.R;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
+
     EditText edUsuario, edSenha, edEmail;
     Button btLogin, btCriarConta;
-    DBHelper db;
-
-
+    ApiService api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        db = new DBHelper(this);
 
-        edUsuario = (EditText)findViewById(R.id.edtUsuario);
-        edEmail = (EditText)findViewById(R.id.edtEmail);
-        edSenha = (EditText)findViewById(R.id.edtSenha);
-        btLogin = (Button)findViewById(R.id.btnEntrar);
-        btCriarConta = (Button)findViewById(R.id.btnConta);
+        api = ApiClient
+                .getRetrofit()
+                .create(ApiService.class);
+
+        edUsuario = findViewById(R.id.edtUsuario);
+        edEmail = findViewById(R.id.edtEmail);
+        edSenha = findViewById(R.id.edtSenha);
+
+        btLogin = findViewById(R.id.btnEntrar);
+        btCriarConta = findViewById(R.id.btnConta);
 
         btCriarConta.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,31 +49,96 @@ public class MainActivity extends AppCompatActivity {
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String username = edUsuario.getText().toString().trim();
                 String email = edEmail.getText().toString().trim();
                 String password = edSenha.getText().toString().trim();
 
-                if(username.isEmpty()){
-                    Toast.makeText(MainActivity.this,"Usuário não inserido.",Toast.LENGTH_SHORT).show();
-                }else if(email.isEmpty()){
-                    Toast.makeText(MainActivity.this,"E-mail não inserido.",Toast.LENGTH_SHORT).show();
-                }else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    Toast.makeText(MainActivity.this,"Formato de e-mail inválido.",Toast.LENGTH_SHORT).show();
-                }else if(password.isEmpty()){
-                    Toast.makeText(MainActivity.this,"Senha não inserida.",Toast.LENGTH_SHORT).show();
-                }else{
-                    String res = db.validarLogin(username, password);
-                    if(res.equals("OK")){
-                        Toast.makeText(MainActivity.this,
-                                "Login efetuado com sucesso!",
-                                Toast.LENGTH_SHORT).show();
-
-                        finish();
-                    }else{
-                        Toast.makeText(MainActivity.this,"Dados de Login Incorretos!!",Toast.LENGTH_SHORT).show();
-                    }
+                if (username.isEmpty()) {
+                    Toast.makeText(MainActivity.this,
+                            "Usuário não inserido.",
+                            Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                if (email.isEmpty()) {
+                    Toast.makeText(MainActivity.this,
+                            "E-mail não inserido.",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    Toast.makeText(MainActivity.this,
+                            "Formato de e-mail inválido.",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (password.isEmpty()) {
+                    Toast.makeText(MainActivity.this,
+                            "Senha não inserida.",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                api.login("login", username, email, password)
+                        .enqueue(new Callback<ResponseBody>() {
+
+                            @Override
+                            public void onResponse(Call<ResponseBody> call,
+                                                   Response<ResponseBody> response) {
+
+                                if (response.isSuccessful() && response.body() != null) {
+
+                                    try {
+
+                                        String resposta = response.body().string();
+                                        resposta = resposta.trim();
+
+                                        Toast.makeText(MainActivity.this,
+                                                resposta,
+                                                Toast.LENGTH_LONG).show();
+
+                                        // Se o PHP retornar sucesso
+                                        if (resposta.toLowerCase().contains("sucesso")
+                                                || resposta.toLowerCase().contains("ok")) {
+
+
+                                        }
+
+                                    } catch (Exception e) {
+
+                                        Toast.makeText(MainActivity.this,
+                                                e.getMessage(),
+                                                Toast.LENGTH_LONG).show();
+
+                                    }
+
+                                } else {
+
+                                    Toast.makeText(MainActivity.this,
+                                            "Erro no servidor.",
+                                            Toast.LENGTH_LONG).show();
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call,
+                                                  Throwable t) {
+
+                                Toast.makeText(MainActivity.this,
+                                        "Erro: " + t.getMessage(),
+                                        Toast.LENGTH_LONG).show();
+
+                            }
+
+                        });
+
             }
         });
+
     }
 }
