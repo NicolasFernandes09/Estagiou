@@ -29,12 +29,12 @@ Nesta versão, o projeto está focado na experiência mobile do usuário, com te
 
 ## Telas do Aplicativo
 
-![visual](registro.png)
-![visual](acesso.png)
-![visual](perfil.png)
-![visual](vagas.png)
-![visual](canditar.png)
-![visual](favoritos.png)
+![visual1](registro.png)
+![visual2](acesso.png)
+![visual3](perfil.png)
+![visual4](vagas.png)
+![visual5](canditar.png)
+![visual6](favoritos.png)
 
 
 ### Login
