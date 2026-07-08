@@ -29,6 +29,14 @@ Nesta versão, o projeto está focado na experiência mobile do usuário, com te
 
 ## Telas do Aplicativo
 
+![visual](img/WhatsApp Image 2026-07-06 at 20.36.56 (1).jpeg)
+![visual1](img/WhatsApp Image 2026-07-06 at 20.36.56 (2).jpeg)
+![visual2](img/WhatsApp Image 2026-07-06 at 20.36.57 (2) (1).jpeg)
+![visual3](img/WhatsApp Image 2026-07-06 at 20.36.57 (1) (1).jpeg)
+![visual3](img/WhatsApp Image 2026-07-06 at 20.36.57 (3) (1).jpeg)
+![visual3](img/WhatsApp Image 2026-07-06 at 20.36.57 (6).jpeg)
+
+
 ### Login
 Tela inicial do aplicativo, onde o usuário informa usuário e senha para acessar o sistema.
 
