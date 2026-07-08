@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once 'conexao.php'; 
-
+//blabla
 $busca = $_GET['busca'] ?? '';
 $tipo  = $_GET['tipo'] ?? 'todas';
 
