@@ -4,7 +4,6 @@ session_start();
 require_once __DIR__ . '/api/conexao.php';
 require_once __DIR__ . '/classes/Empresas.php';
 
-// Recupera erros e valores antigos (se o cadastro anterior falhou)
 $erros   = $_SESSION['erros'] ?? [];
 $antigos = $_SESSION['antigos'] ?? [];
 $sucesso = $_SESSION['sucesso'] ?? false;
@@ -199,7 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome_empresa'])) {
 </div>
 
 <script>
-    // Máscara simples de telefone: (99) 99999-9999
+
     const inputTelefone = document.getElementById('telefone');
     inputTelefone.addEventListener('input', function () {
         let v = this.value.replace(/\D/g, '').slice(0, 11);
