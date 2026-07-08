@@ -11,6 +11,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import br.ulbra.estagiou.R;
+import br.ulbra.estagiou.classes.api.RetrofitClient;
+import br.ulbra.estagiou.classes.api.ApiService;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        api = ApiClient
+        api = RetrofitClient
                 .getRetrofit()
                 .create(ApiService.class);
 

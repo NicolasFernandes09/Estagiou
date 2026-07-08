@@ -2,7 +2,6 @@ package br.ulbra.estagiou.classes;
 
 import android.os.Bundle;
 import android.util.Patterns;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -10,6 +9,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import br.ulbra.estagiou.R;
+import br.ulbra.estagiou.classes.api.RetrofitClient;
+import br.ulbra.estagiou.classes.api.ApiService;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,7 +27,7 @@ public class RegistrarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar);
 
-        api = ApiClient
+        api = RetrofitClient
                 .getRetrofit()
                 .create(ApiService.class);
 

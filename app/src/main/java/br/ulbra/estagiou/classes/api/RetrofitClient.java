@@ -1,23 +1,17 @@
-package br.ulbra.estagiou.classes;
+package br.ulbra.estagiou.classes.api;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ApiClient {
-
-    private static final String BASE_URL =
-            "http://172.29.20.169/projetoEstagiou/Estagiou/";
+public class RetrofitClient {
 
     private static Retrofit retrofit;
-
     public static Retrofit getRetrofit(){
-
         if(retrofit == null){
-
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+            retrofit = new retrofit.Builder().baseUrl( "http://172.29.20.89/Estagiou/api/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
+
         }
 
         return retrofit;
