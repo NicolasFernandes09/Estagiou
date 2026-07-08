@@ -1,4 +1,54 @@
-<?php include_once(__DIR__ . '/classes/Usuario.php'); ?>
+<?php
+session_start();
+
+// Redirecionar imediatamente se já estiver logado (evita processamento desnecessário)
+if (isset($_SESSION['logado']) && $_SESSION['logado'] === true) {
+    header('Location: index.php');
+    exit;
+}
+
+require_once(__DIR__ . '/api/conexao.php'); 
+require_once(__DIR__ . '/classes/Usuario.php');
+
+$mensagem_erro = '';
+$mensagem_sucesso = '';
+
+// Processar login se for POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = trim($_POST['usuario'] ?? '');
+    $senha = trim($_POST['senha'] ?? '');
+    
+    // Validações básicas
+    if (empty($email) || empty($senha)) {
+        $mensagem_erro = 'Por favor, preencha todos os campos.';
+    } elseif (strlen($senha) < 6) {
+        $mensagem_erro = 'A senha deve ter pelo menos 6 caracteres.';
+    } else {
+        try {
+            // Agora a variável $conn existe porque importamos o arquivo de conexão acima
+            $usuario = new Usuario($conn);
+            $resultado = $usuario->login($email, $senha);
+            
+            if ($resultado) {
+                // Login bem-sucedido
+                $_SESSION['usuario_id'] = $resultado['id'];
+                $_SESSION['usuario_nome'] = $resultado['nome'];
+                $_SESSION['usuario_email'] = $resultado['email'];
+                $_SESSION['usuario_nivel'] = $resultado['nivel'] ?? 'user';
+                $_SESSION['logado'] = true;
+                
+                header('Location: index.php');
+                exit;
+            } else {
+                $mensagem_erro = 'E-mail ou senha incorretos.';
+            }
+        } catch (Exception $e) {
+            // Em desenvolvimento, você pode usar $e->getMessage() para debugar, mas em produção use uma frase genérica
+            $mensagem_erro = 'Erro ao processar o login: ' . $e->getMessage();
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -20,12 +70,24 @@
         <div class="form-panel">
             <div class="form-content">
                 <h2>Acesse sua conta</h2>
-                <p class="subtitle">Use seu usuário e senha cadastrados.</p>
+                <p class="subtitle">Use seu e-mail e senha cadastrados.</p>
                 
-                <form action="index.php?rota=login" method="POST">
+                <?php if (!empty($mensagem_erro)): ?>
+                    <div class="alerta alerta-erro" role="alert">
+                        <?= htmlspecialchars($mensagem_erro) ?>
+                    </div>
+                <?php endif; ?>
+                
+                <?php if (!empty($mensagem_sucesso)): ?>
+                    <div class="alerta alerta-sucesso" role="alert">
+                        <?= htmlspecialchars($mensagem_sucesso) ?>
+                    </div>
+                <?php endif; ?>
+                
+                <form action="login.php" method="POST">
                     <div class="form-group">
-                        <label for="web-usuario">Usuário</label>
-                        <input type="text" id="web-usuario" name="usuario" class="form-control" placeholder="Seu usuário" required>
+                        <label for="web-usuario">E-mail</label>
+                        <input type="email" id="web-usuario" name="usuario" class="form-control" placeholder="seu@email.com" required>
                     </div>
                 
                     <div class="form-group">

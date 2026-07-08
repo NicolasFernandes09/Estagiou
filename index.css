@@ -1,312 +1,241 @@
-/* ==========================================================================
-   Reset básico
-   ========================================================================== */
-*, *::before, *::after {
-  box-sizing: border-box;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
 }
-html, body, div, h1, h2, p, ul, li, a, form, input, span {
-  margin: 0;
-  padding: 0;
+html, body{
+    height:100%;
 }
-a {
-  color: inherit;
-}
-img {
-  display: block;
-  max-width: 100%;
+body{
+    background:#f5f5f5;
 }
 
-:root {
-  --bg: #FFF3E9;
-  --sidebar-bg: #E65100;
-  --sidebar-text: rgba(255, 255, 255, 0.75);
-  --accent: #FF6D00;
-  --accent-dark: #E65100;
-  --text-principal: #333333;
-  --text-secundario: #666666;
-  --text-hint: #999999;
-  --borda: #cccccc;
-  --card-bg: #FFFFFF;
+.tela{
+    display:flex;
+    min-height:100vh;
+    width:100%;
 }
 
-body {
-  background-color: var(--bg);
-  color: var(--text-principal);
-  font-family: Arial, sans-serif;
-  min-height: 100vh;
+/* ---------- Painel lateral (marca) ---------- */
+.lado-marca{
+    flex:0 0 38%;
+    background:#ef5a00;
+    color:white;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:60px;
+}
+.lado-marca::before{
+    content:"";
+    width:340px;
+    height:340px;
+    background:rgba(255,180,0,.25);
+    position:absolute;
+    right:-100px;
+    top:-80px;
+    border-radius:50%;
+}
+.lado-marca::after{
+    content:"";
+    width:260px;
+    height:260px;
+    background:rgba(255,120,0,.20);
+    position:absolute;
+    left:-90px;
+    bottom:-90px;
+    border-radius:50%;
+}
+.marca-texto{
+    position:relative;
+    z-index:1;
+    max-width:360px;
+}
+.lado-marca h1{
+    font-size:clamp(32px, 4vw, 52px);
+    margin-bottom:14px;
+    line-height:1.1;
+}
+.lado-marca p{
+    font-size:clamp(16px, 1.4vw, 20px);
+    opacity:.95;
 }
 
-/* ==========================================================================
-   Layout geral: sidebar + conteúdo
-   ========================================================================== */
-.app {
-  display: flex;
-  min-height: 100vh;
+/* ---------- Painel do formulário ---------- */
+.lado-formulario{
+    flex:1;
+    background:#f8f3eb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:60px 40px;
+    overflow-y:auto;
+}
+.conteudo{
+    width:100%;
+    max-width:720px;
+}
+.conteudo h2{
+    margin-bottom:30px;
+    color:#222;
+    font-size:26px;
 }
 
-.sidebar {
-  width: 240px;
-  flex-shrink: 0;
-  background-color: var(--sidebar-bg);
-  color: var(--sidebar-text);
-  padding: 32px 24px;
-  position: sticky;
-  top: 0;
-  height: 100vh;
+.grade{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0 24px;
+}
+.campo{
+    margin-bottom:18px;
+}
+.campo-largo{
+    grid-column:1 / -1;
 }
 
-.sidebar h1 {
-  color: #ffffff;
-  font-size: 22px;
-  font-weight: 700;
+/* Oculta o campo "Contato do RH" (6º campo dentro do grid) */
+.grade .campo:nth-child(6){
+    display:none;
+}
+/* "Endereço" (5º campo) passa a ocupar a linha inteira, evitando espaço vazio */
+.grade .campo:nth-child(5){
+    grid-column:1 / -1;
 }
 
-.sidebar .subtitulo {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.7);
-  margin-top: 4px;
-  margin-bottom: 32px;
+label{
+    display:block;
+    margin-bottom:6px;
+    color:#666;
+    font-weight:bold;
+}
+input{
+    width:100%;
+    padding:15px;
+    border-radius:14px;
+    border:1px solid #ddd;
+    outline:none;
+    font-size:15px;
+    background:white;
+}
+input:focus{
+    border-color:#ef5a00;
+}
+button{
+    width:100%;
+    max-width:320px;
+    display:block;
+    padding:16px;
+    background:#ef5a00;
+    color:white;
+    border:none;
+    border-radius:14px;
+    font-size:18px;
+    cursor:pointer;
+    margin-top:10px;
+    transition:.3s;
+}
+button:hover{
+    background:#d94f00;
 }
 
-.sidebar nav {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+/* Mensagens de erro por campo */
+.erro-msg{
+    display:block;
+    color:#b3261e;
+    font-size:13px;
+    font-weight:600;
+    margin-top:6px;
 }
 
-.sidebar nav a {
-  display: block;
-  text-decoration: none;
-  color: var(--sidebar-text);
-  font-size: 14px;
-  padding: 10px 12px;
-  border-radius: 8px;
-  transition: background-color 0.15s ease, color 0.15s ease;
+/* Alertas gerais (sucesso / erro de conexão etc.) */
+.alerta{
+    padding:14px 16px;
+    border-radius:12px;
+    font-weight:600;
+    font-size:14px;
+    margin-bottom:20px;
+}
+.alerta-sucesso{
+    background:#e6f4ea;
+    color:#1e7a34;
+    border:1px solid #b7e2c4;
+}
+.alerta-erro{
+    background:#fdecea;
+    color:#b3261e;
+    border:1px solid #f3b6b0;
+}
+.toggle-link {
+    display: block;
+    text-align: center;
+    margin-top: 24px;
+    font-size: 14px;
+    color: #FF6D00;
+    text-decoration: none;
+}
+.toggle-link:hover {
+    text-decoration: underline;
 }
 
-.sidebar nav a:hover {
-  background-color: rgba(255, 255, 255, 0.06);
-  color: #ffffff;
+/* ---------- Responsivo ---------- */
+
+/* Telas médias: reduz o painel lateral */
+@media (max-width:1100px){
+    .lado-marca{
+        flex:0 0 32%;
+        padding:40px;
+    }
+    .lado-formulario{
+        padding:50px 30px;
+    }
 }
 
-.sidebar nav a.ativo {
-  background-color: var(--accent);
-  color: #ffffff;
-  font-weight: 600;
+/* Tablets: empilha os painéis, formulário continua largo */
+@media (max-width:900px){
+    .tela{
+        flex-direction:column;
+    }
+    .lado-marca{
+        flex:none;
+        width:100%;
+        min-height:220px;
+        padding:30px;
+    }
+    .lado-formulario{
+        padding:40px 30px;
+    }
+    .grade{
+        grid-template-columns:1fr 1fr;
+    }
 }
 
-.conteudo {
-  flex: 1;
-  padding: 40px 48px;
-  max-width: 1100px;
-}
-
-.conteudo h2 {
-  font-size: 26px;
-  font-weight: 700;
-  color: var(--text-principal);
-}
-
-.descricao {
-  font-size: 14px;
-  color: var(--text-secundario);
-  margin-top: 4px;
-  margin-bottom: 28px;
-}
-
-/* ==========================================================================
-   Busca
-   ========================================================================== */
-.busca {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background-color: var(--card-bg);
-  border: 1px solid var(--borda);
-  border-radius: 12px;
-  padding: 12px 16px;
-  max-width: 480px;
-  margin-bottom: 20px;
-}
-
-.busca span {
-  font-size: 16px;
-  opacity: 0.6;
-}
-
-.busca input {
-  border: none;
-  outline: none;
-  font-size: 14px;
-  width: 100%;
-  color: var(--text-principal);
-  background: transparent;
-}
-
-.busca input::placeholder {
-  color: var(--text-hint);
-}
-
-/* ==========================================================================
-   Filtros (pills)
-   ========================================================================== */
-.filtros {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 32px;
-}
-
-.pill {
-  display: inline-block;
-  padding: 8px 16px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-secundario);
-  background-color: var(--card-bg);
-  border: 1px solid var(--borda);
-  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-}
-
-.pill:hover {
-  border-color: var(--accent);
-  color: var(--accent-dark);
-}
-
-.pill.ativo {
-  background-color: var(--accent);
-  border-color: var(--accent);
-  color: #ffffff;
-}
-
-/* ==========================================================================
-   Grid de vagas
-   ========================================================================== */
-.grid-vagas {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
-}
-
-.grid-vagas > p {
-  color: var(--text-secundario);
-  font-size: 14px;
-}
-
-.card-vaga {
-  background-color: var(--card-bg);
-  border: 1px solid var(--borda);
-  border-radius: 14px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  transition: box-shadow 0.15s ease, transform 0.15s ease;
-}
-
-.card-vaga:hover {
-  box-shadow: 0 8px 20px rgba(230, 81, 0, 0.12);
-  transform: translateY(-2px);
-}
-
-.card-vaga .topo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  background-color: var(--accent);
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.empresa {
-  font-size: 13px;
-  color: var(--text-secundario);
-}
-
-.cargo {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-principal);
-}
-
-.rodape-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 12px;
-  border-top: 1px solid var(--borda);
-}
-
-.badge {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--accent-dark);
-  background-color: rgba(255, 109, 0, 0.12);
-  padding: 4px 10px;
-  border-radius: 999px;
-}
-
-.link-detalhes {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--accent);
-  text-decoration: none;
-}
-
-.link-detalhes:hover {
-  text-decoration: underline;
-}
-
-/* ==========================================================================
-   Responsivo
-   ========================================================================== */
-@media screen and (max-width: 900px) {
-  .app {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: static;
-    padding: 20px 24px;
-  }
-
-  .sidebar nav {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-
-  .conteudo {
-    padding: 24px;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .grid-vagas {
-    grid-template-columns: 1fr;
-  }
-
-  .busca {
-    max-width: 100%;
-  }
+/* Celulares: um campo por linha */
+@media (max-width:600px){
+    .lado-marca{
+        min-height:180px;
+        padding:24px;
+    }
+    .lado-marca h1{
+        font-size:28px;
+    }
+    .lado-marca p{
+        font-size:15px;
+    }
+    .lado-formulario{
+        padding:28px 20px;
+    }
+    .conteudo h2{
+        font-size:22px;
+        margin-bottom:22px;
+    }
+    .grade{
+        grid-template-columns:1fr;
+    }
+    input, button{
+        padding:13px;
+        font-size:14px;
+    }
 }
