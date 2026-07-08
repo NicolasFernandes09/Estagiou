@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome_empresa'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Empresa</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="cadastro.css">
 </head>
 <body>
 <div class="tela">
@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome_empresa'])) {
     <div class="lado-marca">
         <div class="marca-texto">
             <h1>Criar conta</h1>
-            <p>Cadastro simples e bonitinho da gigi</p>
+            <p>Cadastro para empresas</p>
         </div>
     </div>
 
@@ -187,6 +187,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome_empresa'])) {
 
                 <button type="submit">
                     Cadastrar
+                </button>
+                
+                <button type="submit" formaction="login.php" formmethod="get">
+                    Já tenho uma conta
                 </button>
             </form>
         </div>
