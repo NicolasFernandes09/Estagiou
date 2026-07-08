@@ -168,6 +168,17 @@ button:hover{
     color:#b3261e;
     border:1px solid #f3b6b0;
 }
+.toggle-link {
+    display: block;
+    text-align: center;
+    margin-top: 24px;
+    font-size: 14px;
+    color: #FF6D00;
+    text-decoration: none;
+}
+.toggle-link:hover {
+    text-decoration: underline;
+}
 
 /* ---------- Responsivo ---------- */
 

@@ -37,7 +37,7 @@
                     <button type="submit" class="btn-submit">Entrar</button>
                 </form>
                 
-                <a href="#" class="toggle-link">Criar conta</a>
+                <a href="cadastro.php" class="toggle-link">Criar conta</a>
             </div>
         </div>
     </div>
