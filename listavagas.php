@@ -24,7 +24,6 @@ if ($tipo !== 'todas') {
     $params[':tipo'] = $tipo;
 }
 
-
 function iniciais($nome) {
     $palavras = explode(' ', trim($nome));
     $ini = strtoupper(substr($palavras[0], 0, 1));
@@ -34,7 +33,6 @@ function iniciais($nome) {
     return $ini;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
