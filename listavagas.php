@@ -1,6 +1,9 @@
 <?php
 session_start();
-require_once 'conexao.php'; 
+
+// Captura a mensagem de sucesso e limpa a sessão imediatamente para não repetir ao atualizar
+$sucesso = $_SESSION['sucesso'] ?? '';
+unset($_SESSION['sucesso']);
 
 $busca = $_GET['busca'] ?? '';
 $tipo  = $_GET['tipo'] ?? 'todas';
@@ -14,7 +17,6 @@ $sql = "SELECT v.id, v.titulo, v.tipo_contratacao, v.cidade, v.data_publicacao, 
 $params = [];
 
 if ($busca !== '') {
-  
     $sql .= " AND (v.titulo LIKE :busca1 OR e.nome LIKE :busca2)";
     $params[':busca1'] = "%$busca%";
     $params[':busca2'] = "%$busca%";
@@ -25,7 +27,6 @@ if ($tipo !== 'todas') {
     $params[':tipo'] = $tipo;
 }
 
-
 function iniciais($nome) {
     $palavras = explode(' ', trim($nome));
     $ini = strtoupper(substr($palavras[0], 0, 1));
@@ -35,13 +36,12 @@ function iniciais($nome) {
     return $ini;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <title>Mural de Oportunidades — Vagas</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="listavagas.css">
 </head>
 <body>
   <div class="app">
@@ -50,14 +50,19 @@ function iniciais($nome) {
       <h1>Vagas</h1>
       <div class="subtitulo">Painel de vagas</div>
       <nav>
-        <a href="index.php" class="ativo">Início</a>
-        <a href="cadastro.php">Cadastro</a>
+        <a href="index.php">Criar empresa</a>
+        <a href="criarvagas.php">Criar Vaga</a>
         <a href="login.php">Login</a>
-        <a href="vagas.php">Vagas</a>
+        <a href="listavagas.php" class="ativo">Vagas</a>
       </nav>
     </aside>
 
     <main class="conteudo">
+      
+      <?php if (!empty($sucesso)): ?>
+          <div class="alerta alerta-sucesso"><?= htmlspecialchars($sucesso, ENT_QUOTES, 'UTF-8') ?></div>
+      <?php endif; ?>
+
       <h2>Feed de vagas</h2>
       <p class="descricao">Confira as oportunidades disponíveis no momento.</p>
 

@@ -1,5 +1,5 @@
 <?php
-require_once "config.php";
+require_once "configadmin.php";
 
 $abasPermitidas = ["vagas", "usuarios", "empresas"];
 $aba = $_GET["aba"] ?? "vagas";
@@ -31,7 +31,6 @@ if ($aba === "vagas") {
             FROM vaga
             LEFT JOIN empresas ON empresas.id_empresa = vaga.id_empresa
             ORDER BY vaga.id_vaga DESC";
-    $dados = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 } elseif ($aba === "usuarios") {
     $sql = "SELECT id_usuario, nome, email FROM usuarios ORDER BY id_usuario DESC";
     $dados = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
@@ -46,7 +45,7 @@ if ($aba === "vagas") {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Painel Admin - Vagas</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="administrador.css">
 </head>
 <body>
 
@@ -203,6 +202,6 @@ if ($aba === "vagas") {
     </main>
 </div>
 
-<script src="script.js"></script>
+<script src="administrador.js"></script>
 </body>
 </html>

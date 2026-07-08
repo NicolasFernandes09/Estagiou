@@ -1,0 +1,330 @@
+/* ==========================================================================
+   Reset e Base (Mantendo a coerência com index.css)
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background: #f5f5f5;
+}
+
+/* ==========================================================================
+   Layout Principal (.app) - Sidebar + Conteúdo
+   ========================================================================== */
+.app {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar - Herda o estilo vibrante do bloco de marca */
+.sidebar {
+    flex: 0 0 280px;
+    background: #ef5a00;
+    color: white;
+    padding: 40px 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h1 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.sidebar .subtitulo {
+    font-size: 14px;
+    opacity: 0.8;
+    margin-bottom: 36px;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar nav a {
+    color: white;
+    text-decoration: none;
+    padding: 14px 16px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.sidebar nav a:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.sidebar nav a.ativo {
+    background: white;
+    color: #ef5a00;
+}
+
+/* Área de Conteúdo Principal */
+.conteudo {
+    flex: 1;
+    background: #f8f3eb;
+    padding: 40px 50px;
+    overflow-y: auto;
+}
+
+.conteudo h2 {
+    font-size: 28px;
+    color: #222;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.conteudo .descricao {
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+/* ==========================================================================
+   Barra de Busca
+   ========================================================================== */
+.busca {
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 14px;
+    padding: 4px 16px;
+    margin-bottom: 24px;
+    max-width: 480px;
+    transition: 0.3s;
+}
+
+.busca:focus-within {
+    border-color: #ef5a00;
+    box-shadow: 0 0 0 2px rgba(239, 90, 0, 0.1);
+}
+
+.busca span {
+    font-size: 16px;
+    margin-right: 12px;
+    user-select: none;
+}
+
+.busca input {
+    flex: 1;
+    border: none;
+    padding: 12px 0;
+    outline: none;
+    font-size: 15px;
+    background: transparent;
+    color: #333;
+}
+
+/* ==========================================================================
+   Filtros (Pills / Tags)
+   ========================================================================== */
+.filtros {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+}
+
+.pill {
+    display: inline-block;
+    padding: 10px 20px;
+    background: white;
+    color: #555;
+    border: 1px solid #ddd;
+    border-radius: 24px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.pill:hover {
+    border-color: #ef5a00;
+    color: #ef5a00;
+    background: #fff9f5;
+}
+
+.pill.ativo {
+    background: #ef5a00;
+    color: white;
+    border-color: #ef5a00;
+}
+
+/* ==========================================================================
+   Grid de Vagas e Card
+   ========================================================================== */
+.grid-vagas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+.card-vaga {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 180px;
+    transition: 0.3s;
+}
+
+.card-vaga:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(239, 90, 0, 0.08);
+    border-color: #ef5a00;
+}
+
+/* Topo do Card (Avatar + Info) */
+.card-vaga .topo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.card-vaga .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #fff3e9;
+    color: #ef5a00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+    overflow: hidden;
+    border: 1px solid #ffe0cc;
+    flex-shrink: 0;
+}
+
+.card-vaga .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-vaga .empresa {
+    font-size: 14px;
+    color: #666;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.card-vaga .cargo {
+    font-size: 18px;
+    color: #222;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+/* Rodapé do Card */
+.card-vaga .rodape-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid #f5f5f5;
+}
+
+.card-vaga .badge {
+    display: inline-block;
+    padding: 6px 12px;
+    background: #fff3e9;
+    color: #ef5a00;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.card-vaga .link-detalhes {
+    font-size: 14px;
+    color: #FF6D00;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.card-vaga .link-detalhes:hover {
+    color: #d94f00;
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   Alertas (Adicionado para suportar mensagens de sucesso vindas do redirecionamento)
+   ========================================================================== */
+.alerta {
+    padding: 14px 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 24px;
+    max-width: 100%;
+}
+
+.alerta-sucesso {
+    background: #e6f4ea;
+    color: #1e7a34;
+    border: 1px solid #b7e2c4;
+}
+
+/* ==========================================================================
+   Responsividade
+   ========================================================================== */
+@media (max-width: 900px) {
+    .app {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        flex: none;
+        width: 100%;
+        padding: 24px;
+    }
+
+    .sidebar .subtitulo {
+        margin-bottom: 20px;
+    }
+
+    .sidebar nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .sidebar nav a {
+        padding: 10px 14px;
+        font-size: 14px;
+    }
+
+    .conteudo {
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .grid-vagas {
+        grid-template-columns: 1fr;
+    }
+    
+    .busca {
+        max-width: 100%;
+    }
+}

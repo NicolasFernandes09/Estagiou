@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome_empresa'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Empresa</title>
-    <link rel="stylesheet" href="cadastro.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
 <div class="tela">
@@ -171,7 +171,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome_empresa'])) {
                             name="endereco"
                             value="<?= old($antigos, 'endereco') ?>"
                         >
-                  
+                    </div>
+
                     <div class="campo campo-largo">
                         <label>Logo da empresa *</label>
                         <input
@@ -187,18 +188,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome_empresa'])) {
                 <button type="submit">
                     Cadastrar
                 </button>
-                
-                <button type="submit" formaction="login.php" formmethod="get">
-                    Já tenho uma conta
-                </button>
             </form>
+
+            <a href="login.php" class="btn-secundario">Já tenho uma conta</a>
         </div>
     </div>
 
 </div>
 
 <script>
-
     const inputTelefone = document.getElementById('telefone');
     inputTelefone.addEventListener('input', function () {
         let v = this.value.replace(/\D/g, '').slice(0, 11);
