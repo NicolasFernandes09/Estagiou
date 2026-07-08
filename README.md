@@ -29,13 +29,12 @@ Nesta versão, o projeto está focado na experiência mobile do usuário, com te
 
 ## Telas do Aplicativo
 
-![visual1](registro.png)
-![visual2](acesso.png)
-![visual3](perfil.png)
-![visual4](vagas.png)
-![visual5](canditar.png)
-![visual6](favoritos.png)
-
+![visual1](img/registro.png)
+![visual2](img/acesso.png)
+![visual3](img/perfil.png)
+![visual4](img/vagas.png)
+![visual5](img/canditar.png)
+![visual6](img/favoritos.png)
 
 ### Login
 Tela inicial do aplicativo, onde o usuário informa usuário e senha para acessar o sistema.
