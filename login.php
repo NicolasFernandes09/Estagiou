@@ -27,7 +27,7 @@
                         <label for="web-usuario">Usuário</label>
                         <input type="text" id="web-usuario" name="usuario" class="form-control" placeholder="Seu usuário" required>
                     </div>
-                    
+                
                     <div class="form-group">
                         <label for="web-senha">Senha</label>
                         <input type="password" id="web-senha" name="senha" class="form-control" placeholder="Sua senha" required>
