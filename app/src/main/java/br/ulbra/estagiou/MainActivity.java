@@ -50,15 +50,14 @@ public class MainActivity extends AppCompatActivity {
 
                                 Log.d(
                                         "API",
-                                        "Empresa: "
-                                                + vaga.getEmpresa()
-                                                +
-                                                " Cargo: "
-                                                + vaga.getCargo()
+                                        "Empresa: " + vaga.getTitulo()
+                                                + " Descrição: "
+                                                + vaga.getDescricao()
                                 );
                             }
                         }
                     }
+
                     // Executa caso dê erro de conexão
                     @Override
                     public void onFailure(
@@ -71,8 +70,4 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
-                                EdgeToEdge.enable(this);
-                                setContentView(R.layout.activity_main);
-                                testebt = (Button) findViewById(R.id.testebtn);
-                            }
-                        }
+}

@@ -31,7 +31,7 @@ public class RetrofitClient {
                     // Sempre termina com /
 
                     .baseUrl(
-                            "http://172.29.20.169/Estagiou/api/vagas.php"
+                            "http://172.29.20.89/Estagiou/api/"
                     )
 
                     // Gson transforma JSON em objetos Java.
