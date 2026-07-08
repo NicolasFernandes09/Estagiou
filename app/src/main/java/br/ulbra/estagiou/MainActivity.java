@@ -2,48 +2,77 @@ package br.ulbra.estagiou;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.widget.Button;
+
+
 import android.os.Bundle;
 import android.util.Log;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
+import java.util.List;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import br.ulbra.estagiou.model.Vagas;
+import br.ulbra.estagiou.repository.VagaRepository;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    // Declara o objeto que vai buscar as vagas
+    private VagaRepository repository;
+
+    Button testebt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        // Cria o Repository
+        repository = new VagaRepository();
+        // Chama a API
+        repository.buscarVagas(
+                new Callback<List<Vagas>>() {
+                    // Executa quando a API responde corretamente
+                    @Override
+                    public void onResponse(
+                            Call<List<Vagas>> call,
+                            Response<List<Vagas>> response) {
+                        // Verifica se a resposta veio OK
+                        if (response.isSuccessful()) {
+                            // Pega a lista de vagas recebida
+                            List<Vagas> vagas =
+                                    response.body();
+                            // Percorre todas as vagas
+                            for (Vagas vaga : vagas) {
+                                // Mostra no Logcat
 
-
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://10.0.2.2/MuralOportunidades/api/vagas.php";
-
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
-                response -> {
-                    for (int i = 0; i < response.length(); i++) {
-                        try {
-                            JSONObject vaga = response.getJSONObject(i);
-                            String titulo = vaga.getString("titulo");
-                            String
-                            Log.d("API", titulo);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                                Log.d(
+                                        "API",
+                                        "Empresa: "
+                                                + vaga.getEmpresa()
+                                                +
+                                                " Cargo: "
+                                                + vaga.getCargo()
+                                );
+                            }
                         }
                     }
-                },
-                error -> {
-                    Log.e("API", "Erro: " + error.toString());
+                    // Executa caso dê erro de conexão
+                    @Override
+                    public void onFailure(
+                            Call<List<Vagas>> call,
+                            Throwable t) {
+                        Log.e(
+                                "ERRO API",
+                                t.getMessage()
+                        );
+                    }
                 });
-
-        queue.add(request);
-
     }
-}
+                                EdgeToEdge.enable(this);
+                                setContentView(R.layout.activity_main);
+                                testebt = (Button) findViewById(R.id.testebtn);
+                            }
+                        }

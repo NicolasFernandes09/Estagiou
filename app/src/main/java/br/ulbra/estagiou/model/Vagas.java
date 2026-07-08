@@ -1,6 +1,4 @@
-package br.ulbra.estagiou.classes;
-
-import androidx.appcompat.app.AppCompatActivity;
+package br.ulbra.estagiou.model;
 
 public class Vagas {
  private String titulo;
