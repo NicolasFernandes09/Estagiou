@@ -118,5 +118,4 @@ http://localhost/index.php
 - Filipe Machado
 - Rafael Klein
 - Maicon Machado
-- Rafael 
 
