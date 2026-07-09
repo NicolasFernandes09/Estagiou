@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['empresa_id'] = $resultado['ID_empresa'] ?? $resultado['id_empresa'] ?? $resultado['id'] ?? null;
                 $_SESSION['logado'] = true;
 
-                header('Location: index.php');
+                header('Location: listavagas.php');
                 exit;
             } else {
                 $mensagem_erro = 'E-mail ou senha incorretos.';
@@ -41,6 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
+<?php include_once(__DIR__ . '/classes/Usuario.php'); ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -91,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <button type="submit" class="btn-submit">Entrar</button>
                 </form>
                 
-                <a href="cadastro.php" class="toggle-link">Criar conta</a>
+                <a href="index.php" class="toggle-link">Criar conta</a>
             </div>
         </div>
     </div>

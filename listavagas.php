@@ -1,9 +1,26 @@
 <?php
 session_start();
 
-if (empty($_SESSION['logado']) || $_SESSION['logado'] !== true) {
-    header('Location: login.php');
-    exit;
+require_once __DIR__ . '/api/conexao.php';
+
+$sucesso = $_SESSION['sucesso'] ?? '';
+unset($_SESSION['sucesso']);
+
+$busca = $_GET['busca'] ?? '';
+$tipo  = $_GET['tipo'] ?? 'todas';
+
+$sql = "SELECT v.id, v.titulo, v.tipo_contratacao, v.cidade, v.data_publicacao, v.data_limite,
+               e.nome AS empresa_nome, e.logo AS empresa_logo
+        FROM vagas v
+        INNER JOIN empresas e ON e.id = v.empresa_id
+        WHERE v.data_limite >= CURDATE()";
+
+$params = [];
+
+if ($busca !== '') {
+    $sql .= " AND (v.titulo LIKE :busca1 OR e.nome LIKE :busca2)";
+    $params[':busca1'] = "%$busca%";
+    $params[':busca2'] = "%$busca%";
 }
 
 require_once __DIR__ . '/api/conexao.php';
@@ -35,14 +52,14 @@ function iniciais($nome) {
 <body>
   <div class="app">
 
-    <aside class="sidebar">
+     <aside class="sidebar">
       <h1>Vagas</h1>
       <div class="subtitulo">Painel de vagas</div>
       <nav>
         <a href="index.php" class="ativo">Início</a>
-        <a href="cadastro.php">Favoritos</a>
-        <a href="login.php">Empresas</a>
-        <a href="vagas.php">Perfil</a>
+        <a href="cadastro.php">Cadastro</a>
+        <a href="login.php">Login</a>
+        <a href="vagas.php">Vagas</a>
       </nav>
     </aside>
 
