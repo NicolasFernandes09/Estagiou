@@ -1,4 +1,4 @@
-package br.ulbra.estagiou.classes.model;
+package br.ulbra.estagiou.model;
 
 import com.google.gson.annotations.SerializedName;
 

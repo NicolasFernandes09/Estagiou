@@ -9,7 +9,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 
 // Essa interface informa ao Retrofit quais chamadas
@@ -33,12 +33,12 @@ public interface ApiService {
     @POST("vagas.php")
     Call<Void> inserirVagas(@Body Vagas vaga);
 
-    @PUT("vagas/{id_vaga}")
+    @PUT("vagas.php")
     Call<Void> atualizarVagas(
-            @Path("id_vaga") int id,
+            @Query("id") int id,
             @Body Vagas vaga);
 
-    @DELETE("vagas/{id_vaga}")
+    @DELETE("vagas.php")
     Call<Void> excluirVagas(
-            @Path("id_vaga") int id);
+            @Query("id") int id);
 }

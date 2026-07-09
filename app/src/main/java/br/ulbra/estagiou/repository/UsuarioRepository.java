@@ -1,17 +1,17 @@
-package br.ulbra.estagiou.classes.repository;
+package br.ulbra.estagiou.repository;
 
-import br.ulbra.estagiou.classes.api.ApiService;
-import br.ulbra.estagiou.classes.api.RetrofitClient;
+import br.ulbra.estagiou.api.UsuarioApiService;
+import br.ulbra.estagiou.api.RetrofitClient;
 import java.util.List;
-import br.ulbra.estagiou.classes.model.Usuarios;
+import br.ulbra.estagiou.model.Usuarios;
 import retrofit2.Call;
 import retrofit2.Callback;
 
 public class UsuarioRepository {
-    private ApiService api;
+    private UsuarioApiService api;
 
     public UsuarioRepository() {
-        api = RetrofitClient.getRetrofit().create(ApiService.class);
+        api = RetrofitClient.getRetrofit().create(UsuarioApiService.class);
 
     }
     public void inserirUsuarios(Usuarios usuario, Callback<Void> callback) {

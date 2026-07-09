@@ -1,11 +1,16 @@
 package br.ulbra.estagiou.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Vagas {
+    @SerializedName("id_vaga")
     private int vagasId;
     private String titulo;
     private String descricao;
     private double salario;
+    @SerializedName("fechamento_vaga")
     private String fechamentoData;
+    @SerializedName("tipo_vaga")
     private String tipoVaga;
 
     public Vagas() {

@@ -1,8 +1,8 @@
-package br.ulbra.estagiou.classes.api;
+package br.ulbra.estagiou.api;
 
 import java.util.List;
 
-import br.ulbra.estagiou.classes.model.Usuarios;
+import br.ulbra.estagiou.model.Usuarios;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -12,14 +12,14 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Path;
+import retrofit2.http.Query;
 
-public interface ApiService {
+public interface UsuarioApiService {
 
     @FormUrlEncoded
     @POST("usuarios.php")
     Call<ResponseBody> login(
-            @Field("acao") String acao,
+            @Field("action") String acao,
             @Field("usuario") String usuario,
             @Field("email") String email,
             @Field("senha") String senha
@@ -28,8 +28,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("usuarios.php")
     Call<ResponseBody> registrar(
-            @Field("acao") String acao,
-            @Field("usuario") String usuario,
+            @Field("action") String acao,
+            @Field("nome") String usuario,
             @Field("email") String email,
             @Field("senha") String senha
     );
@@ -39,13 +39,13 @@ public interface ApiService {
     @POST("usuarios.php")
     Call<Void> inserirUsuarios(@Body Usuarios usuario);
 
-    @PUT("usuarios/{id_usuario}")
+    @PUT("usuarios.php")
     Call<Void> atualizarUsuarios(
-            @Path("id_usuario") int id,
+            @Query("id") int id,
             @Body Usuarios usuario);
 
-    @DELETE("usuarios/{id_usuario}")
+    @DELETE("usuarios.php")
     Call<Void> excluirUsuarios(
-            @Path("id_usuario") int id);
+            @Query("id") int id);
 
 }

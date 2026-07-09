@@ -1,4 +1,4 @@
-package br.ulbra.estagiou.classes;
+package br.ulbra.estagiou;
 
 import android.os.Bundle;
 import android.util.Patterns;
@@ -8,9 +8,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import br.ulbra.estagiou.R;
-import br.ulbra.estagiou.classes.api.RetrofitClient;
-import br.ulbra.estagiou.classes.api.ApiService;
+import br.ulbra.estagiou.api.RetrofitClient;
+import br.ulbra.estagiou.api.UsuarioApiService;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,7 +19,7 @@ public class RegistrarActivity extends AppCompatActivity {
 
     EditText edNome, edGmail, edPas1, edPas2;
     Button btSalvar, btVoltarLogin;
-    ApiService api;
+    UsuarioApiService api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +28,7 @@ public class RegistrarActivity extends AppCompatActivity {
 
         api = RetrofitClient
                 .getRetrofit()
-                .create(ApiService.class);
+                .create(UsuarioApiService.class);
 
         edNome = findViewById(R.id.edtNome);
         edGmail = findViewById(R.id.edtGmail);
