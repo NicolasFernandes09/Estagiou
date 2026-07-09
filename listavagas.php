@@ -48,8 +48,8 @@ function iniciais($nome) {
   <div class="app">
 
     <aside class="sidebar">
-      <h1>Vagas</h1>
-      <div class="subtitulo">Painel de vagas</div>
+      <h1>Início</h1>
+      <div class="subtitulo">Administre a sua empresa</div>
       <nav>
         <a href="index.php">Criar empresa</a>
         <a href="criarvagas.php">Criar Vaga</a>

@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="lado-marca">
         <div class="marca-texto">
             <h1>Encontre talentos</h1>
-            <p>Preencha os detalhes e publique uma nova oportunidade no mural do site.</p>
+            <p>Preencha os detalhes e publique uma nova oportunidade no mural do site</p>
         </div>
     </div>
 

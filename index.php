@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require_once __DIR__ . '/api/conexao.php';
 require_once __DIR__ . '/classes/Empresas.php';
 
@@ -102,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome_empresa'])) {
     <div class="lado-marca">
         <div class="marca-texto">
             <h1>Criar conta</h1>
-            <p>Cadastro para empresas</p>
+            <p>Faça o cadastro da sua empresa</p>
         </div>
     </div>
 
@@ -183,17 +185,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome_empresa'])) {
                     </div>
                 </div>
 
-                <button type="submit">
-                    Cadastrar
-                </button>
+                <div class="botoes-acoes" style="display: flex; gap: 16px; margin-top: 20px; width: 100%; max-width: 656px;">
+                    <button type="submit" style="margin-top: 0;">
+                        Cadastrar
+                    </button>
+                    
+                    <a href="login.php" style="text-decoration: none; width: 100%; max-width: 320px;">
+                        <button type="button" style="margin-top: 0; width: 100%;">Já tenho uma conta</button>
+                    </a>
+                </div>
             </form>
 
-            <a href="login.php" class="btn-secundario">Já tenho uma conta</a>
         </div>
     </div>
-
 </div>
-
 <script>
     const inputTelefone = document.getElementById('telefone');
     inputTelefone.addEventListener('input', function () {
@@ -210,88 +215,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome_empresa'])) {
         this.value = v;
     });
 </script>
-
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <title>Mural de Oportunidades — Vagas</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="app">
-
-    <aside class="sidebar">
-      <h1>Vagas</h1>
-      <div class="subtitulo">Painel de vagas</div>
-      <nav>
-        <a href="index.php" class="ativo">Início</a>
-        <a href="cadastro.php">Favoritos</a>
-        <a href="login.php">Empresas</a>
-        <a href="vagas.php">Perfil</a>
-      </nav>
-    </aside>
-
-    <main class="conteudo">
-      <h2>Feed de vagas</h2>
-      <p class="descricao">Confira as oportunidades disponíveis no momento.</p>
-
-      <form method="GET" class="busca">
-        <span>🔍</span>
-        <input type="text" name="busca" placeholder="Buscar vaga, empresa ou cidade"
-               value="<?= htmlspecialchars($busca) ?>">
-      </form>
-
-      <div class="filtros">
-        <?php
-        $opcoes = [
-            'todas' => 'Todas',
-            'estagio' => 'Estágio',
-            'jovem_aprendiz' => 'Jovem Aprendiz',
-            'clt' => 'CLT',
-            'freelancer' => 'Freelancer',
-        ];
-        foreach ($opcoes as $valor => $rotulo):
-            $ativo = $tipo === $valor ? 'ativo' : '';
-        ?>
-          <a href="?tipo=<?= urlencode($valor) ?>&busca=<?= urlencode($busca) ?>"
-             class="pill <?= $ativo ?>" style="text-decoration:none;">
-            <?= htmlspecialchars($rotulo) ?>
-          </a>
-        <?php endforeach; ?>
-      </div>
-
-      <div class="grid-vagas">
-        <?php if (empty($vagas)): ?>
-          <p>Nenhuma vaga encontrada.</p>
-        <?php endif; ?>
-
-        <?php foreach ($vagas as $vaga): ?>
-          <div class="card-vaga">
-            <div class="topo">
-              <div class="avatar">
-                <?php if (!empty($vaga['empresa_logo'])): ?>
-                  <img src="uploads/logos/<?= htmlspecialchars($vaga['empresa_logo']) ?>" alt="">
-                <?php else: ?>
-                  <?= htmlspecialchars(iniciais($vaga['empresa_nome'])) ?>
-                <?php endif; ?>
-              </div>
-              <div>
-                <div class="empresa"><?= htmlspecialchars($vaga['empresa_nome']) ?></div>
-                <div class="cargo"><?= htmlspecialchars($vaga['titulo']) ?></div>
-              </div>
-            </div>
-
-            <div class="rodape-card">
-              <span class="badge"><?= htmlspecialchars($opcoes[$vaga['tipo_contratacao']] ?? $vaga['tipo_contratacao']) ?></span>
-              <a class="link-detalhes" href="vaga.php?id=<?= (int) $vaga['id'] ?>">Ver detalhes ›</a>
-            </div>
-          </div>
-        <?php endforeach; ?>
-      </div>
-
-    </main>
-  </div>
-
 </body>
 </html>
