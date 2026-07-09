@@ -46,8 +46,7 @@ public class VagaRepository {
     public void buscarVagas(
             Callback<List<Vagas>> callback) {
         // Faz a chamada para vagas.php
-        Call<List<Vagas>> chamada =
-                api.buscarVagas();
+        Call<List<Vagas>> chamada = api.buscarVagas();
         // enqueue executa a chamada em segundo plano.
         // O aplicativo não trava enquanto espera a resposta.
         chamada.enqueue(callback);

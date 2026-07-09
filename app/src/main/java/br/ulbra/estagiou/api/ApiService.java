@@ -33,12 +33,12 @@ public interface ApiService {
     @POST("vagas.php")
     Call<Void> inserirVagas(@Body Vagas vaga);
 
-    @PUT("vagas/{id}")
+    @PUT("vagas/{id_vaga}")
     Call<Void> atualizarVagas(
-            @Path("id") int id,
+            @Path("id_vaga") int id,
             @Body Vagas vaga);
 
-    @DELETE("vagas/{id}")
+    @DELETE("vagas/{id_vaga}")
     Call<Void> excluirVagas(
-            @Path("id") int id);
+            @Path("id_vaga") int id);
 }
