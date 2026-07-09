@@ -1,7 +1,8 @@
 <?php
 session_start();
 
-// Captura a mensagem de sucesso e limpa a sessão imediatamente para não repetir ao atualizar
+require_once __DIR__ . '/api/conexao.php';
+
 $sucesso = $_SESSION['sucesso'] ?? '';
 unset($_SESSION['sucesso']);
 

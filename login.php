@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 session_start();
 
@@ -63,15 +62,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 ?>
-=======
+
 <?php include_once(__DIR__ . '/classes/Usuario.php'); ?>
->>>>>>> 827772f1d5bb62c46139d0e84465506ad2ac1b0b
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
     <title>Login de Empresa</title>
     <link rel="stylesheet" href="login.css">
 </head>
@@ -80,8 +78,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="lado-marca">
         <div class="marca-texto">
-            <h1>Bem-vindo de volta</h1>
-            <p>Acesse sua conta de empresa</p>
+            <h1>Login</h1>
+            <p>Acesse a conta da sua empresa</p>
         </div>
     </div>
 
@@ -121,49 +119,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </button>
             </form>
 
-            <a href="index.php" class="link">Ainda não tenho conta</a>
+            <a href="index.php" class="btn-link">Ainda não tenho conta</a>
         </div>
     </div>
 </div>
-=======
-    <title>Mural de Oportunidades - Login</title>
-    <link rel="stylesheet" href="login.css">
-</head>
-<body>
-
-    <div class="login-container">
-        <div class="brand-panel">
-            <div class="brand-content">
-                <h1>Login</h1>
-                <p>Entre para ver vagas da escola</p>
-            </div>
-        </div>
-
-        <div class="form-panel">
-            <div class="form-content">
-                <h2>Acesse sua conta</h2>
-                <p class="subtitle">Use seu usuário e senha cadastrados.</p>
-                
-                <form action="index.php?rota=login" method="POST">
-                    <div class="form-group">
-                        <label for="web-usuario">Usuário</label>
-                        <input type="text" id="web-usuario" name="usuario" class="form-control" placeholder="Seu usuário" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="web-senha">Senha</label>
-                        <input type="password" id="web-senha" name="senha" class="form-control" placeholder="Sua senha" required>
-                        <div class="input-hint">Mínimo de 6 caracteres</div>
-                    </div>
-                    
-                    <button type="submit" class="btn-submit">Entrar</button>
-                </form>
-                
-                <a href="#" class="toggle-link">Criar conta</a>
-            </div>
-        </div>
-    </div>
-
->>>>>>> 827772f1d5bb62c46139d0e84465506ad2ac1b0b
 </body>
 </html>

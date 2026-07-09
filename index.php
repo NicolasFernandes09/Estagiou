@@ -1,7 +1,4 @@
 <?php
-session_start();
-<<<<<<< HEAD
-
 require_once __DIR__ . '/api/conexao.php';
 require_once __DIR__ . '/classes/Empresas.php';
 
@@ -213,42 +210,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome_empresa'])) {
         this.value = v;
     });
 </script>
-=======
-require_once 'conexao.php'; 
-//blabla
-$busca = $_GET['busca'] ?? '';
-$tipo  = $_GET['tipo'] ?? 'todas';
-
-$sql = "SELECT v.id, v.titulo, v.tipo_contratacao, v.cidade, v.data_publicacao, v.data_limite,
-               e.nome AS empresa_nome, e.logo AS empresa_logo
-        FROM vagas v
-        INNER JOIN empresas e ON e.id = v.empresa_id
-        WHERE v.data_limite >= CURDATE()";
-
-$params = [];
-
-if ($busca !== '') {
-  
-    $sql .= " AND (v.titulo LIKE :busca1 OR e.nome LIKE :busca2)";
-    $params[':busca1'] = "%$busca%";
-    $params[':busca2'] = "%$busca%";
-}
-
-if ($tipo !== 'todas') {
-    $sql .= " AND v.tipo_contratacao = :tipo";
-    $params[':tipo'] = $tipo;
-}
-
-
-function iniciais($nome) {
-    $palavras = explode(' ', trim($nome));
-    $ini = strtoupper(substr($palavras[0], 0, 1));
-    if (count($palavras) > 1) {
-        $ini .= strtoupper(substr(end($palavras), 0, 1));
-    }
-    return $ini;
-}
-?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -331,6 +292,6 @@ function iniciais($nome) {
 
     </main>
   </div>
->>>>>>> 827772f1d5bb62c46139d0e84465506ad2ac1b0b
+
 </body>
 </html>
