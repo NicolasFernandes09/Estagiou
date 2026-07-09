@@ -12,8 +12,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 
-// Essa interface informa ao Retrofit quais chamadas
-// ele pode fazer na API.
+// Essa interface informa ao Retrofit quais chamadas ele pode fazer na API.
 
 public interface ApiService {
 

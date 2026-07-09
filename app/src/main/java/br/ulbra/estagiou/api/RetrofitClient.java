@@ -19,7 +19,7 @@ public class RetrofitClient {
             retrofit = new Retrofit.Builder()
                     // Endereço principal da API.
                     // Sempre termina com "/"
-                    .baseUrl("http://172.29.20.89/Estagiou/api/")
+                    .baseUrl("http://172.29.20.149/Estagiou/api/")
                     // Gson transforma JSON em objetos Java.
                     .addConverterFactory(GsonConverterFactory.create())
                     // Finaliza a configuração.
