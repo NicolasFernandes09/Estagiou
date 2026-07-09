@@ -58,6 +58,25 @@ class Vaga{
 
     }
 
+    public function buscarVagas($busca = '', $tipo = 'todas'){
+
+        $query = "SELECT v.*, COALESCE(e.nome, 'Empresa não informada') AS empresa_nome, e.logo AS empresa_logo
+                   FROM ".$this->table_name." v
+                   LEFT JOIN empresas e ON e.ID_empresa = v.id_empresa
+                   WHERE (? = '' OR v.titulo LIKE CONCAT('%', ?, '%') OR e.nome LIKE CONCAT('%', ?, '%'))
+                     AND (? = 'todas' OR LOWER(v.tipo_vaga) = LOWER(?))
+                   ORDER BY v.fechamento_vaga DESC";
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bind_param("sssss", $busca, $busca, $busca, $tipo, $tipo);
+
+        $stmt->execute();
+
+        return $stmt->get_result();
+
+    }
+
     public function listarPorEmpresa($id_empresa){
 
         $query="SELECT * FROM ".$this->table_name."

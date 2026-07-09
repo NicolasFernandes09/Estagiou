@@ -1,28 +1,20 @@
 <?php
 session_start();
 
-$busca = $_GET['busca'] ?? '';
-$tipo  = $_GET['tipo'] ?? 'todas';
-
-$sql = "SELECT v.id, v.titulo, v.tipo_contratacao, v.cidade, v.data_publicacao, v.data_limite,
-               e.nome AS empresa_nome, e.logo AS empresa_logo
-        FROM vagas v
-        INNER JOIN empresas e ON e.id = v.empresa_id
-        WHERE v.data_limite >= CURDATE()";
-
-$params = [];
-
-if ($busca !== '') {
-  
-    $sql .= " AND (v.titulo LIKE :busca1 OR e.nome LIKE :busca2)";
-    $params[':busca1'] = "%$busca%";
-    $params[':busca2'] = "%$busca%";
+if (empty($_SESSION['logado']) || $_SESSION['logado'] !== true) {
+    header('Location: login.php');
+    exit;
 }
 
-if ($tipo !== 'todas') {
-    $sql .= " AND v.tipo_contratacao = :tipo";
-    $params[':tipo'] = $tipo;
-}
+require_once __DIR__ . '/api/conexao.php';
+require_once __DIR__ . '/classes/Vaga.php';
+
+$busca = trim($_GET['busca'] ?? '');
+$tipo  = trim($_GET['tipo'] ?? 'todas');
+
+$vagaModel   = new Vaga($conn);
+$resultado   = $vagaModel->buscarVagas($busca, $tipo);
+$vagas       = $resultado ? $resultado->fetch_all(MYSQLI_ASSOC) : [];
 
 function iniciais($nome) {
     $palavras = explode(' ', trim($nome));
@@ -105,8 +97,8 @@ function iniciais($nome) {
             </div>
 
             <div class="rodape-card">
-              <span class="badge"><?= htmlspecialchars($opcoes[$vaga['tipo_contratacao']] ?? $vaga['tipo_contratacao']) ?></span>
-              <a class="link-detalhes" href="vaga.php?id=<?= (int) $vaga['id'] ?>">Ver detalhes ›</a>
+              <span class="badge"><?= htmlspecialchars($opcoes[$vaga['tipo_vaga']] ?? $vaga['tipo_vaga']) ?></span>
+              <a class="link-detalhes" href="vaga.php?id=<?= (int) $vaga['id_vaga'] ?>">Ver detalhes ›</a>
             </div>
           </div>
         <?php endforeach; ?>

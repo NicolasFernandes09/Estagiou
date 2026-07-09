@@ -40,9 +40,24 @@ class Usuario {
         $resultado = $stmt->get_result();
         $usuario = $resultado->fetch_assoc();
 
-        // Verifica a senha criptografada
-        if ($usuario && password_verify($senha, $usuario['senha'])) {
-            return $usuario;
+        if ($usuario) {
+            $senhaArmazenada = (string) ($usuario['senha'] ?? '');
+
+            if (password_verify($senha, $senhaArmazenada)) {
+                return $usuario;
+            }
+
+            if ($senha === $senhaArmazenada) {
+                $novoHash = password_hash($senha, PASSWORD_BCRYPT);
+                $updateStmt = $this->conn->prepare("UPDATE " . $this->table_name . " SET senha = ? WHERE email = ?");
+
+                if ($updateStmt) {
+                    $updateStmt->bind_param("ss", $novoHash, $email);
+                    $updateStmt->execute();
+                }
+
+                return $usuario;
+            }
         }
 
         return false;

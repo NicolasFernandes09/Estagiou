@@ -56,8 +56,24 @@ class Empresas {
 
         $empresa = $resultado->fetch_assoc();
 
-        if($empresa && password_verify($senha,$empresa['senha'])){
-            return $empresa;
+        if($empresa){
+            $senhaArmazenada = (string) ($empresa['senha'] ?? '');
+
+            if (password_verify($senha, $senhaArmazenada)) {
+                return $empresa;
+            }
+
+            if ($senha === $senhaArmazenada) {
+                $novoHash = password_hash($senha, PASSWORD_BCRYPT);
+                $updateStmt = $this->conn->prepare("UPDATE " . $this->table_name . " SET senha = ? WHERE email = ?");
+
+                if ($updateStmt) {
+                    $updateStmt->bind_param("ss", $novoHash, $email);
+                    $updateStmt->execute();
+                }
+
+                return $empresa;
+            }
         }
 
         return false;

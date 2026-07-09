@@ -120,6 +120,26 @@ input{
 input:focus{
     border-color:#ef5a00;
 }
+input[type="file"]{
+    padding:10px;
+    cursor:pointer;
+    color:#666;
+}
+input[type="file"]::file-selector-button{
+    padding:10px 16px;
+    margin-right:14px;
+    border:none;
+    border-radius:10px;
+    background:#ef5a00;
+    color:white;
+    font-weight:bold;
+    font-size:14px;
+    cursor:pointer;
+    transition:.3s;
+}
+input[type="file"]::file-selector-button:hover{
+    background:#d94f00;
+}
 button{
     width:100%;
     max-width:320px;
