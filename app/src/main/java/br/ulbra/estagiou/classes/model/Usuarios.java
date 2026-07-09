@@ -1,19 +1,25 @@
 package br.ulbra.estagiou.classes.model;
 
-public class Usuario {
+import com.google.gson.annotations.SerializedName;
+
+public class Usuarios {
+
+    @SerializedName("id_usuario")
     private int usuarioId;
+
+    @SerializedName("nome")
     private String usuarioNome;
+
+    @SerializedName("email")
     private String usuarioEmail;
+
+    @SerializedName("senha")
     private String usuarioSenha;
 
-    public Usuario() {
-    }
+    @SerializedName("foto")
+    private String foto;
 
-    public Usuario(int usuarioId, String usuarioNome, String usuarioEmail, String usuarioSenha) {
-        this.usuarioId = usuarioId;
-        this.usuarioNome = usuarioNome;
-        this.usuarioEmail = usuarioEmail;
-        this.usuarioSenha = usuarioSenha;
+    public Usuarios() {
     }
 
     public int getUsuarioId() {
@@ -46,5 +52,13 @@ public class Usuario {
 
     public void setUsuarioSenha(String usuarioSenha) {
         this.usuarioSenha = usuarioSenha;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 }

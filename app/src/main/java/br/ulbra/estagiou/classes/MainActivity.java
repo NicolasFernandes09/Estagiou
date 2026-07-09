@@ -2,6 +2,7 @@ package br.ulbra.estagiou.classes;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -10,16 +11,20 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
 import br.ulbra.estagiou.R;
 import br.ulbra.estagiou.classes.api.RetrofitClient;
 import br.ulbra.estagiou.classes.api.ApiService;
+import br.ulbra.estagiou.classes.model.Usuarios;
+import br.ulbra.estagiou.classes.repository.UsuarioRepository;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-
+    private UsuarioRepository repository;
     EditText edUsuario, edSenha, edEmail;
     Button btLogin, btCriarConta;
     ApiService api;
@@ -27,6 +32,38 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        repository = new UsuarioRepository();
+        repository.buscarUsuarios(
+                new Callback<List<Usuarios>>() {
+                    @Override
+                    public void onResponse(
+                            Call<List<Usuarios>> call,
+                            Response<List<Usuarios>> response) {
+                        if (response.isSuccessful()) {
+                            List<Usuarios> usuarios =
+                                    response.body();
+                            // Percorre todas as vagas
+                            for (Usuarios usuario : usuarios) {
+                                Log.d(
+                                        "API",
+                                        "Usuário: " + usuario.getUsuarioNome()
+                                                + " Email: "
+                                                + usuario.getUsuarioEmail()
+                                );
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(
+                            Call<List<Usuarios>> call,
+                            Throwable t) {
+                        Log.e(
+                                "ERRO API",
+                                t.getMessage()
+                        );
+                    }
+                });
         setContentView(R.layout.activity_main);
 
         api = RetrofitClient
