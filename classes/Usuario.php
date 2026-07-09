@@ -3,7 +3,11 @@ class Usuario {
     private $conn;
     private $table_name = "usuarios";
 
+    // O construtor está perfeito, ele exige a conexão ao criar o objeto
     public function __construct($banco) {
+        if ($banco === null) {
+            throw new Exception("A conexão com o banco de dados não foi fornecida.");
+        }
         $this->conn = $banco;
     }
 
@@ -17,9 +21,9 @@ class Usuario {
 
         $hashed_password = password_hash($senha, PASSWORD_BCRYPT);
         $stmt->bind_param("sss", $nome, $email, $hashed_password);
-        $stmt->execute();
-
-        return $stmt;
+        
+        // Retorna true se inseriu com sucesso, ou false se falhou
+        return $stmt->execute(); 
     }
 
     public function login($email, $senha) {
@@ -36,6 +40,7 @@ class Usuario {
         $resultado = $stmt->get_result();
         $usuario = $resultado->fetch_assoc();
 
+        // Verifica a senha criptografada
         if ($usuario && password_verify($senha, $usuario['senha'])) {
             return $usuario;
         }
@@ -95,8 +100,7 @@ class Usuario {
             $stmt->bind_param("ssi", $nome, $email, $id);
         }
 
-        $stmt->execute();
-        return $stmt;
+        return $stmt->execute();
     }
 
     public function deletarUsuario($id) {
@@ -108,8 +112,7 @@ class Usuario {
         }
 
         $stmt->bind_param("i", $id);
-        $stmt->execute();
-        return $stmt;
+        return $stmt->execute();
     }
 }
 ?>
