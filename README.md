@@ -105,6 +105,17 @@ http://localhost/index.php
 - **PHP** — estrutura semântica das páginas
 - **CSS** — estilos e responsividade
 
-## Observações
+## Contribuidores
 
-Este repositório contém apenas a versão alpha do projeto, projeto está em desenvolvimento.
+- Henrique Lima
+- Henrique Gianichini
+- Henrique Moura
+- Nicolas Fernandes
+- Giovana Santos
+- Vitória Gaieski
+- Wesley Minto
+- Pedro Arthur
+- Filipe Machado
+- Rafael Klein
+- Maicon Machado
+
