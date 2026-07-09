@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-require_once __DIR__ . '/api/conexao.php';
-require_once __DIR__ . '/classes/Vaga.php';
+require_once __DIR__ . '/../api/conexao.php';
+require_once __DIR__ . '/../classes/Vaga.php';
 
 if (($_SESSION['usuario_tipo'] ?? null) !== 'empresa') {
     header('Location: login.php');
@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
 
             $_SESSION['sucesso'] = true;
-            header('Location: postar-vaga.php');
+            header('Location: postarVaga.php');
             exit;
         } catch (Exception $e) {
             $erros['geral'] = 'Não foi possível publicar a vaga.';
@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['erros']   = $erros;
     $_SESSION['antigos'] = $dados;
     $_SESSION['sucesso'] = false;
-    header('Location: postar-vaga.php');
+    header('Location: postarVaga.php');
     exit;
 }
 ?>
@@ -118,7 +118,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Postar Vaga</title>
-    <link rel="stylesheet" href="cadastro.css">
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/forms.css">
 </head>
 <body>
 <div class="tela">
@@ -142,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="alerta alerta-erro"><?= htmlspecialchars($erros['geral'], ENT_QUOTES, 'UTF-8') ?></div>
             <?php endif; ?>
 
-            <form action="postar-vaga.php" method="POST" novalidate>
+            <form action="postarVaga.php" method="POST" novalidate>
                 <div class="grade">
                     <div class="campo campo-largo">
                         <label>Título *</label>
@@ -219,7 +220,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     Publicar vaga
                 </button>
 
-                <button type="submit" formaction="listavagas.php" formmethod="get">
+                <button type="submit" formaction="listaVagas.php" formmethod="get">
                     Voltar
                 </button>
             </form>

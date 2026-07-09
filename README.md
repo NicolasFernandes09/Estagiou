@@ -89,9 +89,9 @@ git clone https://github.com/NicolasFernandes09/Estagiou.git
 Configure o banco de dados:
 Crie o banco no MySQL.
 
-Importe o arquivo banco.sql.
+Importe o arquivo dump.sql.
 
-Atualize as credenciais no arquivo config.php.
+Atualize as credenciais no arquivo api/conexao.php.
 
 ## Execução
 Web

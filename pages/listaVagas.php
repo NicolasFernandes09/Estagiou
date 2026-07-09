@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-require_once __DIR__ . '/api/conexao.php';
-require_once __DIR__ . '/classes/Vaga.php';
+require_once __DIR__ . '/../api/conexao.php';
+require_once __DIR__ . '/../classes/Vaga.php';
 
 if (!isset($_SESSION['usuario_tipo'])) {
     header('Location: login.php');
@@ -35,7 +35,9 @@ function iniciais($nome) {
 <head>
   <meta charset="UTF-8">
   <title>Mural de Oportunidades — Vagas</title>
-  <link rel="stylesheet" href="listavagas.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/appShell.css">
+  <link rel="stylesheet" href="../assets/css/cards.css">
 </head>
 <body>
   <div class="app">
@@ -44,9 +46,9 @@ function iniciais($nome) {
       <h1>Vagas</h1>
       <div class="subtitulo">Painel de vagas</div>
       <nav>
-        <a href="listavagas.php" class="ativo">Início</a>
+        <a href="listaVagas.php" class="ativo">Início</a>
         <?php if ($_SESSION['usuario_tipo'] === 'empresa'): ?>
-          <a href="postar-vaga.php">Postar vaga</a>
+          <a href="postarVaga.php">Postar vaga</a>
         <?php endif; ?>
         <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
           <a href="administrador.php">Painel Admin</a>
@@ -58,10 +60,10 @@ function iniciais($nome) {
     <main class="conteudo">
       <?php if ($_SESSION['usuario_tipo'] === 'empresa'): ?>
         <h2>Minhas vagas</h2>
-        <p class="descricao">Vagas publicadas pela sua empresa.</p>
+        <p class="subtitulo">Vagas publicadas pela sua empresa.</p>
       <?php else: ?>
         <h2>Feed de vagas</h2>
-        <p class="descricao">Confira as oportunidades disponíveis no momento.</p>
+        <p class="subtitulo">Confira as oportunidades disponíveis no momento.</p>
       <?php endif; ?>
 
       <form method="GET" class="busca">
@@ -99,7 +101,7 @@ function iniciais($nome) {
             <div class="topo">
               <div class="avatar">
                 <?php if (!empty($vaga['empresa_logo'])): ?>
-                  <img src="<?= htmlspecialchars($vaga['empresa_logo']) ?>" alt="">
+                  <img src="../<?= htmlspecialchars($vaga['empresa_logo']) ?>" alt="">
                 <?php else: ?>
                   <?= htmlspecialchars(iniciais($vaga['empresa_nome'])) ?>
                 <?php endif; ?>

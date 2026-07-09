@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-require_once __DIR__ . '/api/conexao.php';
-require_once __DIR__ . '/classes/Vaga.php';
-require_once __DIR__ . '/classes/Empresas.php';
+require_once __DIR__ . '/../api/conexao.php';
+require_once __DIR__ . '/../classes/Vaga.php';
+require_once __DIR__ . '/../classes/Empresas.php';
 
 if (!isset($_SESSION['usuario_tipo'])) {
     header('Location: login.php');
@@ -45,7 +45,9 @@ $empresaNome = $empresa['nome'] ?? 'Empresa não informada';
 <head>
   <meta charset="UTF-8">
   <title><?= $vaga ? htmlspecialchars($vaga['titulo']) : 'Vaga não encontrada' ?> — Vagas</title>
-  <link rel="stylesheet" href="listavagas.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/appShell.css">
+  <link rel="stylesheet" href="../assets/css/cards.css">
 </head>
 <body>
   <div class="app">
@@ -54,9 +56,9 @@ $empresaNome = $empresa['nome'] ?? 'Empresa não informada';
       <h1>Vagas</h1>
       <div class="subtitulo">Painel de vagas</div>
       <nav>
-        <a href="listavagas.php">Início</a>
+        <a href="listaVagas.php">Início</a>
         <?php if ($_SESSION['usuario_tipo'] === 'empresa'): ?>
-          <a href="postar-vaga.php">Postar vaga</a>
+          <a href="postarVaga.php">Postar vaga</a>
         <?php endif; ?>
         <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
           <a href="administrador.php">Painel Admin</a>
@@ -66,17 +68,17 @@ $empresaNome = $empresa['nome'] ?? 'Empresa não informada';
     </aside>
 
     <main class="conteudo">
-      <a class="link-detalhes" href="listavagas.php">‹ Voltar para o feed</a>
+      <a class="link-detalhes" href="listaVagas.php">‹ Voltar para o feed</a>
 
       <?php if (!$vaga): ?>
         <h2 style="margin-top:16px;">Vaga não encontrada</h2>
-        <p class="descricao">A vaga que você procura não existe ou foi removida.</p>
+        <p class="subtitulo">A vaga que você procura não existe ou foi removida.</p>
       <?php else: ?>
         <div class="card-vaga" style="margin-top:16px; max-width:720px;">
           <div class="topo">
             <div class="avatar">
               <?php if (!empty($empresa['logo'])): ?>
-                <img src="<?= htmlspecialchars($empresa['logo']) ?>" alt="">
+                <img src="../<?= htmlspecialchars($empresa['logo']) ?>" alt="">
               <?php else: ?>
                 <?= htmlspecialchars(iniciais($empresaNome)) ?>
               <?php endif; ?>

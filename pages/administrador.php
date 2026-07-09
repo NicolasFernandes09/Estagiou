@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-require_once __DIR__ . '/api/conexao.php';
-require_once __DIR__ . '/classes/Vaga.php';
-require_once __DIR__ . '/classes/Usuario.php';
-require_once __DIR__ . '/classes/Empresas.php';
+require_once __DIR__ . '/../api/conexao.php';
+require_once __DIR__ . '/../classes/Vaga.php';
+require_once __DIR__ . '/../classes/Usuario.php';
+require_once __DIR__ . '/../classes/Empresas.php';
 
 if (($_SESSION['usuario_tipo'] ?? null) !== 'admin') {
     header('Location: login.php');
@@ -102,7 +102,9 @@ if ($aba === "vagas") {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Painel Admin - Vagas</title>
-<link rel="stylesheet" href="administrador.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/appShell.css">
+<link rel="stylesheet" href="../assets/css/tables.css">
 </head>
 <body>
 
@@ -113,27 +115,25 @@ if ($aba === "vagas") {
     <span></span>
 </button>
 
-<div class="layout">
+<div class="app">
 
     <div id="overlay" class="overlay"></div>
 
     <aside id="sidebar" class="sidebar">
-        <div class="sidebar-topo">
-            <h1>Admin</h1>
-            <p>Painel de controle</p>
-        </div>
+        <h1>Admin</h1>
+        <div class="subtitulo">Painel de controle</div>
 
-        <nav class="menu">
-            <a href="administrador.php?aba=vagas" class="menu-item <?= $aba === 'vagas' ? 'ativo' : '' ?>">
+        <nav>
+            <a href="administrador.php?aba=vagas" class="<?= $aba === 'vagas' ? 'ativo' : '' ?>">
                 Vagas
             </a>
-            <a href="administrador.php?aba=usuarios" class="menu-item <?= $aba === 'usuarios' ? 'ativo' : '' ?>">
+            <a href="administrador.php?aba=usuarios" class="<?= $aba === 'usuarios' ? 'ativo' : '' ?>">
                 Usuários
             </a>
-            <a href="administrador.php?aba=empresas" class="menu-item <?= $aba === 'empresas' ? 'ativo' : '' ?>">
+            <a href="administrador.php?aba=empresas" class="<?= $aba === 'empresas' ? 'ativo' : '' ?>">
                 Empresas
             </a>
-            <a href="logout.php" class="menu-item">
+            <a href="logout.php">
                 Sair
             </a>
         </nav>
@@ -330,6 +330,6 @@ if ($aba === "vagas") {
     </main>
 </div>
 
-<script src="administrador.js"></script>
+<script src="../assets/js/adminSidebar.js"></script>
 </body>
 </html>

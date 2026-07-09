@@ -1,0 +1,174 @@
+/* ==========================================================================
+   Shell "sidebar + conteúdo" usado por listaVagas, vaga e administrador
+   ========================================================================== */
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    padding: 32px 24px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.sidebar h1 {
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.sidebar .subtitulo {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 4px;
+    margin-bottom: 32px;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sidebar nav a {
+    display: block;
+    text-decoration: none;
+    color: var(--sidebar-text);
+    font-size: 14px;
+    padding: 10px 12px;
+    border-radius: var(--raio-sm);
+    font-weight: 600;
+    transition: background-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+}
+
+.sidebar nav a:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+}
+
+.sidebar nav a.ativo {
+    background-color: #ffffff;
+    color: var(--accent-dark);
+}
+
+.conteudo {
+    flex: 1;
+    padding: 40px 48px;
+    max-width: 1100px;
+}
+
+.conteudo h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text-principal);
+}
+
+.subtitulo {
+    font-size: 14px;
+    color: var(--text-secundario);
+    margin-top: 4px;
+    margin-bottom: 28px;
+}
+
+/* ==========================================================================
+   Menu mobile (hambúrguer + overlay) — usado hoje pelo administrador,
+   disponível para qualquer página que inclua os elementos #btnMenu/#overlay
+   ========================================================================== */
+.btn-hamburguer {
+    display: none;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 30;
+    width: 44px;
+    height: 44px;
+    background: var(--accent);
+    border: none;
+    border-radius: var(--raio-sm);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.btn-hamburguer span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 2px;
+}
+
+.overlay {
+    display: none;
+}
+
+@media screen and (max-width: 900px) {
+    .app {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        padding: 20px 24px;
+    }
+
+    .sidebar nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .conteudo {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 860px) {
+    .btn-hamburguer {
+        display: flex;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 25;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+        box-shadow: 4px 0 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .sidebar.aberto {
+        transform: translateX(0);
+    }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 20;
+    }
+
+    .overlay.ativo {
+        display: block;
+    }
+
+    .conteudo {
+        padding: 88px 20px 32px;
+    }
+
+    .conteudo h2 {
+        font-size: 22px;
+    }
+}
