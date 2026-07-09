@@ -1,12 +1,5 @@
 <?php
 session_start();
-
-// Redirecionar imediatamente se já estiver logado (evita processamento desnecessário)
-if (isset($_SESSION['logado']) && $_SESSION['logado'] === true) {
-    header('Location: index.php');
-    exit;
-}
-
 require_once(__DIR__ . '/api/conexao.php');
 require_once(__DIR__ . '/classes/Empresas.php');
 
