@@ -1,4 +1,7 @@
-html, body, div, h1, h2, p, label, form, input, select, button {
+/* ==========================================================================
+   Reset e Base (Estilo unificado do index.css)
+   ========================================================================== */
+* {
     margin: 0;
     padding: 0;
     border: 0;
@@ -83,6 +86,17 @@ body {
     color: #666666;
     margin-bottom: 36px;
 }
+
+/* ==========================================================================
+   Alertas e Erros
+   ========================================================================== */
+.alerta {
+    padding: 14px 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
 .form-group {
     margin-bottom: 24px;
 }
@@ -114,6 +128,24 @@ body {
 }
 .btn-submit {
     width: 100%;
+    padding: 15px;
+    border-radius: 14px;
+    border: 1px solid #ddd;
+    outline: none;
+    font-size: 15px;
+    background: white;
+}
+
+input:focus {
+    border-color: #ef5a00;
+}
+
+/* ==========================================================================
+   Botões e Links com aparência de Botão
+   ========================================================================== */
+button, .btn-link {
+    width: 100%;
+    display: block;
     padding: 16px;
     background-color: #FF6D00;
     color: #ffffff;
@@ -137,6 +169,43 @@ body {
 }
 .toggle-link:hover {
     text-decoration: underline;
+    border-radius: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    text-align: center;
+    text-decoration: none;
+    transition: .3s;
+}
+
+button:hover, .btn-link:hover {
+    background: #d94f00;
+    color: white;
+}
+
+/* Adiciona um espaçamento extra acima do botão de cadastro para separar do botão Entrar */
+.btn-link {
+    margin-top: 16px;
+}
+.alerta {
+    padding: 14px 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+.alerta-erro {
+    background: #fdecea;
+    color: #b3261e;
+    border: 1px solid #f3b6b0;
+}
+.erro-msg {
+    display: block;
+    color: #b3261e;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 6px;
 }
 @media screen and (max-width: 992px) {
   .logo a {
@@ -150,6 +219,17 @@ body {
   .nav-links a {
     font-size: 0.8rem;
   }
+/* ==========================================================================
+   Responsividade
+   ========================================================================== */
+@media (max-width: 1100px) {
+    .lado-marca {
+        flex: 0 0 32%;
+        padding: 40px;
+    }
+    .lado-formulario {
+        padding: 50px 30px;
+    }
 }
 
 @media screen and (max-width: 768px) {
@@ -158,47 +238,28 @@ body {
     padding: 10px 4%;
     flex-wrap: wrap;
   }
-
-  .logo {
-    order: 1;
-  }
-
-  .theme-btn {
-    order: 2;
-    height: 32px;
-    padding: 0 12px;
-  }
-
-  .nav {
-    order: 3;
-    width: 100%;
-    margin-top: 8px;
-  }
-
-  .nav-links {
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 6px 12px;
-  }
-  .nav-links a {
-    font-size: 0.75rem;
-  }
-
-  .home-section {
-    min-height: auto;
-    padding: 6rem 5% 4rem 5%;
-  }
-
-  .main-title {
-    font-size: 2.2rem;
-  }
-
-  .home-content p {
-    font-size: 1rem;
-  }
-
-  .cta-btn {
-    width: 100%;
-    max-width: 300px;
-  }
+}
+@media (max-width: 600px) {
+    .lado-marca {
+        min-height: 180px;
+        padding: 24px;
+    }
+    .lado-marca h1 {
+        font-size: 28px;
+    }
+    .lado-marca p {
+        font-size: 15px;
+    }
+    .lado-formulario {
+        padding: 28px 20px;
+    }
+    .conteudo h2 {
+        font-size: 22px;
+        margin-bottom: 22px;
+    }
+    input, button, .btn-link {
+        padding: 13px;
+        font-size: 14px;
+    }
+}
 }

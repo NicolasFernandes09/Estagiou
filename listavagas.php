@@ -1,20 +1,23 @@
 <?php
 session_start();
 
-if (empty($_SESSION['logado']) || $_SESSION['logado'] !== true) {
+require_once __DIR__ . '/api/conexao.php';
+require_once __DIR__ . '/classes/Vaga.php';
+
+if (!isset($_SESSION['usuario_tipo'])) {
     header('Location: login.php');
     exit;
 }
 
-require_once __DIR__ . '/api/conexao.php';
-require_once __DIR__ . '/classes/Vaga.php';
+$sucesso = $_SESSION['sucesso'] ?? '';
+unset($_SESSION['sucesso']);
 
 $busca = trim($_GET['busca'] ?? '');
 $tipo  = trim($_GET['tipo'] ?? 'todas');
 
-$vagaModel   = new Vaga($conn);
-$resultado   = $vagaModel->buscarVagas($busca, $tipo);
-$vagas       = $resultado ? $resultado->fetch_all(MYSQLI_ASSOC) : [];
+$vagaModel = new Vaga($conn);
+$resultado = $vagaModel->buscarVagas($busca, $tipo);
+$vagas     = $resultado ? $resultado->fetch_all(MYSQLI_ASSOC) : [];
 
 function iniciais($nome) {
     $palavras = explode(' ', trim($nome));
@@ -35,14 +38,18 @@ function iniciais($nome) {
 <body>
   <div class="app">
 
-    <aside class="sidebar">
+     <aside class="sidebar">
       <h1>Vagas</h1>
       <div class="subtitulo">Painel de vagas</div>
       <nav>
-        <a href="index.php" class="ativo">Início</a>
-        <a href="cadastro.php">Favoritos</a>
-        <a href="login.php">Empresas</a>
-        <a href="vagas.php">Perfil</a>
+        <a href="listavagas.php" class="ativo">Início</a>
+        <?php if ($_SESSION['usuario_tipo'] === 'empresa'): ?>
+          <a href="postar-vaga.php">Postar vaga</a>
+        <?php endif; ?>
+        <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
+          <a href="administrador.php">Painel Admin</a>
+        <?php endif; ?>
+        <a href="logout.php">Sair</a>
       </nav>
     </aside>
 
@@ -52,7 +59,7 @@ function iniciais($nome) {
 
       <form method="GET" class="busca">
         <span>🔍</span>
-        <input type="text" name="busca" placeholder="Buscar vaga, empresa ou cidade"
+        <input type="text" name="busca" placeholder="Buscar vaga ou empresa"
                value="<?= htmlspecialchars($busca) ?>">
       </form>
 

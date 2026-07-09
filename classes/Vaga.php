@@ -9,21 +9,23 @@ class Vaga{
         $this->conn=$banco;
     }
 
-    public function cadastrar($titulo,$descricao,$salario,$fechamento,$tipo){
+    public function cadastrar($titulo,$descricao,$salario,$fechamento,$tipo,$contato,$id_empresa){
 
         $query="INSERT INTO ".$this->table_name."
-        (titulo,descricao,salario,fechamento_vaga,tipo_vaga)
-        VALUES (?,?,?,?,?)";
+        (titulo,descricao,salario,fechamento_vaga,tipo_vaga,contato,id_empresa)
+        VALUES (?,?,?,?,?,?,?)";
 
         $stmt=$this->conn->prepare($query);
 
         $stmt->bind_param(
-            "sssss",
+            "ssssssi",
             $titulo,
             $descricao,
             $salario,
             $fechamento,
-            $tipo
+            $tipo,
+            $contato,
+            $id_empresa
         );
 
         $stmt->execute();
@@ -92,21 +94,22 @@ class Vaga{
 
     }
 
-    public function atualizar($id,$titulo,$descricao,$salario,$fechamento,$tipo){
+    public function atualizar($id,$titulo,$descricao,$salario,$fechamento,$tipo,$contato){
 
         $query="UPDATE ".$this->table_name."
-        SET titulo=?,descricao=?,salario=?,fechamento_vaga=?,tipo_vaga=?
+        SET titulo=?,descricao=?,salario=?,fechamento_vaga=?,tipo_vaga=?,contato=?
         WHERE id_vaga=?";
 
         $stmt=$this->conn->prepare($query);
 
         $stmt->bind_param(
-            "sssssi",
+            "ssssssi",
             $titulo,
             $descricao,
             $salario,
             $fechamento,
             $tipo,
+            $contato,
             $id
         );
 

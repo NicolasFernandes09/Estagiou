@@ -76,7 +76,7 @@ class Usuario {
     }
 
     public function lerPorIdUsuario($id) {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE id = ?";
+        $query = "SELECT ID_usuario AS id_usuario, nome, email FROM " . $this->table_name . " WHERE id_usuario = ?";
         $stmt = $this->conn->prepare($query);
 
         if (!$stmt) {
@@ -89,37 +89,21 @@ class Usuario {
         return $resultado->fetch_assoc();
     }
 
-    public function ehAdmin($id) {
-        $usuario = $this->lerPorIdUsuario($id);
-        return $usuario && ($usuario['nivel'] ?? 'user') === 'admin';
-    }
+    public function atualizarUsuario($id, $nome, $email) {
+        $query = "UPDATE " . $this->table_name . " SET nome = ?, email = ? WHERE id_usuario = ?";
+        $stmt = $this->conn->prepare($query);
 
-    public function atualizarUsuario($id, $nome, $email, $nivel = null) {
-        if ($nivel !== null) {
-            $query = "UPDATE " . $this->table_name . " SET nome = ?, email = ?, nivel = ? WHERE id = ?";
-            $stmt = $this->conn->prepare($query);
-
-            if (!$stmt) {
-                throw new Exception("Erro ao preparar consulta: " . $this->conn->error);
-            }
-
-            $stmt->bind_param("sssi", $nome, $email, $nivel, $id);
-        } else {
-            $query = "UPDATE " . $this->table_name . " SET nome = ?, email = ? WHERE id = ?";
-            $stmt = $this->conn->prepare($query);
-
-            if (!$stmt) {
-                throw new Exception("Erro ao preparar consulta: " . $this->conn->error);
-            }
-
-            $stmt->bind_param("ssi", $nome, $email, $id);
+        if (!$stmt) {
+            throw new Exception("Erro ao preparar consulta: " . $this->conn->error);
         }
 
-        return $stmt->execute();
+        $stmt->bind_param("ssi", $nome, $email, $id);
+        $stmt->execute();
+        return $stmt;
     }
 
     public function deletarUsuario($id) {
-        $query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
+        $query = "DELETE FROM " . $this->table_name . " WHERE id_usuario = ?";
         $stmt = $this->conn->prepare($query);
 
         if (!$stmt) {
