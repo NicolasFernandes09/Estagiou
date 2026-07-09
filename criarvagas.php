@@ -50,8 +50,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($dados['data_limite'] === '') {
         $erros['data_limite'] = 'Informe a data limite para candidaturas.';
     }
-}
 
+    if (empty($erros)) {
+        try {
+            $sql = "INSERT INTO vagas (titulo, tipo_contratacao, cidade, salario, descricao, data_publicacao, data_limite, empresa_id) 
+                    VALUES (:titulo, :tipo_contratacao, :cidade, :salario, :descricao, CURDATE(), :data_limite, :empresa_id)";
+
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([
+                ':titulo'           => $dados['titulo'],
+                ':tipo_contratacao' => $dados['tipo_contratacao'],
+                ':cidade'           => $dados['cidade'],
+                ':salario'          => $dados['salario'] !== '' ? $dados['salario'] : null,
+                ':descricao'        => $dados['descricao'],
+                ':data_limite'      => $dados['data_limite'],
+                ':empresa_id'       => $_SESSION['empresa_id'] ?? null
+            ]);
+
+            $_SESSION['sucesso'] = 'Concluído com Sucesso!';
+            header('Location: listavagas.php');
+            exit;
+        } catch (Exception $e) {
+            $erros['geral'] = 'Não foi possível publicar a vaga. Tente novamente.';
+        }
+    }
+
+    $_SESSION['erros']   = $erros;
+    $_SESSION['antigos'] = $dados;
+    header('Location: criarvagas.php');
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -73,7 +101,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="lado-formulario">
         <div class="conteudo">
-            <h2>Publicar Vaga</h2>
+            
+            <div class="cabecalho-conteudo">
+                <div class="textos-cabecalho">
+                    <h2>Publicar Vaga</h2>
+                </div>
+                <img src="img/logo.png" alt="Logo" class="logo-topo">
+            </div>
 
             <?php if (!empty($erros['geral'])): ?>
                 <div class="alerta alerta-erro"><?= htmlspecialchars($erros['geral'], ENT_QUOTES, 'UTF-8') ?></div>
@@ -153,11 +187,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 </div>
 
-            <div class="botoes-acoes" style="display: flex; gap: 16px; margin-top: 20px; width: 100%; max-width: 656px;">
+                <div class="botoes-acoes" style="display: flex; gap: 16px; margin-top: 20px; width: 100%; max-width: 656px;">
                     <button type="submit" style="margin-top: 0;">Publicar Vaga</button>
                     
                     <a href="listavagas.php" style="text-decoration: none; width: 100%; max-width: 320px;">
-                        <button type="button" style="margin-top: 0;">Voltar para a Lista</button>
+                        <button type="button" style="margin-top: 0; width: 100%;">Voltar para a Lista</button>
                     </a>
                 </div>
 

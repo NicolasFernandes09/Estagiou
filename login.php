@@ -85,7 +85,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="lado-formulario">
         <div class="conteudo">
-            <h2>Entrar</h2>
+            
+            <div class="cabecalho-conteudo">
+                <div class="textos-cabecalho">
+                    <h2>Entrar</h2>
+                </div>
+                <img src="img/logo.png" alt="Logo" class="logo-topo">
+            </div>
 
             <?php if (!empty($erros['geral'])): ?>
                 <div class="alerta alerta-erro"><?= htmlspecialchars($erros['geral'], ENT_QUOTES, 'UTF-8') ?></div>

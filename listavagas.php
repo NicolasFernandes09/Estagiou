@@ -64,8 +64,13 @@ function iniciais($nome) {
           <div class="alerta alerta-sucesso"><?= htmlspecialchars($sucesso, ENT_QUOTES, 'UTF-8') ?></div>
       <?php endif; ?>
 
-      <h2>Feed de vagas</h2>
-      <p class="descricao">Confira as oportunidades disponíveis no momento.</p>
+      <div class="cabecalho-conteudo">
+          <div class="textos-cabecalho">
+              <h2>Feed de vagas</h2>
+              <p class="descricao">Confira as oportunidades disponíveis no momento.</p>
+          </div>
+          <img src="img/logo.png" alt="Logo" class="logo-topo">
+      </div>
 
       <form method="GET" class="busca">
         <span>🔍</span>

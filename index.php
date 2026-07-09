@@ -110,7 +110,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome_empresa'])) {
 
     <div class="lado-formulario">
         <div class="conteudo">
-            <h2>Dados da Empresa</h2>
+            
+            <div class="cabecalho-conteudo">
+                <div class="textos-cabecalho">
+                    <h2>Dados da Empresa</h2>
+                </div>
+                <img src="img/logo.png" alt="Logo" class="logo-topo">
+            </div>
 
             <?php if ($sucesso): ?>
                 <div class="alerta alerta-sucesso">Empresa cadastrada com sucesso!</div>

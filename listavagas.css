@@ -13,7 +13,7 @@ html, body {
 }
 
 body {
-    background: #f5f5f5;
+    background: #ffffff; /* Fundo geral branco */
 }
 
 /* ==========================================================================
@@ -72,12 +72,22 @@ body {
     color: #ef5a00;
 }
 
-/* Área de Conteúdo Principal */
+/* Área de Conteúdo Principal (Alterado para BRANCO) */
 .conteudo {
     flex: 1;
-    background: #f8f3eb;
+    background: #ffffff; 
     padding: 40px 50px;
     overflow-y: auto;
+}
+
+/* ==========================================================================
+   Cabeçalho do Conteúdo (Textos + Logo em 80px)
+   ========================================================================== */
+.cabecalho-conteudo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
 }
 
 .conteudo h2 {
@@ -90,16 +100,22 @@ body {
 .conteudo .descricao {
     font-size: 15px;
     color: #666;
-    margin-bottom: 30px;
+    margin-bottom: 0;
+}
+
+.logo-topo {
+    height: 80px; /* Logo ampliada para o padrão de 80px */
+    max-width: 180px;
+    object-fit: contain;
 }
 
 /* ==========================================================================
-   Barra de Busca
+   Barra de Busca (Alterada para cenário CINZA CLARO)
    ========================================================================== */
 .busca {
     display: flex;
     align-items: center;
-    background: white;
+    background: #f0f0f0; /* Fundo cinza combinando com os inputs */
     border: 1px solid #ddd;
     border-radius: 14px;
     padding: 4px 16px;
@@ -110,6 +126,7 @@ body {
 
 .busca:focus-within {
     border-color: #ef5a00;
+    background: #e8e8e8;
     box-shadow: 0 0 0 2px rgba(239, 90, 0, 0.1);
 }
 
@@ -142,14 +159,14 @@ body {
 .pill {
     display: inline-block;
     padding: 10px 20px;
-    background: white;
+    background: #f0f0f0; /* Fundo cinza padrão para os botões desativados */
     color: #555;
     border: 1px solid #ddd;
     border-radius: 24px;
     font-size: 14px;
     font-weight: bold;
     transition: 0.3s;
-    cursor: pointer;
+    text-decoration: none;
 }
 
 .pill:hover {
@@ -174,7 +191,7 @@ body {
 }
 
 .card-vaga {
-    background: white;
+    background: #f0f0f0; /* Cards em tom cinza claro para destacar sobre o fundo branco */
     border: 1px solid #ddd;
     border-radius: 16px;
     padding: 24px;
@@ -189,6 +206,7 @@ body {
     transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(239, 90, 0, 0.08);
     border-color: #ef5a00;
+    background: #ffffff; /* Destaca para branco ao passar o mouse */
 }
 
 /* Topo do Card (Avatar + Info) */
@@ -203,7 +221,7 @@ body {
     width: 48px;
     height: 48px;
     border-radius: 12px;
-    background: #fff3e9;
+    background: #ffffff;
     color: #ef5a00;
     display: flex;
     align-items: center;
@@ -241,7 +259,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding-top: 16px;
-    border-top: 1px solid #f5f5f5;
+    border-top: 1px solid #ddd;
 }
 
 .card-vaga .badge {
@@ -267,9 +285,6 @@ body {
     text-decoration: underline;
 }
 
-/* ==========================================================================
-   Alertas (Adicionado para suportar mensagens de sucesso vindas do redirecionamento)
-   ========================================================================== */
 .alerta {
     padding: 14px 16px;
     border-radius: 12px;
@@ -285,9 +300,9 @@ body {
     border: 1px solid #b7e2c4;
 }
 
-/* ==========================================================================
+/* ==========================================================
    Responsividade
-   ========================================================================== */
+========================================================== */
 @media (max-width: 900px) {
     .app {
         flex-direction: column;
@@ -320,6 +335,16 @@ body {
 }
 
 @media (max-width: 600px) {
+    .cabecalho-conteudo {
+        flex-direction: column-reverse;
+        gap: 16px;
+        align-items: flex-start;
+    }
+    
+    .logo-topo {
+        height: 55px; /* Proporcional para telas móveis */
+    }
+
     .grid-vagas {
         grid-template-columns: 1fr;
     }
