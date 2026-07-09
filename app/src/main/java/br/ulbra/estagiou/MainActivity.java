@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://10.0.2.2/MuralOportunidades/api/vagas.php";
+        String url = "http://10.0.2.2/Estagiou/api/vagas.php";
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 response -> {
@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             JSONObject vaga = response.getJSONObject(i);
                             String titulo = vaga.getString("titulo");
-                            String
                             Log.d("API", titulo);
                         } catch (JSONException e) {
                             e.printStackTrace();
