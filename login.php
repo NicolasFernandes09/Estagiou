@@ -1,103 +1,145 @@
 <?php
 session_start();
-require_once(__DIR__ . '/api/conexao.php');
-require_once(__DIR__ . '/classes/Empresas.php');
 
-$mensagem_erro = '';
-$mensagem_sucesso = '';
+require_once __DIR__ . '/api/conexao.php';
+require_once __DIR__ . '/classes/Admin.php';
+require_once __DIR__ . '/classes/Usuario.php';
+require_once __DIR__ . '/classes/Empresas.php';
 
-// Processar login se for POST
+$erros   = $_SESSION['erros'] ?? [];
+$antigos = $_SESSION['antigos'] ?? [];
+
+unset($_SESSION['erros'], $_SESSION['antigos']);
+
+function old(array $antigos, string $campo): string
+{
+    return htmlspecialchars($antigos[$campo] ?? '', ENT_QUOTES, 'UTF-8');
+}
+
+function erro(array $erros, string $campo): string
+{
+    return isset($erros[$campo])
+        ? '<span class="erro-msg">' . htmlspecialchars($erros[$campo], ENT_QUOTES, 'UTF-8') . '</span>'
+        : '';
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['usuario'] ?? '');
-    $senha = trim($_POST['senha'] ?? '');
-    
-   // Validações básicas
-    if (empty($email) || empty($senha)) {
-        $mensagem_erro = 'Por favor, preencha todos os campos.';
-    } elseif (strlen($senha) < 6) {
-        $mensagem_erro = 'A senha deve ter pelo menos 6 caracteres.';
-    } else {
-        try {
-            $empresaModel = new Empresas($conn);
-            $resultado = $empresaModel->login($email, $senha);
+    $erros = [];
+    $dados = [
+        'email' => trim($_POST['email'] ?? ''),
+        'senha' => trim($_POST['senha'] ?? ''),
+    ];
 
-            if ($resultado) {
-                $_SESSION['usuario_id'] = $resultado['ID_empresa'] ?? $resultado['id_empresa'] ?? $resultado['id'] ?? null;
-                $_SESSION['usuario_nome'] = $resultado['nome'] ?? '';
-                $_SESSION['usuario_email'] = $resultado['email'] ?? '';
-                $_SESSION['usuario_nivel'] = 'empresa';
-                $_SESSION['empresa_id'] = $resultado['ID_empresa'] ?? $resultado['id_empresa'] ?? $resultado['id'] ?? null;
-                $_SESSION['logado'] = true;
-
-                header('Location: listavagas.php');
-                exit;
-            } else {
-                $mensagem_erro = 'E-mail ou senha incorretos.';
-            }
-        } catch (Exception $e) {
-            // Em desenvolvimento, você pode usar $e->getMessage() para debugar, mas em produção use uma frase genérica
-            $mensagem_erro = 'Erro ao processar o login: ' . $e->getMessage();
-        }
+    if ($dados['email'] === '' || !filter_var($dados['email'], FILTER_VALIDATE_EMAIL)) {
+        $erros['email'] = 'Informe um e-mail válido.';
     }
+
+    if ($dados['senha'] === '') {
+        $erros['senha'] = 'Informe a senha.';
+    }
+
+    if (empty($erros)) {
+        $adminModel = new Admin($conn);
+        $admin = $adminModel->login($dados['email'], $dados['senha']);
+
+        if ($admin) {
+            $_SESSION['admin_id']    = $admin['id_adm'];
+            $_SESSION['admin_nome']  = $admin['nome'];
+            $_SESSION['usuario_tipo'] = 'admin';
+
+            header('Location: administrador.php');
+            exit;
+        }
+
+        $usuarioModel = new Usuario($conn);
+        $usuario = $usuarioModel->login($dados['email'], $dados['senha']);
+
+        if ($usuario) {
+            $_SESSION['usuario_id']   = $usuario['ID_usuario'];
+            $_SESSION['usuario_nome'] = $usuario['nome'];
+            $_SESSION['usuario_tipo'] = 'usuario';
+
+            header('Location: listavagas.php');
+            exit;
+        }
+
+        $empresaModel = new Empresas($conn);
+        $empresa = $empresaModel->login($dados['email'], $dados['senha']);
+
+        if ($empresa) {
+            $_SESSION['empresa_id']   = $empresa['ID_empresa'];
+            $_SESSION['empresa_nome'] = $empresa['nome'];
+            $_SESSION['usuario_tipo'] = 'empresa';
+
+            header('Location: listavagas.php');
+            exit;
+        }
+
+        $erros['geral'] = 'E-mail ou senha inválidos.';
+    }
+
+    $_SESSION['erros']   = $erros;
+    $_SESSION['antigos'] = $dados;
+    header('Location: login.php');
+    exit;
 }
 ?>
-
-<?php include_once(__DIR__ . '/classes/Usuario.php'); ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mural de Oportunidades - Login</title>
+    <title>Login</title>
     <link rel="stylesheet" href="login.css">
 </head>
 <body>
+<div class="login-container">
 
-    <div class="login-container">
-        <div class="brand-panel">
-            <div class="brand-content">
-                <h1>Login</h1>
-                <p>Entre para ver vagas da escola</p>
-            </div>
-        </div>
-
-        <div class="form-panel">
-            <div class="form-content">
-                <h2>Acesse sua conta</h2>
-                <p class="subtitle">Use seu e-mail e senha cadastrados.</p>
-                
-                <?php if (!empty($mensagem_erro)): ?>
-                    <div class="alerta alerta-erro" role="alert">
-                        <?= htmlspecialchars($mensagem_erro) ?>
-                    </div>
-                <?php endif; ?>
-                
-                <?php if (!empty($mensagem_sucesso)): ?>
-                    <div class="alerta alerta-sucesso" role="alert">
-                        <?= htmlspecialchars($mensagem_sucesso) ?>
-                    </div>
-                <?php endif; ?>
-                
-                <form action="login.php" method="POST">
-                    <div class="form-group">
-                        <label for="web-usuario">E-mail</label>
-                        <input type="email" id="web-usuario" name="usuario" class="form-control" placeholder="seu@email.com" required>
-                    </div>
-                
-                    <div class="form-group">
-                        <label for="web-senha">Senha</label>
-                        <input type="password" id="web-senha" name="senha" class="form-control" placeholder="Sua senha" required>
-                        <div class="input-hint">Mínimo de 6 caracteres</div>
-                    </div>
-                    
-                    <button type="submit" class="btn-submit">Entrar</button>
-                </form>
-                
-                <a href="index.php" class="toggle-link">Criar conta</a>
-            </div>
+    <div class="brand-panel">
+        <div class="brand-content">
+            <h1>Bem-vindo de volta</h1>
+            <p>Acesse sua conta para continuar.</p>
         </div>
     </div>
 
+    <div class="form-panel">
+        <div class="form-content">
+            <h2>Entrar</h2>
+
+            <?php if (!empty($erros['geral'])): ?>
+                <div class="alerta alerta-erro"><?= htmlspecialchars($erros['geral'], ENT_QUOTES, 'UTF-8') ?></div>
+            <?php endif; ?>
+
+            <form action="login.php" method="POST" novalidate>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input
+                        type="email"
+                        name="email"
+                        class="form-control"
+                        value="<?= old($antigos, 'email') ?>"
+                        required
+                    >
+                    <?= erro($erros, 'email') ?>
+                </div>
+
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input
+                        type="password"
+                        name="senha"
+                        class="form-control"
+                        required
+                    >
+                    <?= erro($erros, 'senha') ?>
+                </div>
+
+                <button type="submit" class="btn-submit">Entrar</button>
+            </form>
+
+            <a href="index.php" class="toggle-link">Ainda não tenho conta</a>
+        </div>
+    </div>
+</div>
 </body>
 </html>
