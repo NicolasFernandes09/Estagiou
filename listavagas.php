@@ -1,29 +1,39 @@
 <?php
 session_start();
-require_once 'conexao.php'; 
+require_once __DIR__ . '/api/conexao.php';
+
+if (!isset($_SESSION['usuario_tipo'])) {
+    header('Location: login.php');
+    exit;
+}
 
 $busca = $_GET['busca'] ?? '';
 $tipo  = $_GET['tipo'] ?? 'todas';
 
-$sql = "SELECT v.id, v.titulo, v.tipo_contratacao, v.cidade, v.data_publicacao, v.data_limite,
+$sql = "SELECT v.id_vaga, v.titulo, v.tipo_vaga, v.fechamento_vaga,
                e.nome AS empresa_nome, e.logo AS empresa_logo
-        FROM vagas v
-        INNER JOIN empresas e ON e.id = v.empresa_id
-        WHERE v.data_limite >= CURDATE()";
+        FROM vaga v
+        INNER JOIN empresas e ON e.ID_empresa = v.id_empresa
+        WHERE v.fechamento_vaga >= CURDATE()";
 
 $params = [];
 
 if ($busca !== '') {
-  
-    $sql .= " AND (v.titulo LIKE :busca1 OR e.nome LIKE :busca2)";
-    $params[':busca1'] = "%$busca%";
-    $params[':busca2'] = "%$busca%";
+    $sql .= " AND (v.titulo LIKE ? OR e.nome LIKE ?)";
+    $params[] = "%$busca%";
+    $params[] = "%$busca%";
 }
 
 if ($tipo !== 'todas') {
-    $sql .= " AND v.tipo_contratacao = :tipo";
-    $params[':tipo'] = $tipo;
+    $sql .= " AND v.tipo_vaga = ?";
+    $params[] = $tipo;
 }
+
+$sql .= " ORDER BY v.fechamento_vaga DESC";
+
+$stmt = $conn->prepare($sql);
+$stmt->execute($params);
+$vagas = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
 
 function iniciais($nome) {
@@ -41,7 +51,7 @@ function iniciais($nome) {
 <head>
   <meta charset="UTF-8">
   <title>Mural de Oportunidades — Vagas</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="listavagas.css">
 </head>
 <body>
   <div class="app">
@@ -50,10 +60,14 @@ function iniciais($nome) {
       <h1>Vagas</h1>
       <div class="subtitulo">Painel de vagas</div>
       <nav>
-        <a href="index.php" class="ativo">Início</a>
-        <a href="cadastro.php">Cadastro</a>
-        <a href="login.php">Login</a>
-        <a href="vagas.php">Vagas</a>
+        <a href="listavagas.php" class="ativo">Início</a>
+        <?php if ($_SESSION['usuario_tipo'] === 'empresa'): ?>
+          <a href="postar-vaga.php">Postar vaga</a>
+        <?php endif; ?>
+        <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
+          <a href="administrador.php">Painel Admin</a>
+        <?php endif; ?>
+        <a href="logout.php">Sair</a>
       </nav>
     </aside>
 
@@ -63,7 +77,7 @@ function iniciais($nome) {
 
       <form method="GET" class="busca">
         <span>🔍</span>
-        <input type="text" name="busca" placeholder="Buscar vaga, empresa ou cidade"
+        <input type="text" name="busca" placeholder="Buscar vaga ou empresa"
                value="<?= htmlspecialchars($busca) ?>">
       </form>
 
@@ -108,8 +122,8 @@ function iniciais($nome) {
             </div>
 
             <div class="rodape-card">
-              <span class="badge"><?= htmlspecialchars($opcoes[$vaga['tipo_contratacao']] ?? $vaga['tipo_contratacao']) ?></span>
-              <a class="link-detalhes" href="vaga.php?id=<?= (int) $vaga['id'] ?>">Ver detalhes ›</a>
+              <span class="badge"><?= htmlspecialchars($opcoes[$vaga['tipo_vaga']] ?? $vaga['tipo_vaga']) ?></span>
+              <a class="link-detalhes" href="vaga.php?id=<?= (int) $vaga['id_vaga'] ?>">Ver detalhes ›</a>
             </div>
           </div>
         <?php endforeach; ?>

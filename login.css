@@ -138,6 +138,25 @@ body {
 .toggle-link:hover {
     text-decoration: underline;
 }
+.alerta {
+    padding: 14px 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+.alerta-erro {
+    background: #fdecea;
+    color: #b3261e;
+    border: 1px solid #f3b6b0;
+}
+.erro-msg {
+    display: block;
+    color: #b3261e;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 6px;
+}
 @media screen and (max-width: 992px) {
   .logo a {
     font-size: 0.95rem;

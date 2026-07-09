@@ -1,11 +1,15 @@
 <?php
 session_start();
 
+require_once __DIR__ . '/api/conexao.php';
+require_once __DIR__ . '/classes/Admin.php';
+require_once __DIR__ . '/classes/Usuario.php';
+require_once __DIR__ . '/classes/Empresas.php';
+
 $erros   = $_SESSION['erros'] ?? [];
 $antigos = $_SESSION['antigos'] ?? [];
-$sucesso = $_SESSION['sucesso'] ?? false;
 
-unset($_SESSION['erros'], $_SESSION['antigos'], $_SESSION['sucesso']);
+unset($_SESSION['erros'], $_SESSION['antigos']);
 
 function old(array $antigos, string $campo): string
 {
@@ -18,125 +22,124 @@ function erro(array $erros, string $campo): string
         ? '<span class="erro-msg">' . htmlspecialchars($erros[$campo], ENT_QUOTES, 'UTF-8') . '</span>'
         : '';
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $erros = [];
+    $dados = [
+        'email' => trim($_POST['email'] ?? ''),
+        'senha' => trim($_POST['senha'] ?? ''),
+    ];
+
+    if ($dados['email'] === '' || !filter_var($dados['email'], FILTER_VALIDATE_EMAIL)) {
+        $erros['email'] = 'Informe um e-mail válido.';
+    }
+
+    if ($dados['senha'] === '') {
+        $erros['senha'] = 'Informe a senha.';
+    }
+
+    if (empty($erros)) {
+        $adminModel = new Admin($conn);
+        $admin = $adminModel->login($dados['email'], $dados['senha']);
+
+        if ($admin) {
+            $_SESSION['admin_id']    = $admin['id_adm'];
+            $_SESSION['admin_nome']  = $admin['nome'];
+            $_SESSION['usuario_tipo'] = 'admin';
+
+            header('Location: administrador.php');
+            exit;
+        }
+
+        $usuarioModel = new Usuario($conn);
+        $usuario = $usuarioModel->login($dados['email'], $dados['senha']);
+
+        if ($usuario) {
+            $_SESSION['usuario_id']   = $usuario['ID_usuario'];
+            $_SESSION['usuario_nome'] = $usuario['nome'];
+            $_SESSION['usuario_tipo'] = 'usuario';
+
+            header('Location: listavagas.php');
+            exit;
+        }
+
+        $empresaModel = new Empresas($conn);
+        $empresa = $empresaModel->login($dados['email'], $dados['senha']);
+
+        if ($empresa) {
+            $_SESSION['empresa_id']   = $empresa['ID_empresa'];
+            $_SESSION['empresa_nome'] = $empresa['nome'];
+            $_SESSION['usuario_tipo'] = 'empresa';
+
+            header('Location: listavagas.php');
+            exit;
+        }
+
+        $erros['geral'] = 'E-mail ou senha inválidos.';
+    }
+
+    $_SESSION['erros']   = $erros;
+    $_SESSION['antigos'] = $dados;
+    header('Location: login.php');
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Empresa</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
-<div class="tela">
+<div class="login-container">
 
-    <div class="lado-marca">
-        <div class="marca-texto">
-            <h1>Criar conta</h1>
+    <div class="brand-panel">
+        <div class="brand-content">
+            <h1>Bem-vindo de volta</h1>
+            <p>Acesse sua conta para continuar.</p>
         </div>
     </div>
 
-    <div class="lado-formulario">
-        <div class="conteudo">
-            <h2>Dados da Empresa</h2>
-
-            <?php if ($sucesso): ?>
-                <div class="alerta alerta-sucesso">Empresa cadastrada com sucesso!</div>
-            <?php endif; ?>
+    <div class="form-panel">
+        <div class="form-content">
+            <h2>Entrar</h2>
 
             <?php if (!empty($erros['geral'])): ?>
                 <div class="alerta alerta-erro"><?= htmlspecialchars($erros['geral'], ENT_QUOTES, 'UTF-8') ?></div>
             <?php endif; ?>
 
-            <form action="login.php" method="POST" enctype="multipart/form-data" novalidate>
-                <div class="grade">
-                    <div class="campo">
-                        <label>Nome da empresa *</label>
-                        <input
-                            type="text"
-                            name="nome_empresa"
-                            value="<?= old($antigos, 'nome_empresa') ?>"
-                            required
-                        >
-                        <?= erro($erros, 'nome_empresa') ?>
-                    </div>
-                    <div class="campo">
-                        <label>Telefone *</label>
-                        <input
-                            type="tel"
-                            name="telefone"
-                            id="telefone"
-                            placeholder="(51) 99999-9999"
-                            value="<?= old($antigos, 'telefone') ?>"
-                            required
-                        >
-                        <?= erro($erros, 'telefone') ?>
-                    </div>
-                    <div class="campo">
-                        <label>Email *</label>
-                        <input
-                            type="email"
-                            name="email"
-                            value="<?= old($antigos, 'email') ?>"
-                            required
-                        >
-                        <?= erro($erros, 'email') ?>
-                    </div>
-                    <div class="campo">
-                        <label>Senha *</label>
-                        <input
-                            type="password"
-                            name="senha"
-                            minlength="6"
-                            required
-                        >
-                        <?= erro($erros, 'senha') ?>
-                    </div>
-                    <div class="campo">
-                        <label>Endereço</label>
-                        <input
-                            type="text"
-                            name="endereco"
-                            value="<?= old($antigos, 'endereco') ?>"
-                        >
-                  
-                    <div class="campo campo-largo">
-                        <label>Logo da empresa *</label>
-                        <input
-                            type="file"
-                            name="logo"
-                            accept="image/*"
-                            required
-                        >
-                        <?= erro($erros, 'logo') ?>
-                    </div>
+            <form action="login.php" method="POST" novalidate>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input
+                        type="email"
+                        name="email"
+                        class="form-control"
+                        value="<?= old($antigos, 'email') ?>"
+                        required
+                    >
+                    <?= erro($erros, 'email') ?>
                 </div>
 
-                <button type="submit">
-                    Cadastrar
-                </button>
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input
+                        type="password"
+                        name="senha"
+                        class="form-control"
+                        required
+                    >
+                    <?= erro($erros, 'senha') ?>
+                </div>
+
+                <button type="submit" class="btn-submit">Entrar</button>
             </form>
-                <a href="login.php" class="link">Já tenho conta</a>
+
+            <a href="index.php" class="toggle-link">Ainda não tenho conta</a>
         </div>
     </div>
 </div>
-
-<script>
-
-    const inputTelefone = document.getElementById('telefone');
-    inputTelefone.addEventListener('input', function () {
-        let v = this.value.replace(/\D/g, '').slice(0, 11);
-        if (v.length > 10) {
-            v = v.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, '($1) $2-$3');
-        } else if (v.length > 6) {
-            v = v.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, '($1) $2-$3');
-        } else if (v.length > 2) {
-            v = v.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
-        } else if (v.length > 0) {
-            v = v.replace(/^(\d*)/, '($1');
-        }
-        this.value = v;
-    });
-</script>
 </body>
 </html>
