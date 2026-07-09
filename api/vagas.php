@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
-include 'conexao.php';
+require_once __DIR__ . '/conexao.php';
 
 function sendJson($data, $status = 200) {
     http_response_code($status);

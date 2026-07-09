@@ -1,0 +1,96 @@
+/* ==========================================================================
+   Reset
+   ========================================================================== */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    color: inherit;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+/* ==========================================================================
+   Identidade visual (paleta, tipografia, raios, sombra)
+   ========================================================================== */
+:root {
+    --accent: #FF6D00;
+    --accent-dark: #E65100;
+    --danger: #d9412c;
+
+    --bg: #FFF3E9;
+    --card-bg: #FFFFFF;
+    --sidebar-bg: #E65100;
+    --sidebar-text: rgba(255, 255, 255, 0.75);
+
+    --text-principal: #333333;
+    --text-secundario: #666666;
+    --text-hint: #999999;
+    --borda: #cccccc;
+
+    --sucesso-bg: #e6f4ea;
+    --sucesso-texto: #1e7a34;
+    --sucesso-borda: #b7e2c4;
+
+    --erro-bg: #fdecea;
+    --erro-texto: #b3261e;
+    --erro-borda: #f3b6b0;
+
+    --raio-sm: 8px;
+    --raio-md: 12px;
+    --raio-lg: 16px;
+
+    --sombra-sm: 0 2px 10px rgba(0, 0, 0, .04);
+
+    --fonte: Arial, Helvetica, sans-serif;
+}
+
+body {
+    font-family: var(--fonte);
+    background: var(--bg);
+    color: var(--text-principal);
+}
+
+/* ==========================================================================
+   Alertas e mensagens de erro (compartilhado por todas as páginas)
+   ========================================================================== */
+.alerta {
+    padding: 14px 16px;
+    border-radius: var(--raio-md);
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.alerta-sucesso {
+    background: var(--sucesso-bg);
+    color: var(--sucesso-texto);
+    border: 1px solid var(--sucesso-borda);
+}
+
+.alerta-erro {
+    background: var(--erro-bg);
+    color: var(--erro-texto);
+    border: 1px solid var(--erro-borda);
+}
+
+.erro-msg {
+    display: block;
+    color: var(--erro-texto);
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 6px;
+}

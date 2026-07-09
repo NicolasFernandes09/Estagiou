@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-require_once __DIR__ . '/api/conexao.php';
-require_once __DIR__ . '/classes/Admin.php';
-require_once __DIR__ . '/classes/Usuario.php';
-require_once __DIR__ . '/classes/Empresas.php';
+require_once __DIR__ . '/../api/conexao.php';
+require_once __DIR__ . '/../classes/Admin.php';
+require_once __DIR__ . '/../classes/Usuario.php';
+require_once __DIR__ . '/../classes/Empresas.php';
 
 $erros   = $_SESSION['erros'] ?? [];
 $antigos = $_SESSION['antigos'] ?? [];
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['usuario_nome'] = $usuario['nome'];
             $_SESSION['usuario_tipo'] = 'usuario';
 
-            header('Location: listavagas.php');
+            header('Location: listarVagas.php');
             exit;
         }
 
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['empresa_nome'] = $empresa['nome'];
             $_SESSION['usuario_tipo'] = 'empresa';
 
-            header('Location: listavagas.php');
+            header('Location: listarVagas.php');
             exit;
         }
 
@@ -90,20 +90,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/forms.css">
 </head>
 <body>
-<div class="login-container">
+<div class="tela">
 
-    <div class="brand-panel">
-        <div class="brand-content">
+    <div class="lado-marca">
+        <div class="marca-texto">
             <h1>Bem-vindo de volta</h1>
             <p>Acesse sua conta para continuar.</p>
         </div>
     </div>
 
-    <div class="form-panel">
-        <div class="form-content">
+    <div class="lado-formulario">
+        <div class="conteudo">
             <h2>Entrar</h2>
 
             <?php if (!empty($erros['geral'])): ?>
@@ -111,33 +112,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
 
             <form action="login.php" method="POST" novalidate>
-                <div class="form-group">
+                <div class="campo">
                     <label>Email</label>
                     <input
                         type="email"
                         name="email"
-                        class="form-control"
                         value="<?= old($antigos, 'email') ?>"
                         required
                     >
                     <?= erro($erros, 'email') ?>
                 </div>
 
-                <div class="form-group">
+                <div class="campo">
                     <label>Senha</label>
                     <input
                         type="password"
                         name="senha"
-                        class="form-control"
                         required
                     >
                     <?= erro($erros, 'senha') ?>
                 </div>
 
-                <button type="submit" class="btn-submit">Entrar</button>
+                <button type="submit">Entrar</button>
             </form>
 
-            <a href="index.php" class="toggle-link">Ainda não tenho conta</a>
+            <a href="cadastrarEmpresa.php" class="toggle-link">Ainda não tenho conta</a>
         </div>
     </div>
 </div>

@@ -1,30 +1,25 @@
 <?php
 session_start();
-require_once 'conexao.php'; 
 
-$busca = $_GET['busca'] ?? '';
-$tipo  = $_GET['tipo'] ?? 'todas';
+require_once __DIR__ . '/../api/conexao.php';
+require_once __DIR__ . '/../classes/Vaga.php';
 
-$sql = "SELECT v.id, v.titulo, v.tipo_contratacao, v.cidade, v.data_publicacao, v.data_limite,
-               e.nome AS empresa_nome, e.logo AS empresa_logo
-        FROM vagas v
-        INNER JOIN empresas e ON e.id = v.empresa_id
-        WHERE v.data_limite >= CURDATE()";
-
-$params = [];
-
-if ($busca !== '') {
-  
-    $sql .= " AND (v.titulo LIKE :busca1 OR e.nome LIKE :busca2)";
-    $params[':busca1'] = "%$busca%";
-    $params[':busca2'] = "%$busca%";
+if (!isset($_SESSION['usuario_tipo'])) {
+    header('Location: login.php');
+    exit;
 }
 
-if ($tipo !== 'todas') {
-    $sql .= " AND v.tipo_contratacao = :tipo";
-    $params[':tipo'] = $tipo;
-}
+$sucesso = $_SESSION['sucesso'] ?? '';
+unset($_SESSION['sucesso']);
 
+$busca = trim($_GET['busca'] ?? '');
+$tipo  = trim($_GET['tipo'] ?? 'todas');
+
+$idEmpresaFiltro = $_SESSION['usuario_tipo'] === 'empresa' ? (int) $_SESSION['empresa_id'] : 0;
+
+$vagaModel = new Vaga($conn);
+$resultado = $vagaModel->buscarVagas($busca, $tipo, $idEmpresaFiltro);
+$vagas     = $resultado ? $resultado->fetch_all(MYSQLI_ASSOC) : [];
 
 function iniciais($nome) {
     $palavras = explode(' ', trim($nome));
@@ -35,35 +30,54 @@ function iniciais($nome) {
     return $ini;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <title>Mural de Oportunidades — Vagas</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/appShell.css">
+  <link rel="stylesheet" href="../assets/css/cards.css">
 </head>
 <body>
-  <div class="app">
 
-    <aside class="sidebar">
+<button id="btnMenu" class="btn-hamburguer" aria-label="Abrir menu">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+
+<div class="app">
+
+    <div id="overlay" class="overlay"></div>
+
+     <aside id="sidebar" class="sidebar">
       <h1>Vagas</h1>
       <div class="subtitulo">Painel de vagas</div>
       <nav>
-        <a href="index.php" class="ativo">Início</a>
-        <a href="cadastro.php">Cadastro</a>
-        <a href="login.php">Login</a>
-        <a href="vagas.php">Vagas</a>
+        <a href="listarVagas.php" class="ativo">Início</a>
+        <?php if ($_SESSION['usuario_tipo'] === 'empresa'): ?>
+          <a href="postarVaga.php">Postar vaga</a>
+        <?php endif; ?>
+        <?php if ($_SESSION['usuario_tipo'] === 'admin'): ?>
+          <a href="administrador.php">Painel Admin</a>
+        <?php endif; ?>
+        <a href="logout.php">Sair</a>
       </nav>
     </aside>
 
     <main class="conteudo">
-      <h2>Feed de vagas</h2>
-      <p class="descricao">Confira as oportunidades disponíveis no momento.</p>
+      <?php if ($_SESSION['usuario_tipo'] === 'empresa'): ?>
+        <h2>Minhas vagas</h2>
+        <p class="subtitulo">Vagas publicadas pela sua empresa.</p>
+      <?php else: ?>
+        <h2>Feed de vagas</h2>
+        <p class="subtitulo">Confira as oportunidades disponíveis no momento.</p>
+      <?php endif; ?>
 
       <form method="GET" class="busca">
         <span>🔍</span>
-        <input type="text" name="busca" placeholder="Buscar vaga, empresa ou cidade"
+        <input type="text" name="busca" placeholder="Buscar vaga ou empresa"
                value="<?= htmlspecialchars($busca) ?>">
       </form>
 
@@ -96,7 +110,7 @@ function iniciais($nome) {
             <div class="topo">
               <div class="avatar">
                 <?php if (!empty($vaga['empresa_logo'])): ?>
-                  <img src="uploads/logos/<?= htmlspecialchars($vaga['empresa_logo']) ?>" alt="">
+                  <img src="../<?= htmlspecialchars($vaga['empresa_logo']) ?>" alt="">
                 <?php else: ?>
                   <?= htmlspecialchars(iniciais($vaga['empresa_nome'])) ?>
                 <?php endif; ?>
@@ -108,8 +122,8 @@ function iniciais($nome) {
             </div>
 
             <div class="rodape-card">
-              <span class="badge"><?= htmlspecialchars($opcoes[$vaga['tipo_contratacao']] ?? $vaga['tipo_contratacao']) ?></span>
-              <a class="link-detalhes" href="vaga.php?id=<?= (int) $vaga['id'] ?>">Ver detalhes ›</a>
+              <span class="badge"><?= htmlspecialchars($opcoes[$vaga['tipo_vaga']] ?? $vaga['tipo_vaga']) ?></span>
+              <a class="link-detalhes" href="vaga.php?id=<?= (int) $vaga['id_vaga'] ?>">Ver detalhes ›</a>
             </div>
           </div>
         <?php endforeach; ?>
@@ -117,5 +131,7 @@ function iniciais($nome) {
 
     </main>
   </div>
+
+<script src="../assets/js/adminSidebar.js"></script>
 </body>
 </html>
