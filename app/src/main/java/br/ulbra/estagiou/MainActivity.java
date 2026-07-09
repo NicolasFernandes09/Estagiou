@@ -1,43 +1,57 @@
 package br.ulbra.estagiou;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.widget.Button;
-
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import br.ulbra.estagiou.adapter.VagasAdapter;
 import br.ulbra.estagiou.funcoes.VagaController;
-import br.ulbra.estagiou.repository.VagaRepository;
+import br.ulbra.estagiou.model.Vagas;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import br.ulbra.estagiou.model.Vagas;
-
-
 
 public class MainActivity extends AppCompatActivity {
 
-    // Declara o Controller
-    private VagaController controller;
 
+    private VagaController controller;
+    private RecyclerView recycler;
+    private VagasAdapter adapter;
+    private ArrayList<Vagas> lista = new ArrayList<>();
     Button testebt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Cria o Controller
         controller = new VagaController();
-
-        // Chama o metodo que busca as vagas
         carregarVagas();
+    }
 
+    // ⬇️ FICA AQUI FORA DO onCreate()
+    private void carregarVagas() {
+
+        controller.listarVagas(new Callback<List<Vagas>>() {
+            @Override
+            public void onResponse(Call<List<Vagas>> call, Response<List<Vagas>> response) {
+                if (response.isSuccessful()) {
+                    lista.clear();
+                    lista.addAll(response.body());
+                    Log.d("VAGAS", "Total: " + lista.size());
+                }
+            }
+            @Override
+            public void onFailure(Call<List<Vagas>> call, Throwable t) {
+                Log.e("ERRO", t.getMessage());
+            }
+        });
     }
 }
