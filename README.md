@@ -49,4 +49,25 @@ Tela principal do aplicativo, com campo de busca, filtros por tipo de contrataç
 Tela com as informações completas da oportunidade, incluindo empresa, cargo, descrição, salário, cidade, contato, data limite de inscrição e instruções para envio do currículo.
 
 ### Favoritos
-Tela que exibe as vagas marcadas com o ícone de coração. Ao desfavoritar uma vaga, ela é
+Tela que exibe as vagas marcadas com o ícone de coração. Ao desfavoritar uma vaga, ela deixa de aparecer na lista de favoritos.
+
+### Perfil
+Tela com dados do usuário logado, foto de perfil, e-mail, descrição profissional, descrição pessoal, botão para editar informações e opção para sair da conta.
+
+## Tecnologias Utilizadas
+
+- Java
+- Android Studio
+- XML
+- SQLite
+- SharedPreferences
+- Volley
+- BCrypt
+- Gradle com Groovy DSL
+
+## Configuração do Projeto
+
+- Linguagem: Java
+- Minimum SDK: API 27, Android 8.1
+- Target SDK: 36
+- Package/Application ID: `br.ulbra.estagiou`
