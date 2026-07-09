@@ -96,15 +96,6 @@ body{
     grid-column:1 / -1;
 }
 
-/* Oculta o campo "Contato do RH" (6º campo dentro do grid) */
-.grade .campo:nth-child(6){
-    display:none;
-}
-/* "Endereço" (5º campo) passa a ocupar a linha inteira, evitando espaço vazio */
-.grade .campo:nth-child(5){
-    grid-column:1 / -1;
-}
-
 label{
     display:block;
     margin-bottom:6px;

@@ -60,18 +60,19 @@ class Vaga{
 
     }
 
-    public function buscarVagas($busca = '', $tipo = 'todas'){
+    public function buscarVagas($busca = '', $tipo = 'todas', $id_empresa = 0){
 
         $query = "SELECT v.*, COALESCE(e.nome, 'Empresa não informada') AS empresa_nome, e.logo AS empresa_logo
                    FROM ".$this->table_name." v
                    LEFT JOIN empresas e ON e.ID_empresa = v.id_empresa
                    WHERE (? = '' OR v.titulo LIKE CONCAT('%', ?, '%') OR e.nome LIKE CONCAT('%', ?, '%'))
                      AND (? = 'todas' OR LOWER(v.tipo_vaga) = LOWER(?))
+                     AND (? = 0 OR v.id_empresa = ?)
                    ORDER BY v.fechamento_vaga DESC";
 
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bind_param("sssss", $busca, $busca, $busca, $tipo, $tipo);
+        $stmt->bind_param("sssssii", $busca, $busca, $busca, $tipo, $tipo, $id_empresa, $id_empresa);
 
         $stmt->execute();
 

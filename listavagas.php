@@ -15,8 +15,10 @@ unset($_SESSION['sucesso']);
 $busca = trim($_GET['busca'] ?? '');
 $tipo  = trim($_GET['tipo'] ?? 'todas');
 
+$idEmpresaFiltro = $_SESSION['usuario_tipo'] === 'empresa' ? (int) $_SESSION['empresa_id'] : 0;
+
 $vagaModel = new Vaga($conn);
-$resultado = $vagaModel->buscarVagas($busca, $tipo);
+$resultado = $vagaModel->buscarVagas($busca, $tipo, $idEmpresaFiltro);
 $vagas     = $resultado ? $resultado->fetch_all(MYSQLI_ASSOC) : [];
 
 function iniciais($nome) {
@@ -54,8 +56,13 @@ function iniciais($nome) {
     </aside>
 
     <main class="conteudo">
-      <h2>Feed de vagas</h2>
-      <p class="descricao">Confira as oportunidades disponíveis no momento.</p>
+      <?php if ($_SESSION['usuario_tipo'] === 'empresa'): ?>
+        <h2>Minhas vagas</h2>
+        <p class="descricao">Vagas publicadas pela sua empresa.</p>
+      <?php else: ?>
+        <h2>Feed de vagas</h2>
+        <p class="descricao">Confira as oportunidades disponíveis no momento.</p>
+      <?php endif; ?>
 
       <form method="GET" class="busca">
         <span>🔍</span>
@@ -92,7 +99,7 @@ function iniciais($nome) {
             <div class="topo">
               <div class="avatar">
                 <?php if (!empty($vaga['empresa_logo'])): ?>
-                  <img src="uploads/logos/<?= htmlspecialchars($vaga['empresa_logo']) ?>" alt="">
+                  <img src="<?= htmlspecialchars($vaga['empresa_logo']) ?>" alt="">
                 <?php else: ?>
                   <?= htmlspecialchars(iniciais($vaga['empresa_nome'])) ?>
                 <?php endif; ?>

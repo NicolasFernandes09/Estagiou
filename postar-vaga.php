@@ -27,23 +27,9 @@ function erro(array $erros, string $campo): string
         : '';
 }
 
-$opcoesTipo = [
-    'estagio'        => 'Estágio',
-    'jovem_aprendiz' => 'Jovem Aprendiz',
-    'clt'            => 'CLT',
-    'freelancer'     => 'Freelancer',
-];
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+function validarVaga(array $dados, array $tiposValidos): array
+{
     $erros = [];
-    $dados = [
-        'titulo'          => trim($_POST['titulo'] ?? ''),
-        'descricao'       => trim($_POST['descricao'] ?? ''),
-        'salario'         => trim($_POST['salario'] ?? ''),
-        'tipo_vaga'       => trim($_POST['tipo_vaga'] ?? ''),
-        'contato'         => trim($_POST['contato'] ?? ''),
-        'fechamento_vaga' => trim($_POST['fechamento_vaga'] ?? ''),
-    ];
 
     if ($dados['titulo'] === '') {
         $erros['titulo'] = 'Informe o título da vaga.';
@@ -53,11 +39,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erros['descricao'] = 'Informe a descrição da vaga.';
     }
 
-    if ($dados['salario'] === '' || !is_numeric($dados['salario'])) {
+    if ($dados['salario'] === '' || !is_numeric($dados['salario']) || (float) $dados['salario'] < 0) {
         $erros['salario'] = 'Informe um salário válido.';
     }
 
-    if (!array_key_exists($dados['tipo_vaga'], $opcoesTipo)) {
+    if (!array_key_exists($dados['tipo_vaga'], $tiposValidos)) {
         $erros['tipo_vaga'] = 'Selecione o tipo da vaga.';
     }
 
@@ -67,7 +53,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($dados['fechamento_vaga'] === '') {
         $erros['fechamento_vaga'] = 'Informe a data limite para candidatura.';
+    } else {
+        $data = date_create_from_format('Y-m-d\TH:i', $dados['fechamento_vaga']);
+        if ($data === false) {
+            $erros['fechamento_vaga'] = 'Informe uma data e hora válidas.';
+        } elseif ($data < new DateTime()) {
+            $erros['fechamento_vaga'] = 'A data limite deve estar no futuro.';
+        }
     }
+
+    return $erros;
+}
+
+$opcoesTipo = [
+    'estagio'        => 'Estágio',
+    'jovem_aprendiz' => 'Jovem Aprendiz',
+    'clt'            => 'CLT',
+    'freelancer'     => 'Freelancer',
+];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $dados = [
+        'titulo'          => trim($_POST['titulo'] ?? ''),
+        'descricao'       => trim($_POST['descricao'] ?? ''),
+        'salario'         => trim($_POST['salario'] ?? ''),
+        'tipo_vaga'       => trim($_POST['tipo_vaga'] ?? ''),
+        'contato'         => trim($_POST['contato'] ?? ''),
+        'fechamento_vaga' => trim($_POST['fechamento_vaga'] ?? ''),
+    ];
+
+    $erros = validarVaga($dados, $opcoesTipo);
 
     if (empty($erros)) {
         try {
@@ -76,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $dados['titulo'],
                 $dados['descricao'],
                 $dados['salario'],
-                $dados['fechamento_vaga'],
+                str_replace('T', ' ', $dados['fechamento_vaga']),
                 $dados['tipo_vaga'],
                 $dados['contato'],
                 $_SESSION['empresa_id']
