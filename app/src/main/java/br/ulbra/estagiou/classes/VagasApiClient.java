@@ -2,11 +2,6 @@ package br.ulbra.estagiou.classes;
 
 import android.content.Context;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -14,6 +9,10 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class VagasApiClient {
     public interface Callback {
@@ -23,20 +22,28 @@ public class VagasApiClient {
     }
 
     public void buscarVagas(Context context, Callback callback) {
-        RequestQueue queue = Volley.newRequestQueue(context.getApplicationContext());
+        Call<ResponseBody> chamada = RetrofitClient.getApiService().buscarVagas();
+        chamada.enqueue(new retrofit2.Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (!response.isSuccessful() || response.body() == null) {
+                    callback.onError("Resposta inválida da API");
+                    return;
+                }
 
-        StringRequest request = new StringRequest(Request.Method.GET, ApiConfig.VAGAS_URL,
-                response -> {
-                    try {
-                        List<VagaDados> vagas = converterResposta(response);
-                        callback.onSuccess(vagas);
-                    } catch (Exception e) {
-                        callback.onError("Resposta inválida da API");
-                    }
-                },
-                error -> callback.onError("Não foi possível conectar à API"));
+                try {
+                    List<VagaDados> vagas = converterResposta(response.body().string());
+                    callback.onSuccess(vagas);
+                } catch (Exception e) {
+                    callback.onError("Resposta inválida da API");
+                }
+            }
 
-        queue.add(request);
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                callback.onError("Não foi possível conectar à API");
+            }
+        });
     }
 
     private List<VagaDados> converterResposta(String response) throws Exception {
@@ -81,12 +88,13 @@ public class VagasApiClient {
         String cidade = primeiroTexto(item, "cidade", "local", "localizacao", "localização", "municipio", "município");
         String tipo = primeiroTexto(item, "tipoVaga", "tipo_vaga", "tipo", "tipo_contratacao", "contratacao", "contratação");
         String descricao = primeiroTexto(item, "descricao", "descrição", "descricao_vaga", "descricaoVaga");
-        String contato = primeiroTexto(item, "contato", "email", "email_contato", "emailContato", "email_rh", "emailRh");
-        String dataLimite = primeiroTexto(item, "fechamentoData", "fechamento_data", "dataLimite", "data_limite", "data_limite_inscricao", "prazo");
+        String contato = primeiroTexto(item, "contato", "telefone", "fone", "email", "email_contato", "emailContato", "email_rh", "emailRh");
+        String dataLimite = primeiroTexto(item, "fechamento_vaga", "fechamentoData", "fechamento_data", "dataLimite", "data_limite", "data_limite_inscricao", "prazo");
         String candidatura = primeiroTexto(item, "candidatura", "como_candidatar", "comoCandidatar", "instrucoes", "instruções");
-        String id = primeiroTexto(item, "id", "id_vaga", "idVaga", "codigo", "código");
+        String id = primeiroTexto(item, "id", "id_vaga", "idVaga", "vagasId", "vagas_id", "codigo", "código");
         String sigla = primeiroTexto(item, "sigla", "iniciais");
         String salario = primeiroTexto(item, "salario", "salário", "bolsa", "remuneracao", "remuneração");
+        String vagasDisponiveis = primeiroTexto(item, "numero_vagas", "numeroVagas", "quantidade_vagas", "quantidadeVagas", "vagas_disponiveis", "vagasDisponiveis");
 
         if (empresa.equals("")) {
             empresa = "Empresa";
@@ -102,6 +110,9 @@ public class VagasApiClient {
         }
         if (descricao.equals("")) {
             descricao = "Descrição não informada pela empresa.";
+        }
+        if (!vagasDisponiveis.equals("")) {
+            descricao = descricao + "\nVagas disponíveis: " + vagasDisponiveis;
         }
         salario = salarioFormatado(salario, item);
         if (salario.equals("")) {
