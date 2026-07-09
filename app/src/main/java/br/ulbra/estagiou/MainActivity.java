@@ -1,48 +1,57 @@
 package br.ulbra.estagiou;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import br.ulbra.estagiou.adapter.VagasAdapter;
+import br.ulbra.estagiou.funcoes.VagaController;
+import br.ulbra.estagiou.model.Vagas;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity {
 
+
+    private VagaController controller;
+    private RecyclerView recycler;
+    private VagasAdapter adapter;
+    private ArrayList<Vagas> lista = new ArrayList<>();
+    Button testebt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+        controller = new VagaController();
+        carregarVagas();
+    }
 
+    // ⬇️ FICA AQUI FORA DO onCreate()
+    private void carregarVagas() {
 
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://10.0.2.2/Estagiou/api/vagas.php";
-
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
-                response -> {
-                    for (int i = 0; i < response.length(); i++) {
-                        try {
-                            JSONObject vaga = response.getJSONObject(i);
-                            String titulo = vaga.getString("titulo");
-                            Log.d("API", titulo);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                error -> {
-                    Log.e("API", "Erro: " + error.toString());
-                });
-
-        queue.add(request);
-
+        controller.carregarVagas(new Callback<List<Vagas>>() {
+            @Override
+            public void onResponse(Call<List<Vagas>> call, Response<List<Vagas>> response) {
+                if (response.isSuccessful()) {
+                    lista.clear();
+                    lista.addAll(response.body());
+                    Log.d("VAGAS", "Total: " + lista.size());
+                }
+            }
+            @Override
+            public void onFailure(Call<List<Vagas>> call, Throwable t) {
+                Log.e("ERRO", t.getMessage());
+            }
+        });
     }
 }
