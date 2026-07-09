@@ -37,37 +37,16 @@ Nesta versão, o projeto está focado na experiência mobile do usuário, com te
 ![visual6](img/favoritos.png)
 
 ### Login
-Tela inicial do aplicativo, onde o usuário informa usuário e senha para acessar o sistema.
+Tela inicial do aplicativo, onde o usuário insere e-mail (ou nome de usuário) e senha para acessar o sistema.
 
 ### Cadastro
-Tela para criação de conta, com nome completo, nome de usuário, e-mail, senha, confirmação de senha, foto de perfil e descrições do usuário.
+Tela de criação de conta, onde o usuário informa nome completo, nome de usuário, e-mail, senha, confirmação de senha, foto de perfil e uma breve descrição sobre si.
 
 ### Vagas
-Tela principal do app, contendo campo de busca, filtros por tipo de contratação, cards de vagas e botão para acessar os detalhes de cada oportunidade.
+Tela principal do aplicativo, com campo de busca, filtros por tipo de contratação e cards de vagas que dão acesso aos detalhes de cada oportunidade.
 
 ### Detalhes da Vaga
-Tela com informações completas da oportunidade, como empresa, cargo, descrição, salário, cidade, contato, data limite de inscrição e instruções para envio de currículo.
+Tela com as informações completas da oportunidade, incluindo empresa, cargo, descrição, salário, cidade, contato, data limite de inscrição e instruções para envio do currículo.
 
 ### Favoritos
-Tela que exibe as vagas marcadas com coração. Ao desfavoritar uma vaga, ela deixa de aparecer na lista de favoritos.
-
-### Perfil
-Tela com dados do usuário logado, foto de perfil, e-mail, descrição profissional, descrição pessoal, botão para editar informações e opção para sair da conta.
-
-## Tecnologias Utilizadas
-
-- Java
-- Android Studio
-- XML
-- SQLite
-- SharedPreferences
-- Volley
-- BCrypt
-- Gradle com Groovy DSL
-
-## Configuração do Projeto
-
-- Linguagem: Java
-- Minimum SDK: API 27, Android 8.1
-- Target SDK: 36
-- Package/Application ID: br.ulbra.estagiou
+Tela que exibe as vagas marcadas com o ícone de coração. Ao desfavoritar uma vaga, ela é
