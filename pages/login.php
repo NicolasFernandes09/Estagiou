@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['usuario_nome'] = $usuario['nome'];
             $_SESSION['usuario_tipo'] = 'usuario';
 
-            header('Location: listaVagas.php');
+            header('Location: listarVagas.php');
             exit;
         }
 
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['empresa_nome'] = $empresa['nome'];
             $_SESSION['usuario_tipo'] = 'empresa';
 
-            header('Location: listaVagas.php');
+            header('Location: listarVagas.php');
             exit;
         }
 
@@ -136,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <button type="submit">Entrar</button>
             </form>
 
-            <a href="cadastroEmpresa.php" class="toggle-link">Ainda não tenho conta</a>
+            <a href="cadastrarEmpresa.php" class="toggle-link">Ainda não tenho conta</a>
         </div>
     </div>
 </div>

@@ -220,7 +220,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     Publicar vaga
                 </button>
 
-                <button type="submit" formaction="listaVagas.php" formmethod="get">
+                <button type="submit" formaction="listarVagas.php" formmethod="get">
                     Voltar
                 </button>
             </form>

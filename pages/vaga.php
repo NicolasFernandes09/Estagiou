@@ -56,7 +56,7 @@ $empresaNome = $empresa['nome'] ?? 'Empresa não informada';
       <h1>Vagas</h1>
       <div class="subtitulo">Painel de vagas</div>
       <nav>
-        <a href="listaVagas.php">Início</a>
+        <a href="listarVagas.php">Início</a>
         <?php if ($_SESSION['usuario_tipo'] === 'empresa'): ?>
           <a href="postarVaga.php">Postar vaga</a>
         <?php endif; ?>
@@ -68,7 +68,7 @@ $empresaNome = $empresa['nome'] ?? 'Empresa não informada';
     </aside>
 
     <main class="conteudo">
-      <a class="link-detalhes" href="listaVagas.php">‹ Voltar para o feed</a>
+      <a class="link-detalhes" href="listarVagas.php">‹ Voltar para o feed</a>
 
       <?php if (!$vaga): ?>
         <h2 style="margin-top:16px;">Vaga não encontrada</h2>

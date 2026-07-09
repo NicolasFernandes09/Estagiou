@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome_empresa'])) {
             );
 
             $_SESSION['sucesso'] = true;
-            header('Location: cadastroEmpresa.php');
+            header('Location: cadastrarEmpresa.php');
             exit;
         } catch (Exception $e) {
             $erros['geral'] = $e->getMessage();
@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome_empresa'])) {
     $_SESSION['erros'] = $erros;
     $_SESSION['antigos'] = $dados;
     $_SESSION['sucesso'] = false;
-    header('Location: cadastroEmpresa.php');
+    header('Location: cadastrarEmpresa.php');
     exit;
 }
 ?>
@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome_empresa'])) {
                     <div class="alerta alerta-erro"><?= htmlspecialchars($erros['geral'], ENT_QUOTES, 'UTF-8') ?></div>
                 <?php endif; ?>
 
-                <form action="cadastroEmpresa.php" method="POST" enctype="multipart/form-data" novalidate>
+                <form action="cadastrarEmpresa.php" method="POST" enctype="multipart/form-data" novalidate>
                     <div class="grade">
                         <div class="campo">
                             <label>Nome da empresa *</label>

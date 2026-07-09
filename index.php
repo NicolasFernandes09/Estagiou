@@ -1,3 +1,3 @@
 <?php
-header('Location: pages/cadastroEmpresa.php');
+header('Location: pages/cadastrarEmpresa.php');
 exit;

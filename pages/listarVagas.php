@@ -40,13 +40,22 @@ function iniciais($nome) {
   <link rel="stylesheet" href="../assets/css/cards.css">
 </head>
 <body>
-  <div class="app">
 
-     <aside class="sidebar">
+<button id="btnMenu" class="btn-hamburguer" aria-label="Abrir menu">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
+
+<div class="app">
+
+    <div id="overlay" class="overlay"></div>
+
+     <aside id="sidebar" class="sidebar">
       <h1>Vagas</h1>
       <div class="subtitulo">Painel de vagas</div>
       <nav>
-        <a href="listaVagas.php" class="ativo">Início</a>
+        <a href="listarVagas.php" class="ativo">Início</a>
         <?php if ($_SESSION['usuario_tipo'] === 'empresa'): ?>
           <a href="postarVaga.php">Postar vaga</a>
         <?php endif; ?>
@@ -122,5 +131,7 @@ function iniciais($nome) {
 
     </main>
   </div>
+
+<script src="../assets/js/adminSidebar.js"></script>
 </body>
 </html>
