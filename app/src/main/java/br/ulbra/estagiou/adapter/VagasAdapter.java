@@ -13,8 +13,7 @@ import java.util.List;
 import br.ulbra.estagiou.R;
 import br.ulbra.estagiou.model.Vagas;
 
-// Adapter responsável por ligar os dados da lista
-// de vagas ao RecyclerView.
+// Adapter responsável por ligar os dados da lista de vagas ao RecyclerView.
 public class VagasAdapter extends RecyclerView.Adapter<VagasAdapter.ViewHolder> {
 
     // Lista que armazenará todas as vagas recebidas da API.
@@ -25,16 +24,14 @@ public class VagasAdapter extends RecyclerView.Adapter<VagasAdapter.ViewHolder> 
         this.listaVagas = listaVagas;
     }
 
-    // Este metodo é chamado sempre que o RecyclerView
-    // precisa criar um novo item da lista.
+    // Este metodo é chamado sempre que o RecyclerView precisa criar um novo item da lista.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        // Infla (carrega) o layout item_vaga.xml.
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_vaga, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_vaga, parent, false);
 
-        // Retorna um novo ViewHolder.
         return new ViewHolder(view);
     }
 
@@ -49,7 +46,10 @@ public class VagasAdapter extends RecyclerView.Adapter<VagasAdapter.ViewHolder> 
         holder.txtTitulo.setText(vaga.getTitulo());
         holder.txtDescricao.setText(vaga.getDescricao());
         holder.txtSalario.setText("Salário: R$ " + vaga.getSalario());
-        holder.txtTipo.setText("Tipo: " + vaga.getTipoVaga());
+        holder.txtfechamento_vaga.setText("Data de Fechamento da vaga : "+ vaga.getFechamento_vaga());
+        holder.txttipo_vaga.setText("Tipo da Vaga : " + vaga.getTipo_vaga());
+        holder.txtempresa.setText("Empresa :" + vaga.getEmpresa());
+        holder.txttelefone.setText("Telefone" +vaga.getTelefone());
 
     }
 
@@ -66,7 +66,8 @@ public class VagasAdapter extends RecyclerView.Adapter<VagasAdapter.ViewHolder> 
         TextView txtTitulo;
         TextView txtDescricao;
         TextView txtSalario;
-        TextView txtTipo;
+        TextView txtfechamento_vaga;
+        TextView txttipo_vaga , txtempresa ,txttelefone;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -75,7 +76,10 @@ public class VagasAdapter extends RecyclerView.Adapter<VagasAdapter.ViewHolder> 
             txtTitulo = itemView.findViewById(R.id.txtTitulo);
             txtDescricao = itemView.findViewById(R.id.txtDescricao);
             txtSalario = itemView.findViewById(R.id.txtSalario);
-            txtTipo = itemView.findViewById(R.id.txtTipo);
+            txtfechamento_vaga = itemView.findViewById(R.id.txtfechamento_vaga);
+            txttipo_vaga = itemView.findViewById(R.id.txttipo_vaga);
+            txtempresa = itemView.findViewById(R.id.txtempresa);
+            txttelefone = itemView.findViewById(R.id.txttelefone);
         }
     }
 }

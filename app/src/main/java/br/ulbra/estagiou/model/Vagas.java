@@ -5,19 +5,23 @@ public class Vagas {
     private String titulo;
     private String descricao;
     private double salario;
-    private String fechamentoData;
-    private String tipoVaga;
+    private String fechamento_vaga;
+    private String tipo_vaga;
+    private String empresa;
+    private String telefone;
 
     public Vagas() {
     }
 
-    public Vagas(int vagasId, String titulo, String descricao, double salario, String fechamentoData, String tipoVaga) {
+    public Vagas(int vagasId, String titulo, String descricao, double salario, String fechamento_vaga, String tipo_vaga, String empresa, String telefone) {
         this.vagasId = vagasId;
         this.titulo = titulo;
         this.descricao = descricao;
         this.salario = salario;
-        this.fechamentoData = fechamentoData;
-        this.tipoVaga = tipoVaga;
+        this.fechamento_vaga = fechamento_vaga;
+        this.tipo_vaga = tipo_vaga;
+        this.empresa = empresa;
+        this.telefone = telefone;
     }
 
     public int getVagasId() {
@@ -28,28 +32,12 @@ public class Vagas {
         this.vagasId = vagasId;
     }
 
-    public String getFechamentoData() {
-        return fechamentoData;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setFechamentoData(String fechamentoData) {
-        this.fechamentoData = fechamentoData;
-    }
-
-    public String getTipoVaga() {
-        return tipoVaga;
-    }
-
-    public void setTipoVaga(String tipoVaga) {
-        this.tipoVaga = tipoVaga;
-    }
-
-    public double getSalario() {
-        return salario;
-    }
-
-    public void setSalario(double salario) {
-        this.salario = salario;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public String getDescricao() {
@@ -60,11 +48,43 @@ public class Vagas {
         this.descricao = descricao;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public double getSalario() {
+        return salario;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setSalario(double salario) {
+        this.salario = salario;
+    }
+
+    public String getFechamento_vaga() {
+        return fechamento_vaga;
+    }
+
+    public void setFechamento_vaga(String fechamento_vaga) {
+        this.fechamento_vaga = fechamento_vaga;
+    }
+
+    public String getTipo_vaga() {
+        return tipo_vaga;
+    }
+
+    public void setTipo_vaga(String tipo_Vaga) {
+        this.tipo_vaga = tipo_Vaga;
+    }
+
+    public String getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(String empresa) {
+        this.empresa = empresa;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 }
