@@ -21,7 +21,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("usuarios.php")
     Call<ResponseBody> login(
-            @Field("acao") String acao,
+            @Field("action") String acao,
             @Field("usuario") String usuario,
             @Field("email") String email,
             @Field("senha") String senha
@@ -30,7 +30,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("usuarios.php")
     Call<ResponseBody> registrar(
-            @Field("acao") String acao,
+            @Field("action") String acao,
             @Field("nome") String nome,
             @Field("usuario") String usuario,
             @Field("email") String email,
