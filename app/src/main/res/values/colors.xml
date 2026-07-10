@@ -2,4 +2,19 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="estagiou_orange_corporate">#E65100</color>
+    <color name="estagiou_orange_dynamic">#FF6D00</color>
+    <color name="estagiou_orange_comfort">#F4511E</color>
+    <color name="estagiou_gold">#FFC107</color>
+    <color name="estagiou_gold_soft">#FFD54F</color>
+    <color name="estagiou_alert_yellow">#FFEB3B</color>
+    <color name="estagiou_screen_bg">#F4F7FA</color>
+    <color name="estagiou_panel_bg">#FFF8ED</color>
+    <color name="estagiou_text_primary">#1F2937</color>
+    <color name="estagiou_text_secondary">#6B7280</color>
+    <color name="estagiou_hint">#9CA3AF</color>
+    <color name="estagiou_input_border">#E5E7EB</color>
+    <color name="estagiou_circle_orange">#55FFB36B</color>
+    <color name="estagiou_circle_gold">#66FFD54F</color>
+    <color name="estagiou_transparent">#00000000</color>
 </resources>

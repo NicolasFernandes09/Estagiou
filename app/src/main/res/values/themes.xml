@@ -1,9 +1,22 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.Estagiou" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/estagiou_orange_corporate</item>
+        <item name="colorPrimaryVariant">@color/estagiou_orange_dynamic</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+        <item name="android:navigationBarColor">@color/estagiou_screen_bg</item>
+        <item name="android:statusBarColor">@color/estagiou_screen_bg</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowAnimationStyle">@style/SemAnimacao</item>
     </style>
 
     <style name="Theme.Estagiou" parent="Base.Theme.Estagiou" />
+
+    <style name="SemAnimacao">
+        <item name="android:activityOpenEnterAnimation">@anim/sem_animacao</item>
+        <item name="android:activityOpenExitAnimation">@anim/sem_animacao</item>
+        <item name="android:activityCloseEnterAnimation">@anim/sem_animacao</item>
+        <item name="android:activityCloseExitAnimation">@anim/sem_animacao</item>
+    </style>
 </resources>

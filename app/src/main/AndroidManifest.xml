@@ -4,6 +4,17 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+            <data android:mimeType="application/pdf" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="mailto" />
+        </intent>
+    </queries>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -26,9 +37,23 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-
         <activity
-            android:name=".MainActivity"
+            android:name=".classes.PerfilActivity"
+            android:exported="false" />
+        <activity
+            android:name=".classes.FavoritosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".classes.DetalhesVagaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".classes.VagasActivity"
+            android:exported="false" />
+        <activity
+            android:name=".classes.RegistrarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".classes.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,10 +61,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".RegistrarActivity"
-            android:exported="false" />
     </application>
 
 </manifest>
