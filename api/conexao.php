@@ -1,6 +1,6 @@
 <?php
 //Credenciais do banco/API
-$host = "172.29.20.149";
+$host = "172.29.20.159";
 $usuario = "root";
 $senha = "";
 $banco = "db_estagiou";
