@@ -1,4 +1,4 @@
-package br.ulbra.estagiou.classes;
+package br.ulbra.estagiou.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +19,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import br.ulbra.estagiou.R;
+import br.ulbra.estagiou.api.UsuarioApiClient;
+import br.ulbra.estagiou.repository.UsuarioStore;
+import br.ulbra.estagiou.repository.SessaoManager;
+import br.ulbra.estagiou.util.AssistenteHelper;
+import br.ulbra.estagiou.util.BottomNavHelper;
+import br.ulbra.estagiou.util.TelaHelper;
 
 public class PerfilActivity extends AppCompatActivity {
     private static final int REQUEST_FOTO_PERFIL = 30;
@@ -272,10 +278,21 @@ public class PerfilActivity extends AppCompatActivity {
     }
 
     private void sairDaConta() {
-        getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE)
-                .edit()
-                .clear()
-                .apply();
+        new UsuarioApiClient().logout(this, new UsuarioApiClient.Callback() {
+            @Override
+            public void onSuccess(String mensagem) {
+                finalizarSaida();
+            }
+
+            @Override
+            public void onError(String mensagem) {
+                finalizarSaida();
+            }
+        });
+    }
+
+    private void finalizarSaida() {
+        SessaoManager.limpar(this);
 
         Intent intent = new Intent(PerfilActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -136,7 +136,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="34dp"
                     android:background="@drawable/bg_job_card"
-                    android:minHeight="172dp"
+                    android:minHeight="214dp"
                     android:orientation="horizontal"
                     android:paddingStart="18dp"
                     android:paddingTop="20dp"
@@ -189,6 +189,25 @@
                             android:text="Canoas/RS"
                             android:textColor="@color/estagiou_text_secondary"
                             android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/txtSalarioFavorito1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="Salário: R$ 900"
+                            android:textColor="@color/estagiou_text_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtTelefoneFavorito1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Telefone: (51) 3000-1001"
+                            android:textColor="@color/estagiou_text_secondary"
+                            android:textSize="14sp" />
 
                         <LinearLayout
                             android:id="@+id/linhaAcoesFavorito1"

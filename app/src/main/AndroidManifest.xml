@@ -16,6 +16,7 @@
     </queries>
 
     <application
+        android:name=".EstagiouApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -26,22 +27,22 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.Estagiou" >
         <activity
-            android:name=".classes.PerfilActivity"
+            android:name=".activity.PerfilActivity"
             android:exported="false" />
         <activity
-            android:name=".classes.FavoritosActivity"
+            android:name=".activity.FavoritosActivity"
             android:exported="false" />
         <activity
-            android:name=".classes.DetalhesVagaActivity"
+            android:name=".activity.DetalhesVagaActivity"
             android:exported="false" />
         <activity
-            android:name=".classes.VagasActivity"
+            android:name=".activity.VagasActivity"
             android:exported="false" />
         <activity
-            android:name=".classes.RegistrarActivity"
+            android:name=".activity.RegistrarActivity"
             android:exported="false" />
         <activity
-            android:name=".classes.MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

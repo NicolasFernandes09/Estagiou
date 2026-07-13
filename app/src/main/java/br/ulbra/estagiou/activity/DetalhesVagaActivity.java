@@ -1,4 +1,4 @@
-package br.ulbra.estagiou.classes;
+package br.ulbra.estagiou.activity;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,10 +15,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 import br.ulbra.estagiou.R;
+import br.ulbra.estagiou.controller.VagaController;
+import br.ulbra.estagiou.model.VagaDados;
+import br.ulbra.estagiou.repository.FavoritosStore;
+import br.ulbra.estagiou.util.AssistenteHelper;
+import br.ulbra.estagiou.util.BottomNavHelper;
+import br.ulbra.estagiou.util.TelaHelper;
 
 public class DetalhesVagaActivity extends AppCompatActivity {
     private static final int REQUEST_CURRICULO = 40;
     private VagaDados vagaAtual;
+    private VagaController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +33,9 @@ public class DetalhesVagaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detalhes_vaga);
         TelaHelper.preencherPainel(this, R.id.cardDetalhesVaga, 36);
 
+        controller = new VagaController();
         String vagaId = getIntent().getStringExtra(VagaDados.EXTRA_VAGA_ID);
-        vagaAtual = VagasRepository.buscarPorId(vagaId);
+        vagaAtual = controller.buscarVagaPorId(vagaId);
 
         preencherDados();
         configurarAcoes();
@@ -39,14 +47,14 @@ public class DetalhesVagaActivity extends AppCompatActivity {
     }
 
     private void atualizarDadosDaApi(String vagaId) {
-        if (VagasRepository.apiCarregada()) {
+        if (controller.apiCarregada()) {
             return;
         }
 
-        VagasRepository.carregar(this, new VagasRepository.Callback() {
+        controller.carregarVagas(this, new VagaController.CarregamentoCallback() {
             @Override
             public void onResult(List<VagaDados> vagas) {
-                VagaDados vaga = VagasRepository.encontrarPorId(vagaId);
+                VagaDados vaga = controller.encontrarVagaPorId(vagaId);
                 if (vaga != null) {
                     vagaAtual = vaga;
                     preencherDados();
@@ -69,6 +77,7 @@ public class DetalhesVagaActivity extends AppCompatActivity {
         setTexto(R.id.txtSalarioVaga, vagaAtual.salario);
         setTexto(R.id.txtCidadeContato, "Cidade: " + vagaAtual.cidade);
         setTexto(R.id.txtEmailContato, vagaAtual.contato);
+        setTexto(R.id.txtTelefoneContato, vagaAtual.telefone);
         setTexto(R.id.txtDataLimite, vagaAtual.dataLimite);
         setTexto(R.id.txtCandidatura, vagaAtual.candidatura);
         setTexto(R.id.txtResumoEnvioCurriculo, "Para: " + emailContato() + "\nAssunto: " + assuntoEmail());
@@ -173,7 +182,11 @@ public class DetalhesVagaActivity extends AppCompatActivity {
     }
 
     private String emailContato() {
-        return vagaAtual.contato.replace("Contato:", "").trim();
+        String contato = vagaAtual.contato.replace("Contato:", "").trim();
+        if (contato.contains("@")) {
+            return contato;
+        }
+        return "";
     }
 
     private Intent criarIntentEmail(Uri curriculoUri) {

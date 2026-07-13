@@ -1,4 +1,4 @@
-package br.ulbra.estagiou.classes;
+package br.ulbra.estagiou.api;
 
 import android.content.Context;
 
@@ -14,6 +14,9 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import br.ulbra.estagiou.model.VagaDados;
+import br.ulbra.estagiou.repository.SessaoManager;
+
 public class VagasApiClient {
     public interface Callback {
         void onSuccess(List<VagaDados> vagas);
@@ -22,6 +25,7 @@ public class VagasApiClient {
     }
 
     public void buscarVagas(Context context, Callback callback) {
+        SessaoManager.inicializar(context);
         Call<ResponseBody> chamada = RetrofitClient.getApiService().buscarVagas();
         chamada.enqueue(new retrofit2.Callback<ResponseBody>() {
             @Override
@@ -88,12 +92,13 @@ public class VagasApiClient {
         String cidade = primeiroTexto(item, "cidade", "local", "localizacao", "localização", "municipio", "município");
         String tipo = primeiroTexto(item, "tipoVaga", "tipo_vaga", "tipo", "tipo_contratacao", "contratacao", "contratação");
         String descricao = primeiroTexto(item, "descricao", "descrição", "descricao_vaga", "descricaoVaga");
-        String contato = primeiroTexto(item, "contato", "telefone", "fone", "email", "email_contato", "emailContato", "email_rh", "emailRh");
+        String contato = primeiroTexto(item, "contato", "email", "email_contato", "emailContato", "email_rh", "emailRh");
+        String telefone = primeiroTexto(item, "telefone", "fone", "celular", "whatsapp", "telefone_rh", "telefoneRh");
         String dataLimite = primeiroTexto(item, "fechamento_vaga", "fechamentoData", "fechamento_data", "dataLimite", "data_limite", "data_limite_inscricao", "prazo");
         String candidatura = primeiroTexto(item, "candidatura", "como_candidatar", "comoCandidatar", "instrucoes", "instruções");
         String id = primeiroTexto(item, "id", "id_vaga", "idVaga", "vagasId", "vagas_id", "codigo", "código");
         String sigla = primeiroTexto(item, "sigla", "iniciais");
-        String salario = primeiroTexto(item, "salario", "salário", "bolsa", "remuneracao", "remuneração");
+        String salario = primeiroTexto(item, "salario", "salário", "remuneracao", "remuneração");
         String vagasDisponiveis = primeiroTexto(item, "numero_vagas", "numeroVagas", "quantidade_vagas", "quantidadeVagas", "vagas_disponiveis", "vagasDisponiveis");
 
         if (empresa.equals("")) {
@@ -116,13 +121,18 @@ public class VagasApiClient {
         }
         salario = salarioFormatado(salario, item);
         if (salario.equals("")) {
-            salario = "Salário/Bolsa não informado";
+            salario = "Salário não informado";
         }
         if (contato.equals("")) {
             contato = "Contato não informado";
         }
         if (!contato.toLowerCase(Locale.ROOT).startsWith("contato")) {
             contato = "Contato: " + contato;
+        }
+        if (telefone.equals("")) {
+            telefone = "Telefone não informado";
+        } else if (!telefone.toLowerCase(Locale.ROOT).startsWith("telefone")) {
+            telefone = "Telefone: " + telefone;
         }
         if (dataLimite.equals("")) {
             dataLimite = "Data limite não informada";
@@ -139,7 +149,7 @@ public class VagasApiClient {
             id = gerarId(titulo + "_" + empresa + "_" + cidade + "_" + tipo);
         }
 
-        return new VagaDados(id, sigla, empresa, titulo, cidade, tipo, descricao, salario, contato, dataLimite, candidatura);
+        return new VagaDados(id, sigla, empresa, titulo, cidade, tipo, descricao, salario, contato, telefone, dataLimite, candidatura);
     }
 
     private String primeiroTexto(JSONObject item, String... nomes) {
@@ -156,15 +166,14 @@ public class VagasApiClient {
         if (salario != null && !salario.trim().equals("")) {
             String valor = salario.trim();
             if (valor.toLowerCase(Locale.ROOT).contains("r$")
-                    || valor.toLowerCase(Locale.ROOT).startsWith("sal")
-                    || valor.toLowerCase(Locale.ROOT).startsWith("bolsa")) {
+                    || valor.toLowerCase(Locale.ROOT).startsWith("sal")) {
                 return valor;
             }
             if (valor.matches("^[0-9]+([,.][0-9]+)?$")) {
                 double numero = Double.parseDouble(valor.replace(",", "."));
-                return String.format(new Locale("pt", "BR"), "Salário/Bolsa: R$ %.2f", numero);
+                return String.format(new Locale("pt", "BR"), "Salário: R$ %.2f", numero);
             }
-            return "Salário/Bolsa: " + valor;
+            return "Salário: " + valor;
         }
 
         double valor = item.optDouble("salario", Double.NaN);
@@ -174,7 +183,7 @@ public class VagasApiClient {
         if (Double.isNaN(valor)) {
             return "";
         }
-        return String.format(new Locale("pt", "BR"), "Salário/Bolsa: R$ %.2f", valor);
+        return String.format(new Locale("pt", "BR"), "Salário: R$ %.2f", valor);
     }
 
     private String gerarSigla(String empresa) {

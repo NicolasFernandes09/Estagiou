@@ -17,4 +17,6 @@
     <color name="estagiou_circle_orange">#55FFB36B</color>
     <color name="estagiou_circle_gold">#66FFD54F</color>
     <color name="estagiou_transparent">#00000000</color>
+    <color name="estagiou_api_online">#22C55E</color>
+    <color name="estagiou_api_offline">#DC2626</color>
 </resources>

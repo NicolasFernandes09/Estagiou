@@ -1,4 +1,4 @@
-package br.ulbra.estagiou.classes;
+package br.ulbra.estagiou.model;
 
 import java.util.Locale;
 import java.text.Normalizer;
@@ -15,12 +15,13 @@ public class VagaDados {
     public final String descricao;
     public final String salario;
     public final String contato;
+    public final String telefone;
     public final String dataLimite;
     public final String candidatura;
 
     public VagaDados(String id, String sigla, String empresa, String titulo, String cidade,
                      String tipo, String descricao, String salario, String contato,
-                     String dataLimite, String candidatura) {
+                     String telefone, String dataLimite, String candidatura) {
         this.id = id;
         this.sigla = sigla;
         this.empresa = empresa;
@@ -30,6 +31,7 @@ public class VagaDados {
         this.descricao = descricao;
         this.salario = salario;
         this.contato = contato;
+        this.telefone = telefone;
         this.dataLimite = dataLimite;
         this.candidatura = candidatura;
     }

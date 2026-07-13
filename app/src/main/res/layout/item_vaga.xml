@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="22dp"
     android:background="@drawable/bg_job_card"
-    android:minHeight="172dp"
+    android:minHeight="214dp"
     android:orientation="horizontal"
     android:paddingStart="18dp"
     android:paddingTop="20dp"
@@ -53,6 +53,23 @@
             android:layout_marginTop="6dp"
             android:textColor="@color/estagiou_text_secondary"
             android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/txtSalarioVagaItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/estagiou_text_primary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtTelefoneVagaItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/estagiou_text_secondary"
+            android:textSize="14sp" />
 
         <LinearLayout
             android:id="@+id/linhaAcoesVagaItem"

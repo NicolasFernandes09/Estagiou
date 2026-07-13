@@ -283,7 +283,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Bolsa auxílio: R$ 900 + vale-transporte"
+                    android:text="Salário: R$ 900 + vale-transporte"
                     android:textColor="@color/estagiou_text_primary"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -328,6 +328,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Contato: vagas@techsul.com.br"
+                    android:textColor="@color/estagiou_text_primary"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txtTelefoneContato"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Telefone: (51) 3000-1001"
                     android:textColor="@color/estagiou_text_primary"
                     android:textSize="16sp" />
             </LinearLayout>

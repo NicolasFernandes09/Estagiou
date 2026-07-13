@@ -1,4 +1,4 @@
-package br.ulbra.estagiou.classes;
+package br.ulbra.estagiou.repository;
 
 import android.content.Context;
 
@@ -6,7 +6,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class VagasRepository {
+import br.ulbra.estagiou.api.VagasApiClient;
+import br.ulbra.estagiou.api.RetrofitClient;
+import br.ulbra.estagiou.model.VagaDados;
+import br.ulbra.estagiou.model.Vagas;
+import okhttp3.ResponseBody;
+
+public class VagaRepository {
     public interface Callback {
         void onResult(List<VagaDados> vagas);
 
@@ -22,8 +28,9 @@ public class VagasRepository {
                     "Canoas/RS",
                     "Estágio",
                     "Auxiliar no atendimento técnico, organização de equipamentos e suporte aos usuários.",
-                    "Bolsa auxílio: R$ 900 + vale-transporte",
+                    "Salário: R$ 900 + vale-transporte",
                     "Contato: vagas@techsul.com.br",
+                    "Telefone: (51) 3000-1001",
                     "Inscrições até 25/07/2026",
                     "Envie seu currículo em PDF para o e-mail com o assunto: Estágio TI - Seu nome"
             ),
@@ -35,8 +42,9 @@ public class VagasRepository {
                     "Sapucaia do Sul/RS",
                     "Jovem Aprendiz",
                     "Apoiar rotinas administrativas, organização de documentos e atendimento interno.",
-                    "Bolsa aprendizagem + vale-transporte",
+                    "Salário: R$ 900 + vale-transporte",
                     "Contato: rh@farmaciasdopovo.com.br",
+                    "Telefone: (51) 3000-1002",
                     "Inscrições até 30/07/2026",
                     "Envie seu currículo com o assunto: Jovem Aprendiz Adm. - Seu nome"
             ),
@@ -48,8 +56,9 @@ public class VagasRepository {
                     "Esteio/RS",
                     "Estágio",
                     "Apoiar criação de conteúdos, posts para redes sociais e acompanhamento de campanhas.",
-                    "Bolsa auxílio: R$ 850 + vale-transporte",
+                    "Salário: R$ 850 + vale-transporte",
                     "Contato: marketing@atlassolucoes.com.br",
+                    "Telefone: (51) 3000-1003",
                     "Inscrições até 28/07/2026",
                     "Envie seu portfólio ou currículo com o assunto: Estágio Marketing - Seu nome"
             ),
@@ -63,6 +72,7 @@ public class VagasRepository {
                     "Criar peças digitais para redes sociais e materiais simples de divulgação.",
                     "Pagamento por projeto combinado com a empresa",
                     "Contato: jobs@criativastudio.com.br",
+                    "Telefone: (51) 3000-1004",
                     "Inscrições até 05/08/2026",
                     "Envie seu portfólio com o assunto: Freelancer Design - Seu nome"
             ),
@@ -76,6 +86,7 @@ public class VagasRepository {
                     "Atuar em rotinas de escritório, controle de planilhas e apoio ao setor financeiro.",
                     "Salário: R$ 1.850 + benefícios",
                     "Contato: selecao@mercadocentral.com.br",
+                    "Telefone: (51) 3000-1005",
                     "Inscrições até 10/08/2026",
                     "Envie seu currículo com o assunto: Assistente Administrativo - Seu nome"
             )
@@ -84,16 +95,21 @@ public class VagasRepository {
     private static List<VagaDados> vagas = new ArrayList<>(VAGAS_PADRAO);
     private static boolean apiCarregada = false;
 
-    public static void carregar(Context context, Callback callback) {
+    public void carregar(Context context, VagaRepository.Callback callback) {
         if (apiCarregada) {
             callback.onResult(listar());
             return;
         }
 
+        recarregar(context, callback);
+    }
+
+    public void recarregar(Context context, VagaRepository.Callback callback) {
+
         new VagasApiClient().buscarVagas(context, new VagasApiClient.Callback() {
             @Override
             public void onSuccess(List<VagaDados> vagasApi) {
-                if (vagasApi != null && !vagasApi.isEmpty()) {
+                if (vagasApi != null) {
                     vagas = new ArrayList<>(vagasApi);
                     apiCarregada = true;
                     callback.onResult(listar());
@@ -104,16 +120,17 @@ public class VagasRepository {
 
             @Override
             public void onError(String mensagem) {
+                apiCarregada = false;
                 callback.onError(mensagem);
             }
         });
     }
 
-    public static List<VagaDados> listar() {
+    public List<VagaDados> listar() {
         return new ArrayList<>(vagas);
     }
 
-    public static VagaDados buscarPorId(String id) {
+    public VagaDados buscarPorId(String id) {
         VagaDados vaga = encontrarPorId(id);
         if (vaga != null) {
             return vaga;
@@ -121,7 +138,7 @@ public class VagasRepository {
         return vagas.isEmpty() ? VAGAS_PADRAO.get(0) : vagas.get(0);
     }
 
-    public static VagaDados encontrarPorId(String id) {
+    public VagaDados encontrarPorId(String id) {
         if (id == null) {
             return null;
         }
@@ -133,7 +150,19 @@ public class VagasRepository {
         return null;
     }
 
-    public static boolean apiCarregada() {
+    public boolean apiCarregada() {
         return apiCarregada;
+    }
+
+    public void inserirVaga(Vagas vaga, retrofit2.Callback<ResponseBody> callback) {
+        RetrofitClient.getApiService().inserirVaga(vaga).enqueue(callback);
+    }
+
+    public void atualizarVaga(Vagas vaga, retrofit2.Callback<ResponseBody> callback) {
+        RetrofitClient.getApiService().atualizarVaga(vaga.getVagasId(), vaga).enqueue(callback);
+    }
+
+    public void excluirVaga(int id, retrofit2.Callback<ResponseBody> callback) {
+        RetrofitClient.getApiService().excluirVaga(id).enqueue(callback);
     }
 }

@@ -1,4 +1,4 @@
-package br.ulbra.estagiou.classes;
+package br.ulbra.estagiou.util;
 
 import android.app.Activity;
 import android.view.View;

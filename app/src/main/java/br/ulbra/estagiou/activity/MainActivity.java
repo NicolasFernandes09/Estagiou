@@ -1,4 +1,4 @@
-package br.ulbra.estagiou.classes;
+package br.ulbra.estagiou.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import br.ulbra.estagiou.R;
+import br.ulbra.estagiou.api.UsuarioApiClient;
+import br.ulbra.estagiou.repository.UsuarioStore;
+import br.ulbra.estagiou.repository.SessaoManager;
+import br.ulbra.estagiou.util.TelaHelper;
 
 public class MainActivity extends AppCompatActivity {
     EditText edUsuario, edSenha, edEmail;
@@ -28,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         SharedPreferences preferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
-        if (preferences.getBoolean(KEY_IS_LOGGED, false)) {
+        if (SessaoManager.estaLogado(this)) {
             Intent intent = new Intent(MainActivity.this, VagasActivity.class);
             startActivity(intent);
             finish();

@@ -1,4 +1,4 @@
-package br.ulbra.estagiou.classes;
+package br.ulbra.estagiou.repository;
 
 import android.content.Context;
 import android.content.SharedPreferences;

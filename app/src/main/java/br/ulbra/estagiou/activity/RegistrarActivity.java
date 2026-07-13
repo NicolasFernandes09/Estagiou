@@ -1,4 +1,4 @@
-package br.ulbra.estagiou.classes;
+package br.ulbra.estagiou.activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -16,6 +16,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import br.ulbra.estagiou.R;
+import br.ulbra.estagiou.api.UsuarioApiClient;
+import br.ulbra.estagiou.repository.UsuarioStore;
+import br.ulbra.estagiou.util.TelaHelper;
 
 public class RegistrarActivity extends AppCompatActivity {
     private static final int REQUEST_FOTO = 10;

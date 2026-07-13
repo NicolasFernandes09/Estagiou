@@ -1,12 +1,9 @@
-package br.ulbra.estagiou.classes;
+package br.ulbra.estagiou.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +13,13 @@ import java.util.List;
 import java.util.Set;
 
 import br.ulbra.estagiou.R;
+import br.ulbra.estagiou.adapter.VagasAdapter;
+import br.ulbra.estagiou.controller.VagaController;
+import br.ulbra.estagiou.model.VagaDados;
+import br.ulbra.estagiou.repository.FavoritosStore;
+import br.ulbra.estagiou.util.AssistenteHelper;
+import br.ulbra.estagiou.util.BottomNavHelper;
+import br.ulbra.estagiou.util.TelaHelper;
 
 public class FavoritosActivity extends AppCompatActivity {
     private final List<View> cardsExtras = new ArrayList<>();
@@ -23,7 +27,8 @@ public class FavoritosActivity extends AppCompatActivity {
     private LinearLayout favoritosContent;
     private View boxMensagemFavoritos;
     private View cardSemFavoritos;
-    private CardFavorito cardFixo;
+    private VagasAdapter.ViewHolder cardFixo;
+    private VagaController controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +36,7 @@ public class FavoritosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_favoritos);
         TelaHelper.preencherPainel(this, R.id.cardFavoritos, 36);
 
+        controller = new VagaController();
         inicializarViews();
         configurarAcoes();
         pintarMenu();
@@ -50,12 +56,14 @@ public class FavoritosActivity extends AppCompatActivity {
         boxMensagemFavoritos = findViewById(R.id.boxMensagemFavoritos);
         cardSemFavoritos = findViewById(R.id.cardSemFavoritos);
 
-        cardFixo = new CardFavorito(
+        cardFixo = new VagasAdapter.ViewHolder(
                 findViewById(R.id.cardFavoritoVaga1),
                 findViewById(R.id.txtSiglaFavorito1),
                 findViewById(R.id.txtEmpresaFavorito1),
                 findViewById(R.id.txtTituloFavorito1),
                 findViewById(R.id.txtCidadeFavorito1),
+                findViewById(R.id.txtSalarioFavorito1),
+                findViewById(R.id.txtTelefoneFavorito1),
                 findViewById(R.id.txtTipoFavorito1),
                 findViewById(R.id.btnDetalhesFavorito1),
                 findViewById(R.id.checkFavoritoSalvo1));
@@ -72,7 +80,7 @@ public class FavoritosActivity extends AppCompatActivity {
     }
 
     private void carregarFavoritos() {
-        VagasRepository.carregar(this, new VagasRepository.Callback() {
+        controller.carregarVagas(this, new VagaController.CarregamentoCallback() {
             @Override
             public void onResult(List<VagaDados> vagas) {
                 mostrarFavoritos();
@@ -95,7 +103,7 @@ public class FavoritosActivity extends AppCompatActivity {
 
         Set<String> idsFavoritos = FavoritosStore.getIds(this);
         List<VagaDados> favoritas = new ArrayList<>();
-        for (VagaDados vaga : VagasRepository.listar()) {
+        for (VagaDados vaga : controller.listarVagas()) {
             if (idsFavoritos.contains(vaga.id)) {
                 favoritas.add(vaga);
             }
@@ -114,36 +122,26 @@ public class FavoritosActivity extends AppCompatActivity {
 
         for (int i = 1; i < favoritas.size(); i++) {
             View cardExtra = getLayoutInflater().inflate(R.layout.item_favorito_vaga, favoritosContent, false);
-            preencherCard(new CardFavorito(
-                    cardExtra,
-                    cardExtra.findViewById(R.id.txtSiglaFavoritoItem),
-                    cardExtra.findViewById(R.id.txtEmpresaFavoritoItem),
-                    cardExtra.findViewById(R.id.txtTituloFavoritoItem),
-                    cardExtra.findViewById(R.id.txtCidadeFavoritoItem),
-                    cardExtra.findViewById(R.id.txtTipoFavoritoItem),
-                    cardExtra.findViewById(R.id.btnDetalhesFavoritoItem),
-                    cardExtra.findViewById(R.id.checkFavoritoSalvoItem)), favoritas.get(i));
+            preencherCard(VagasAdapter.criarItemFavorito(cardExtra), favoritas.get(i));
 
             favoritosContent.addView(cardExtra, favoritosContent.indexOfChild(cardSemFavoritos));
             cardsExtras.add(cardExtra);
         }
     }
 
-    private void preencherCard(CardFavorito card, VagaDados vaga) {
-        card.card.setVisibility(View.VISIBLE);
-        card.sigla.setText(vaga.sigla);
-        card.empresa.setText(vaga.empresa);
-        card.titulo.setText(vaga.titulo);
-        card.cidade.setText(vaga.cidade);
-        card.tipo.setText(vaga.tipo);
-        card.detalhes.setOnClickListener(v -> abrirDetalhes(vaga.id));
+    private void preencherCard(VagasAdapter.ViewHolder card, VagaDados vaga) {
+        VagasAdapter.preencher(card, vaga, true, new VagasAdapter.Listener() {
+            @Override
+            public void onDetalhes(VagaDados vagaSelecionada) {
+                abrirDetalhes(vagaSelecionada.id);
+            }
 
-        card.favorito.setOnCheckedChangeListener(null);
-        card.favorito.setChecked(true);
-        card.favorito.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (!isChecked) {
-                FavoritosStore.setFavorita(FavoritosActivity.this, vaga.id, false);
-                mostrarFavoritos();
+            @Override
+            public void onFavoritoAlterado(VagaDados vagaSelecionada, boolean favorita) {
+                if (!favorita) {
+                    FavoritosStore.setFavorita(FavoritosActivity.this, vagaSelecionada.id, false);
+                    mostrarFavoritos();
+                }
             }
         });
     }
@@ -185,26 +183,4 @@ public class FavoritosActivity extends AppCompatActivity {
         BottomNavHelper.pintarItem(this, R.id.imgPerfilFixoFavoritos, R.id.txtPerfilFixoFavoritos, false);
     }
 
-    private static class CardFavorito {
-        final View card;
-        final TextView sigla;
-        final TextView empresa;
-        final TextView titulo;
-        final TextView cidade;
-        final TextView tipo;
-        final Button detalhes;
-        final CheckBox favorito;
-
-        CardFavorito(View card, TextView sigla, TextView empresa, TextView titulo, TextView cidade,
-                     TextView tipo, Button detalhes, CheckBox favorito) {
-            this.card = card;
-            this.sigla = sigla;
-            this.empresa = empresa;
-            this.titulo = titulo;
-            this.cidade = cidade;
-            this.tipo = tipo;
-            this.detalhes = detalhes;
-            this.favorito = favorito;
-        }
-    }
 }
