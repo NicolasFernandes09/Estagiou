@@ -21,10 +21,10 @@ public class SessaoManager {
     public static void salvar(Context context, String token, int usuarioId, String usuario) {
         inicializar(context);
         preferences.edit()
-                .putString(TOKEN, token)
+                .putString(TOKEN, token == null ? "" : token)
                 .putInt(USUARIO_ID, usuarioId)
                 .putString(USUARIO, usuario)
-                .putBoolean(LOGADO, token != null && !token.isEmpty())
+                .putBoolean(LOGADO, usuarioId > 0 || (usuario != null && !usuario.isEmpty()))
                 .apply();
     }
 
@@ -34,7 +34,17 @@ public class SessaoManager {
 
     public static boolean estaLogado(Context context) {
         inicializar(context);
-        return preferences.getBoolean(LOGADO, false) && !token().isEmpty();
+        return preferences.getBoolean(LOGADO, false);
+    }
+
+    public static int usuarioId(Context context) {
+        inicializar(context);
+        return preferences.getInt(USUARIO_ID, 0);
+    }
+
+    public static String usuario(Context context) {
+        inicializar(context);
+        return preferences.getString(USUARIO, "");
     }
 
     public static void limpar(Context context) {

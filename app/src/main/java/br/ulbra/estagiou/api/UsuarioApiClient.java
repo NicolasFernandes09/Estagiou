@@ -4,15 +4,24 @@ import android.content.Context;
 
 import org.json.JSONObject;
 
+import java.net.SocketTimeoutException;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
 
+import br.ulbra.estagiou.repository.SessaoManager;
+import br.ulbra.estagiou.repository.UsuarioStore;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import br.ulbra.estagiou.repository.SessaoManager;
-
 public class UsuarioApiClient {
+    private enum Operacao {
+        LOGIN,
+        REGISTRO
+    }
+
     public interface Callback {
         void onSuccess(String mensagem);
 
@@ -20,92 +29,145 @@ public class UsuarioApiClient {
     }
 
     public void login(Context context, String usuario, String email, String senha, Callback callback) {
-        SessaoManager.inicializar(context);
-        Call<ResponseBody> chamada = RetrofitClient.getApiService()
-                .login("login", usuario, email, senha);
-        enviar(context, usuario, chamada, true, callback);
+        Map<String, String> params = parametrosAcao("login");
+        params.put("usuario", usuario);
+        params.put("email", email);
+        params.put("senha", senha);
+        enviar(context, usuario, email, params, Operacao.LOGIN, callback);
     }
 
     public void registrar(Context context, String nome, String usuario, String email, String senha,
                           String descricaoProfissional, String descricaoPessoal, String foto,
                           Callback callback) {
-        SessaoManager.inicializar(context);
-        Call<ResponseBody> chamada = RetrofitClient.getApiService()
-                .registrar("registrar", nome, usuario, email, senha, descricaoProfissional, descricaoPessoal, foto);
-        enviar(context, usuario, chamada, false, callback);
+        Map<String, String> params = parametrosAcao("registrar");
+        params.put("nome", nome);
+        params.put("usuario", usuario);
+        params.put("email", email);
+        params.put("senha", senha);
+        params.put("descricao_profissional", descricaoProfissional);
+        params.put("descricao_pessoal", descricaoPessoal);
+        params.put("foto", foto);
+        enviar(context, usuario, email, params, Operacao.REGISTRO, callback);
     }
 
     public void logout(Context context, Callback callback) {
-        SessaoManager.inicializar(context);
-        Call<ResponseBody> chamada = RetrofitClient.getApiService().logout("logout");
-        enviar(context, "", chamada, false, callback);
+        SessaoManager.limpar(context);
+        callback.onSuccess("Sessão encerrada com sucesso.");
     }
 
     public static boolean respostaOk(String resposta) {
+        return respostaOk(resposta, Operacao.REGISTRO);
+    }
+
+    private static boolean respostaOk(String resposta, Operacao operacao) {
         String texto = resposta == null ? "" : resposta.trim();
-        if (texto.equals("")) {
+        if (texto.isEmpty()) {
             return false;
         }
 
         try {
             JSONObject json = new JSONObject(texto);
-            if (json.optBoolean("success", false)) {
+            if (json.has("success")) {
+                return json.optBoolean("success", false);
+            }
+
+            JSONObject usuario = json.optJSONObject("usuario");
+            if (operacao == Operacao.LOGIN
+                    && (usuarioValido(usuario) || usuarioValido(json))) {
                 return true;
             }
+
             String status = json.optString("status", json.optString("situacao", ""));
             String mensagem = json.optString("mensagem", json.optString("message", ""));
-            String base = (status + " " + mensagem).toLowerCase(Locale.ROOT);
-            return base.contains("sucesso")
-                    || base.equals("ok")
-                    || base.contains(" ok")
-                    || base.contains("cadastrado")
-                    || base.contains("login efetuado");
+            return textoIndicaSucesso(status + " " + mensagem, operacao);
         } catch (Exception ignored) {
-            String base = texto.toLowerCase(Locale.ROOT);
-            return base.equals("ok")
-                    || base.contains("sucesso")
-                    || base.contains("cadastrado")
-                    || base.contains("login efetuado");
+            return textoIndicaSucesso(texto, operacao);
         }
     }
 
-    private void enviar(Context context, String usuario, Call<ResponseBody> chamada,
-                        boolean guardarToken, Callback callback) {
+    private static boolean usuarioValido(JSONObject usuario) {
+        return usuario != null
+                && usuario.optInt("id_usuario", 0) > 0
+                && !usuario.optString("email", "").isEmpty();
+    }
+
+    private static boolean textoIndicaSucesso(String texto, Operacao operacao) {
+        String base = texto.toLowerCase(Locale.ROOT).trim();
+        if (base.equals("ok") || base.contains("sucesso")) {
+            return true;
+        }
+        if (operacao == Operacao.LOGIN) {
+            return base.contains("login efetuado") || base.contains("autenticado");
+        }
+        return base.contains("cadastrado") || base.contains("criado");
+    }
+
+    private Map<String, String> parametrosAcao(String acao) {
+        Map<String, String> params = new HashMap<>();
+        params.put("action", acao);
+        params.put("acao", acao);
+        return params;
+    }
+
+    private void enviar(Context context, String usuario, String email,
+                        Map<String, String> params, Operacao operacao, Callback callback) {
+        SessaoManager.inicializar(context);
+        Call<ResponseBody> chamada = RetrofitClient.getApiService().requisicaoUsuario(params);
         chamada.enqueue(new retrofit2.Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 String texto = respostaTexto(response);
-                if (response.isSuccessful() && respostaOk(texto)) {
-                    if (guardarToken) {
-                        salvarSessao(context, usuario, texto);
+                if (response.isSuccessful() && respostaOk(texto, operacao)) {
+                    if (operacao == Operacao.LOGIN) {
+                        salvarSessao(context, usuario, email, texto);
                     }
                     callback.onSuccess(texto.trim());
-                } else {
-                    callback.onError(mensagemResposta(texto));
+                    return;
                 }
+                callback.onError(mensagemResposta(texto, response.code()));
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                callback.onError("Não foi possível conectar à API");
+            public void onFailure(Call<ResponseBody> call, Throwable erro) {
+                if (erro instanceof SocketTimeoutException) {
+                    callback.onError("A API demorou para responder. Tente novamente.");
+                } else {
+                    callback.onError("Não foi possível conectar à API.");
+                }
             }
         });
     }
 
-    private void salvarSessao(Context context, String usuario, String resposta) {
+    private void salvarSessao(Context context, String usuario, String emailInformado, String resposta) {
         try {
             JSONObject json = new JSONObject(resposta);
+            JSONObject dados = json.optJSONObject("usuario");
+            if (dados == null) {
+                dados = json;
+            }
+
+            int usuarioId = dados.optInt("id_usuario", json.optInt("id_usuario", 0));
             String token = json.optString("token", "");
-            int usuarioId = json.optInt("id_usuario", 0);
-            JSONObject dadosUsuario = json.optJSONObject("usuario");
-            if (dadosUsuario != null) {
-                usuarioId = dadosUsuario.optInt("id_usuario", usuarioId);
-                usuario = dadosUsuario.optString("usuario", usuario);
-            }
-            if (!token.isEmpty()) {
-                SessaoManager.salvar(context, token, usuarioId, usuario);
-            }
+            String nome = dados.optString("nome", usuario);
+            String email = dados.optString("email", emailInformado);
+            String fotoServidor = dados.optString("foto", "");
+
+            SessaoManager.salvar(context, token, usuarioId, usuario);
+
+            UsuarioStore.UsuarioDados local = UsuarioStore.buscarUsuario(context, usuario);
+            String foto = local.foto.isEmpty() ? fotoServidor : local.foto;
+            UsuarioStore.salvarUsuario(
+                    context,
+                    nome.isEmpty() ? usuario : nome,
+                    usuario,
+                    email,
+                    local.descricaoProfissional,
+                    local.descricaoPessoal,
+                    foto
+            );
         } catch (Exception ignored) {
+            SessaoManager.salvar(context, "", 0, usuario);
+            UsuarioStore.salvarUsuarioSeAusente(context, usuario, emailInformado);
         }
     }
 
@@ -122,21 +184,40 @@ public class UsuarioApiClient {
         return "";
     }
 
-    private String mensagemResposta(String resposta) {
+    private String mensagemResposta(String resposta, int codigoHttp) {
         String texto = resposta == null ? "" : resposta.trim();
-        if (texto.equals("")) {
-            return "A API não retornou uma resposta válida";
+        String minusculo = texto.toLowerCase(Locale.ROOT);
+
+        if (texto.isEmpty()) {
+            return codigoHttp >= 500
+                    ? "A API está temporariamente indisponível."
+                    : "A API não retornou uma resposta válida.";
+        }
+
+        if (minusculo.contains("fatal error") || minusculo.startsWith("<html") || minusculo.startsWith("<!doctype")) {
+            return "A API encontrou um erro interno. Verifique o servidor e o banco de dados.";
         }
 
         try {
             JSONObject json = new JSONObject(texto);
+            JSONObject erros = json.optJSONObject("erros");
+            if (erros != null) {
+                Iterator<String> chaves = erros.keys();
+                if (chaves.hasNext()) {
+                    String detalhe = erros.optString(chaves.next(), "");
+                    if (!detalhe.isEmpty()) {
+                        return detalhe;
+                    }
+                }
+            }
+
             String mensagem = json.optString("mensagem", json.optString("message", ""));
-            if (!mensagem.equals("")) {
+            if (!mensagem.isEmpty()) {
                 return mensagem;
             }
         } catch (Exception ignored) {
         }
 
-        return texto;
+        return "Não foi possível concluir a solicitação à API.";
     }
 }

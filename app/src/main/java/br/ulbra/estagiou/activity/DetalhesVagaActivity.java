@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
+import java.util.Locale;
 
 import br.ulbra.estagiou.R;
 import br.ulbra.estagiou.controller.VagaController;
@@ -206,8 +207,8 @@ public class DetalhesVagaActivity extends AppCompatActivity {
         List<ResolveInfo> apps = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 
         for (ResolveInfo app : apps) {
-            String pacote = app.activityInfo.packageName.toLowerCase();
-            String nome = app.activityInfo.name.toLowerCase();
+            String pacote = app.activityInfo.packageName.toLowerCase(Locale.ROOT);
+            String nome = app.activityInfo.name.toLowerCase(Locale.ROOT);
             if (pacote.contains("gmail") || pacote.contains("mail") || pacote.contains("outlook")
                     || nome.contains("gmail") || nome.contains("mail") || nome.contains("outlook")) {
                 return app;

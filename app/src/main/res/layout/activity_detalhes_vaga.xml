@@ -89,7 +89,7 @@
                     android:minHeight="0dp"
                     android:padding="0dp"
                     android:src="@drawable/ic_back_orange_26"
-                    android:tint="@color/white"
+                    app:tint="@color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

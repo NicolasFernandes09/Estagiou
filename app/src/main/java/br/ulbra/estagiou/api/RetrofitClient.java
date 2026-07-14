@@ -6,12 +6,19 @@ import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.util.concurrent.TimeUnit;
+
 public class RetrofitClient {
     private static Retrofit retrofit;
 
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
             OkHttpClient httpClient = new OkHttpClient.Builder()
+                    .connectTimeout(10, TimeUnit.SECONDS)
+                    .readTimeout(15, TimeUnit.SECONDS)
+                    .writeTimeout(15, TimeUnit.SECONDS)
+                    .callTimeout(20, TimeUnit.SECONDS)
+                    .retryOnConnectionFailure(true)
                     .addInterceptor(chain -> {
                         Request original = chain.request();
                         String token = SessaoManager.token();

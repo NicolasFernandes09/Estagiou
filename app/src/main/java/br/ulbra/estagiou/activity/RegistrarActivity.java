@@ -148,8 +148,10 @@ public class RegistrarActivity extends AppCompatActivity {
             imgFotoCadastro.setImageURI(fotoSelecionada);
 
             try {
-                int flags = data.getFlags() & Intent.FLAG_GRANT_READ_URI_PERMISSION;
-                getContentResolver().takePersistableUriPermission(fotoSelecionada, flags);
+                getContentResolver().takePersistableUriPermission(
+                        fotoSelecionada,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                );
             } catch (Exception ignored) {
             }
         }

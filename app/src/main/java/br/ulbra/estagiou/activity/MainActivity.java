@@ -1,8 +1,6 @@
 package br.ulbra.estagiou.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -23,15 +21,10 @@ public class MainActivity extends AppCompatActivity {
     Button btLogin, btCriarConta;
     UsuarioApiClient api;
 
-    private static final String SHARED_PREFS_NAME = "user_session";
-    private static final String KEY_IS_LOGGED = "is_logged";
-    private static final String KEY_USERNAME = "logged_user";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences preferences = getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
         if (SessaoManager.estaLogado(this)) {
             Intent intent = new Intent(MainActivity.this, VagasActivity.class);
             startActivity(intent);
@@ -75,24 +68,19 @@ public class MainActivity extends AppCompatActivity {
                 } else if (password.length() < 6) {
                     Toast.makeText(MainActivity.this, "Senha mínima de 6 caracteres", Toast.LENGTH_SHORT).show();
                 } else {
-                    fazerLogin(preferences, username, email, password);
+                    fazerLogin(username, email, password);
                 }
             }
         });
     }
 
-    private void fazerLogin(SharedPreferences preferences, String username, String email, String password) {
+    private void fazerLogin(String username, String email, String password) {
         btLogin.setEnabled(false);
 
         api.login(this, username, email, password, new UsuarioApiClient.Callback() {
             @Override
             public void onSuccess(String mensagem) {
                 UsuarioStore.salvarUsuarioSeAusente(MainActivity.this, username, email);
-
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putBoolean(KEY_IS_LOGGED, true);
-                editor.putString(KEY_USERNAME, username);
-                editor.apply();
 
                 Toast.makeText(MainActivity.this, "Login efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, VagasActivity.class);

@@ -7,7 +7,7 @@
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <item name="android:navigationBarColor">@color/estagiou_screen_bg</item>
         <item name="android:statusBarColor">@color/estagiou_screen_bg</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowAnimationStyle">@style/SemAnimacao</item>
     </style>
 

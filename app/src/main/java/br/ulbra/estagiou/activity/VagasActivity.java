@@ -63,7 +63,7 @@ public class VagasActivity extends AppCompatActivity {
         super.onResume();
         if (adapter != null) {
             aplicarFiltroBusca();
-            adapter.notifyDataSetChanged();
+            adapter.notifyItemRangeChanged(0, adapter.getItemCount());
         }
     }
 

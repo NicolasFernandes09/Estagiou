@@ -1,18 +1,22 @@
 <?php
-$host = getenv('DB_HOST') ?: 'localhost';
+
+require_once __DIR__ . '/common.php';
+
+$host = getenv('DB_HOST') ?: '127.0.0.1';
 $usuario = getenv('DB_USER') ?: 'root';
 $senha = getenv('DB_PASSWORD') ?: '';
 $banco = getenv('DB_NAME') ?: 'db_estagiou';
 $porta = (int) (getenv('DB_PORT') ?: 3306);
 
-mysqli_report(MYSQLI_REPORT_OFF);
-$conn = @new mysqli($host, $usuario, $senha, $banco, $porta);
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-if ($conn->connect_error) {
-    http_response_code(500);
-    header('Content-Type: application/json; charset=utf-8');
-    echo json_encode(['success' => false, 'mensagem' => 'Não foi possível conectar ao banco de dados.'], JSON_UNESCAPED_UNICODE);
-    exit;
+try {
+    $conn = new mysqli($host, $usuario, $senha, $banco, $porta);
+    $conn->set_charset('utf8mb4');
+} catch (Throwable $erro) {
+    registrarErroApi($erro);
+    responderJson([
+        'success' => false,
+        'mensagem' => 'Não foi possível conectar ao banco de dados.'
+    ], 500);
 }
-
-$conn->set_charset('utf8mb4');

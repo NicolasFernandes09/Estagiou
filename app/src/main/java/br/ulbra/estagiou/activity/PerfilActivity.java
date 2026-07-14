@@ -202,8 +202,10 @@ public class PerfilActivity extends AppCompatActivity {
             preencherFotoEmImagem(imgFotoEditarPerfil, fotoEdicao.toString());
 
             try {
-                int flags = data.getFlags() & Intent.FLAG_GRANT_READ_URI_PERMISSION;
-                getContentResolver().takePersistableUriPermission(fotoEdicao, flags);
+                getContentResolver().takePersistableUriPermission(
+                        fotoEdicao,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                );
             } catch (Exception ignored) {
             }
         }

@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
-def apiBaseUrl = project.findProperty("ESTAGIOU_API_BASE_URL") ?: "http://172.29.20.149/Estagiou/api/"
+def apiBaseUrl = project.findProperty("ESTAGIOU_API_BASE_URL") ?: "http://172.29.20.159/Estagiou/api/"
 
 android {
     namespace 'br.ulbra.estagiou'
@@ -41,7 +41,6 @@ android {
 dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.11.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
-    implementation 'org.mindrot:jbcrypt:0.4'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation libs.activity.ktx
     implementation libs.appcompat
