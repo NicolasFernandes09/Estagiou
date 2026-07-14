@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 --
 -- Criação e uso do banco `db_estagiou`
 --
-CREATE DATABASE db_estagiou;
+CREATE DATABASE if not exists db_estagiou;
 USE db_estagiou;
 
 -- --------------------------------------------------------
