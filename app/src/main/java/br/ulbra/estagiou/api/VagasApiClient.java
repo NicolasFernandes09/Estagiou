@@ -5,6 +5,8 @@ import android.content.Context;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +52,7 @@ public class VagasApiClient {
         });
     }
 
-    private List<VagaDados> converterResposta(String response) throws Exception {
+    List<VagaDados> converterResposta(String response) throws Exception {
         List<VagaDados> vagas = new ArrayList<>();
         String texto = response == null ? "" : response.trim();
 
@@ -63,6 +65,9 @@ public class VagasApiClient {
             array = new JSONArray(texto);
         } else {
             JSONObject objeto = new JSONObject(texto);
+            if (objeto.has("success") && !objeto.optBoolean("success", false)) {
+                throw new IllegalArgumentException(objeto.optString("mensagem", "Resposta inválida da API"));
+            }
             array = objeto.optJSONArray("vagas");
             if (array == null) {
                 array = objeto.optJSONArray("dados");
@@ -72,7 +77,9 @@ public class VagasApiClient {
             }
             if (array == null) {
                 array = new JSONArray();
-                array.put(objeto);
+                if (!objeto.has("success")) {
+                    array.put(objeto);
+                }
             }
         }
 
@@ -171,7 +178,7 @@ public class VagasApiClient {
             }
             if (valor.matches("^[0-9]+([,.][0-9]+)?$")) {
                 double numero = Double.parseDouble(valor.replace(",", "."));
-                return String.format(new Locale("pt", "BR"), "Salário: R$ %.2f", numero);
+                return formatarSalario(numero);
             }
             return "Salário: " + valor;
         }
@@ -183,7 +190,13 @@ public class VagasApiClient {
         if (Double.isNaN(valor)) {
             return "";
         }
-        return String.format(new Locale("pt", "BR"), "Salário: R$ %.2f", valor);
+        return formatarSalario(valor);
+    }
+
+    private String formatarSalario(double valor) {
+        DecimalFormatSymbols simbolos = new DecimalFormatSymbols(new Locale("pt", "BR"));
+        DecimalFormat formato = new DecimalFormat("#,##0.00", simbolos);
+        return "Salário: R$ " + formato.format(valor);
     }
 
     private String gerarSigla(String empresa) {

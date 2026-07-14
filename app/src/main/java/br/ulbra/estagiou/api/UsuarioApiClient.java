@@ -29,16 +29,30 @@ public class UsuarioApiClient {
     }
 
     public void login(Context context, String usuario, String email, String senha, Callback callback) {
-        Map<String, String> params = parametrosAcao("login");
-        params.put("usuario", usuario);
-        params.put("email", email);
-        params.put("senha", senha);
+        Map<String, String> params = parametrosLogin(usuario, email, senha);
         enviar(context, usuario, email, params, Operacao.LOGIN, callback);
     }
 
     public void registrar(Context context, String nome, String usuario, String email, String senha,
                           String descricaoProfissional, String descricaoPessoal, String foto,
                           Callback callback) {
+        Map<String, String> params = parametrosRegistro(
+                nome, usuario, email, senha, descricaoProfissional, descricaoPessoal, foto
+        );
+        enviar(context, usuario, email, params, Operacao.REGISTRO, callback);
+    }
+
+    static Map<String, String> parametrosLogin(String usuario, String email, String senha) {
+        Map<String, String> params = parametrosAcao("login");
+        params.put("usuario", usuario);
+        params.put("email", email);
+        params.put("senha", senha);
+        return params;
+    }
+
+    static Map<String, String> parametrosRegistro(String nome, String usuario, String email, String senha,
+                                                   String descricaoProfissional, String descricaoPessoal,
+                                                   String foto) {
         Map<String, String> params = parametrosAcao("registrar");
         params.put("nome", nome);
         params.put("usuario", usuario);
@@ -47,7 +61,7 @@ public class UsuarioApiClient {
         params.put("descricao_profissional", descricaoProfissional);
         params.put("descricao_pessoal", descricaoPessoal);
         params.put("foto", foto);
-        enviar(context, usuario, email, params, Operacao.REGISTRO, callback);
+        return params;
     }
 
     public void logout(Context context, Callback callback) {
@@ -57,6 +71,10 @@ public class UsuarioApiClient {
 
     public static boolean respostaOk(String resposta) {
         return respostaOk(resposta, Operacao.REGISTRO);
+    }
+
+    static boolean respostaLoginOk(String resposta) {
+        return respostaOk(resposta, Operacao.LOGIN);
     }
 
     private static boolean respostaOk(String resposta, Operacao operacao) {
@@ -102,7 +120,7 @@ public class UsuarioApiClient {
         return base.contains("cadastrado") || base.contains("criado");
     }
 
-    private Map<String, String> parametrosAcao(String acao) {
+    private static Map<String, String> parametrosAcao(String acao) {
         Map<String, String> params = new HashMap<>();
         params.put("action", acao);
         params.put("acao", acao);
