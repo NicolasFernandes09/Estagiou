@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 14/07/2026 às 01:38
+-- Tempo de geração: 15/07/2026 às 01:03
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -89,10 +89,20 @@ INSERT INTO `empresas` (`ID_empresa`, `nome`, `email`, `senha`, `endereco`, `tel
 CREATE TABLE `usuarios` (
   `ID_usuario` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
+  `usuario` varchar(255) NOT NULL,
   `senha` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `foto` varchar(255) NOT NULL
+  `foto` varchar(255) NOT NULL,
+  `descricao_pessoal` text DEFAULT NULL,
+  `descricao_profissional` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `usuarios`
+--
+
+INSERT INTO `usuarios` (`ID_usuario`, `nome`, `usuario`, `senha`, `email`, `foto`, `descricao_pessoal`, `descricao_profissional`) VALUES
+(2, 'Rafael\r\n', '', '1234567', 'rafael@gmail.com', '', 'Sou rafael e tenho glueteos avantajados', 'Rebolador profissional, modelo de bumbum, ex bbb 2025, modelo da playboy');
 
 -- --------------------------------------------------------
 
@@ -191,7 +201,7 @@ ALTER TABLE `empresas`
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `ID_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `vaga`
