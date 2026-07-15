@@ -39,6 +39,76 @@ $opcoesTipo = [
 ];
 
 $empresaNome = $empresa['nome'] ?? 'Empresa não informada';
+
+require_once('./dompdf/autoload.inc.php');
+
+use Dompdf\Dompdf;
+
+// Verificar se foi solicitado exportar para PDF
+if (isset($_GET['export']) && $_GET['export'] === 'pdf') {
+    $html = <<<'HTML'
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <style>
+            body { font-family: Arial, sans-serif; padding: 20px; }
+            .card-vaga { border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
+            .topo { display: flex; gap: 15px; margin-bottom: 20px; }
+            .avatar { font-size: 32px; font-weight: bold; min-width: 60px; }
+            .empresa { font-size: 14px; color: #666; }
+            .cargo { font-size: 20px; font-weight: bold; }
+            .badge { display: inline-block; background: #f0f0f0; padding: 8px 12px; border-radius: 4px; margin: 5px 5px 5px 0; font-size: 14px; }
+            .rodape-card { margin: 15px 0; }
+        </style>
+    </head>
+    <body>
+HTML;
+
+    if ($vaga) {
+        $html .= '<div class="card-vaga">';
+        $html .= '<div class="topo">';
+        
+        if (!empty($empresa['logo'])) {
+            $html .= '<div class="avatar"><img src="' . htmlspecialchars($empresa['logo']) . '" alt="" style="width: 60px; height: 60px; border-radius: 4px;"></div>';
+        } else {
+            $html .= '<div class="avatar">' . htmlspecialchars(iniciais($empresaNome)) . '</div>';
+        }
+        
+        $html .= '<div>';
+        $html .= '<div class="empresa">' . htmlspecialchars($empresaNome) . '</div>';
+        $html .= '<div class="cargo">' . htmlspecialchars($vaga['titulo']) . '</div>';
+        $html .= '</div></div>';
+        
+        $html .= '<p style="line-height: 1.5;">' . nl2br(htmlspecialchars($vaga['descricao'])) . '</p>';
+        
+        $html .= '<div class="rodape-card">';
+        $html .= '<span class="badge">' . htmlspecialchars($opcoesTipo[$vaga['tipo_vaga']] ?? $vaga['tipo_vaga']) . '</span>';
+        $html .= '<span class="badge">R$ ' . number_format((float) $vaga['salario'], 2, ',', '.') . '</span>';
+        $html .= '<span class="badge">Até ' . htmlspecialchars(date('d/m/Y H:i', strtotime($vaga['fechamento_vaga']))) . '</span>';
+        $html .= '</div>';
+        
+        if (!empty($vaga['contato'])) {
+            $html .= '<div style="padding-top: 12px; border-top: 1px solid #ccc; font-size: 14px; color: #666;">';
+            $html .= '<strong>Contato:</strong> ' . htmlspecialchars($vaga['contato']);
+            $html .= '</div>';
+        }
+        
+        $html .= '</div>';
+    }
+    
+    $html .= '</body></html>';
+
+    $dompdf = new Dompdf();
+    $dompdf->loadHtml($html);
+    $dompdf->setPaper('A4', 'portrait');
+    $dompdf->render();
+    $dompdf->stream('documento.pdf');
+    exit;
+}
+
+// Mostrar página normal
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -104,6 +174,12 @@ $empresaNome = $empresa['nome'] ?? 'Empresa não informada';
               <strong style="color:var(--text-principal);">Contato:</strong> <?= htmlspecialchars($vaga['contato']) ?>
             </div>
           <?php endif; ?>
+
+          <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--borda);">
+            <a href="?id=<?= $id ?>&export=pdf" class="btn-pdf" style="display:inline-block; padding:10px 20px; background-color:#0066cc; color:white; text-decoration:none; border-radius:4px; font-weight:bold;">
+               Converter para PDF
+            </a>
+          </div>
         </div>
       <?php endif; ?>
     </main>
