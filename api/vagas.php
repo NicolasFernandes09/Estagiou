@@ -22,7 +22,7 @@ $search = isset($_GET['q']) ? trim($_GET['q']) : (isset($_GET['search']) ? trim(
 
 switch ($method) {
     case 'GET':
-        $sql = "SELECT v.id_vaga, v.id_empresa, v.titulo, v.descricao, v.salario, v.fechamento_vaga, v.tipo_vaga, e.nome AS empresa, e.telefone, e.logo
+        $sql = "SELECT v.id_vaga, v.id_empresa, v.titulo, v.descricao, v.salario, v.fechamento_vaga, v.tipo_vaga, e.nome AS empresa, e.email AS empresa_email, e.telefone, e.logo
                 FROM vaga v
                 LEFT JOIN empresas e ON e.ID_empresa = v.id_empresa";
 
