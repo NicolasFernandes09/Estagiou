@@ -40,6 +40,13 @@ $opcoesTipo = [
 
 $empresaNome = $empresa['nome'] ?? 'Empresa não informada';
 
+$linkWhatsapp = '';
+if ($vaga) {
+    $urlAtual = 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/vaga.php?id=' . $id;
+    $mensagemWhatsapp = "Confira essa vaga: {$vaga['titulo']} na empresa {$empresaNome}\n{$urlAtual}";
+    $linkWhatsapp = 'https://wa.me/?text=' . urlencode($mensagemWhatsapp);
+}
+
 require_once('./dompdf/autoload.inc.php');
 
 use Dompdf\Dompdf;
@@ -107,8 +114,6 @@ HTML;
     $dompdf->stream('documento.pdf');
     exit;
 }
-
-// Mostrar página normal
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -175,9 +180,12 @@ HTML;
             </div>
           <?php endif; ?>
 
-          <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--borda);">
+          <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--borda); display:flex; gap:10px; flex-wrap:wrap;">
             <a href="?id=<?= $id ?>&export=pdf" class="btn-pdf" style="display:inline-block; padding:10px 20px; background-color:#0066cc; color:white; text-decoration:none; border-radius:4px; font-weight:bold;">
-               Converter para PDF
+               Baixar Cartaz (PDF)
+            </a>
+            <a href="<?= $linkWhatsapp ?>" target="_blank" rel="noopener noreferrer" class="btn-whatsapp" style="display:inline-block; padding:10px 20px; background-color:#25D366; color:white; text-decoration:none; border-radius:4px; font-weight:bold;">
+               Compartilhar no WhatsApp
             </a>
           </div>
         </div>
