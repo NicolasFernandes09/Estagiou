@@ -125,6 +125,21 @@ function iniciais($nome) {
               <span class="badge"><?= htmlspecialchars($opcoes[$vaga['tipo_vaga']] ?? $vaga['tipo_vaga']) ?></span>
               <a class="link-detalhes" href="vaga.php?id=<?= (int) $vaga['id_vaga'] ?>">Ver detalhes ›</a>
             </div>
+            <?php
+            $linkVaga = "http://localhost/Estagiou/pages/vaga.php?id=" . $vaga['id_vaga'];
+            $mensagem = "Confira esta vaga!\n\n";
+            $mensagem .= "Vaga: " . $vaga['titulo'] . "\n";
+            $mensagem .= "Empresa: " . $vaga['empresa_nome'];
+            $mensagem .= " Veja a vaga:$linkVaga";
+            $linkWhatsapp = "https://wa.me/?text=" . urlencode($mensagem);
+           
+            ?>
+            <a href="<?= $linkWhatsapp ?>"
+            target="_blank"
+            class="btn-whatsapp">
+
+            Compartilhar
+            </a>
           </div>
         <?php endforeach; ?>
       </div>
