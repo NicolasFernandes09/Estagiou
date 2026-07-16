@@ -47,7 +47,7 @@ if ($vaga) {
     $linkWhatsapp = 'https://wa.me/?text=' . urlencode($mensagemWhatsapp);
 }
 
-require_once('./dompdf/autoload.inc.php');
+require_once('../dompdf/autoload.inc.php');
 
 use Dompdf\Dompdf;
 
