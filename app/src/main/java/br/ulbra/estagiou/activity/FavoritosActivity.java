@@ -66,7 +66,8 @@ public class FavoritosActivity extends AppCompatActivity {
                 findViewById(R.id.txtTelefoneFavorito1),
                 findViewById(R.id.txtTipoFavorito1),
                 findViewById(R.id.btnDetalhesFavorito1),
-                findViewById(R.id.checkFavoritoSalvo1));
+                findViewById(R.id.checkFavoritoSalvo1),
+                findViewById(R.id.imgFotoEmpresaFavorito1));
     }
 
     private void configurarAcoes() {

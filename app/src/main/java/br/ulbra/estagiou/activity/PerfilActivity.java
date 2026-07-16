@@ -18,7 +18,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+
 import br.ulbra.estagiou.R;
+import br.ulbra.estagiou.api.ApiConfig;
 import br.ulbra.estagiou.api.UsuarioApiClient;
 import br.ulbra.estagiou.repository.UsuarioStore;
 import br.ulbra.estagiou.repository.SessaoManager;
@@ -89,15 +92,26 @@ public class PerfilActivity extends AppCompatActivity {
     }
 
     private void preencherFotoEmImagem(ImageView imagem, String foto) {
-        if (imagem == null || foto == null || foto.equals("")) {
+        if (imagem == null) {
             return;
         }
 
-        try {
-            imagem.setPadding(0, 0, 0, 0);
-            imagem.setImageURI(Uri.parse(foto));
-        } catch (Exception ignored) {
+        imagem.setClipToOutline(true);
+        Glide.with(this).clear(imagem);
+        if (foto == null || foto.trim().isEmpty()) {
+            int padding = Math.round(20 * getResources().getDisplayMetrics().density);
+            imagem.setPadding(padding, padding, padding, padding);
+            imagem.setImageResource(R.drawable.ic_profile_22);
+            return;
         }
+
+        imagem.setPadding(0, 0, 0, 0);
+        Glide.with(this)
+                .load(ApiConfig.resolverUrlArquivo(foto))
+                .placeholder(R.drawable.ic_profile_22)
+                .error(R.drawable.ic_profile_22)
+                .centerCrop()
+                .into(imagem);
     }
 
     private void configurarAcoes() {
@@ -176,10 +190,38 @@ public class PerfilActivity extends AppCompatActivity {
                 .setMessage("Deseja mesmo alterar as informações do perfil?")
                 .setNegativeButton("Cancelar", null)
                 .setPositiveButton("Alterar", (confirmDialog, which) -> {
-                    UsuarioStore.atualizarPerfil(PerfilActivity.this, usuarioLogado, nome, email, profissional, pessoal, foto);
-                    Toast.makeText(PerfilActivity.this, "Perfil atualizado", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                    preencherPerfil();
+                    new UsuarioApiClient().atualizarPerfil(
+                            PerfilActivity.this,
+                            SessaoManager.usuarioId(PerfilActivity.this),
+                            usuarioLogado,
+                            nome,
+                            email,
+                            profissional,
+                            pessoal,
+                            foto,
+                            new UsuarioApiClient.Callback() {
+                                @Override
+                                public void onSuccess(String mensagem) {
+                                    UsuarioStore.atualizarPerfil(
+                                            PerfilActivity.this,
+                                            usuarioLogado,
+                                            nome,
+                                            email,
+                                            profissional,
+                                            pessoal,
+                                            foto
+                                    );
+                                    Toast.makeText(PerfilActivity.this, "Perfil atualizado", Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
+                                    preencherPerfil();
+                                }
+
+                                @Override
+                                public void onError(String mensagem) {
+                                    Toast.makeText(PerfilActivity.this, mensagem, Toast.LENGTH_LONG).show();
+                                }
+                            }
+                    );
                 })
                 .show();
     }

@@ -18,10 +18,18 @@ public class VagaDados {
     public final String telefone;
     public final String dataLimite;
     public final String candidatura;
+    public final String fotoEmpresa;
 
     public VagaDados(String id, String sigla, String empresa, String titulo, String cidade,
                      String tipo, String descricao, String salario, String contato,
                      String telefone, String dataLimite, String candidatura) {
+        this(id, sigla, empresa, titulo, cidade, tipo, descricao, salario, contato,
+                telefone, dataLimite, candidatura, "");
+    }
+
+    public VagaDados(String id, String sigla, String empresa, String titulo, String cidade,
+                     String tipo, String descricao, String salario, String contato,
+                     String telefone, String dataLimite, String candidatura, String fotoEmpresa) {
         this.id = id;
         this.sigla = sigla;
         this.empresa = empresa;
@@ -34,6 +42,7 @@ public class VagaDados {
         this.telefone = telefone;
         this.dataLimite = dataLimite;
         this.candidatura = candidatura;
+        this.fotoEmpresa = fotoEmpresa;
     }
 
     public boolean combinaComFiltro(String filtro) {

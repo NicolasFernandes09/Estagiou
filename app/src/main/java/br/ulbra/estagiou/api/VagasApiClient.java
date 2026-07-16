@@ -107,6 +107,7 @@ public class VagasApiClient {
         String sigla = primeiroTexto(item, "sigla", "iniciais");
         String salario = primeiroTexto(item, "salario", "salário", "remuneracao", "remuneração");
         String vagasDisponiveis = primeiroTexto(item, "numero_vagas", "numeroVagas", "quantidade_vagas", "quantidadeVagas", "vagas_disponiveis", "vagasDisponiveis");
+        String fotoEmpresa = primeiroTexto(item, "foto_empresa", "fotoEmpresa", "logo", "logo_empresa", "logoEmpresa", "imagem_empresa", "imagemEmpresa", "foto");
 
         if (empresa.equals("")) {
             empresa = "Empresa";
@@ -156,7 +157,21 @@ public class VagasApiClient {
             id = gerarId(titulo + "_" + empresa + "_" + cidade + "_" + tipo);
         }
 
-        return new VagaDados(id, sigla, empresa, titulo, cidade, tipo, descricao, salario, contato, telefone, dataLimite, candidatura);
+        return new VagaDados(
+                id,
+                sigla,
+                empresa,
+                titulo,
+                cidade,
+                tipo,
+                descricao,
+                salario,
+                contato,
+                telefone,
+                dataLimite,
+                candidatura,
+                ApiConfig.resolverUrlArquivo(fotoEmpresa)
+        );
     }
 
     private String primeiroTexto(JSONObject item, String... nomes) {

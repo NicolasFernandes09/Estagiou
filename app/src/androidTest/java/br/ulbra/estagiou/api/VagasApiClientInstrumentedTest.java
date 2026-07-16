@@ -25,7 +25,8 @@ public class VagasApiClientInstrumentedTest {
                 + "\"salario\":\"1250.50\","
                 + "\"contato\":\"vagas@techsul.com.br\","
                 + "\"telefone\":\"(51) 3000-1001\","
-                + "\"fechamento_vaga\":\"2026-07-25\""
+                + "\"fechamento_vaga\":\"2026-07-25\","
+                + "\"logo\":\"img/techsul.png\""
                 + "}]";
 
         List<VagaDados> vagas = new VagasApiClient().converterResposta(json);
@@ -39,6 +40,7 @@ public class VagasApiClientInstrumentedTest {
         assertEquals("Contato: vagas@techsul.com.br", vaga.contato);
         assertEquals("Telefone: (51) 3000-1001", vaga.telefone);
         assertEquals("Inscrições até 2026-07-25", vaga.dataLimite);
+        assertEquals(ApiConfig.resolverUrlArquivo("img/techsul.png"), vaga.fotoEmpresa);
     }
 
     @Test

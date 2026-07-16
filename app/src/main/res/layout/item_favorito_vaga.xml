@@ -11,15 +11,29 @@
     android:paddingEnd="18dp"
     android:paddingBottom="18dp">
 
-    <TextView
-        android:id="@+id/txtSiglaFavoritoItem"
+    <FrameLayout
         android:layout_width="66dp"
         android:layout_height="66dp"
-        android:background="@drawable/bg_company_badge"
-        android:gravity="center"
-        android:textColor="@color/estagiou_orange_corporate"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        android:background="@drawable/bg_company_badge">
+
+        <ImageView
+            android:id="@+id/imgFotoEmpresaFavoritoItem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_company_badge"
+            android:contentDescription="@string/logo_empresa"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/txtSiglaFavoritoItem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/estagiou_orange_corporate"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/containerDadosFavoritoItem"

@@ -1,17 +1,26 @@
 package br.ulbra.estagiou.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +50,8 @@ public class VagasAdapter extends ListAdapter<VagaDados, VagasAdapter.ViewHolder
                     && Objects.equals(antigo.cidade, novo.cidade)
                     && Objects.equals(antigo.salario, novo.salario)
                     && Objects.equals(antigo.telefone, novo.telefone)
-                    && Objects.equals(antigo.tipo, novo.tipo);
+                    && Objects.equals(antigo.tipo, novo.tipo)
+                    && Objects.equals(antigo.fotoEmpresa, novo.fotoEmpresa);
         }
     };
 
@@ -87,6 +97,7 @@ public class VagasAdapter extends ListAdapter<VagaDados, VagasAdapter.ViewHolder
         holder.telefone.setText(vaga.telefone);
         holder.tipo.setText(vaga.tipo);
         holder.detalhes.setOnClickListener(v -> listener.onDetalhes(vaga));
+        carregarFoto(holder, vaga);
 
         holder.favorito.setOnCheckedChangeListener(null);
         holder.favorito.setChecked(favorita);
@@ -105,7 +116,8 @@ public class VagasAdapter extends ListAdapter<VagaDados, VagasAdapter.ViewHolder
                 item.findViewById(R.id.txtTelefoneVagaItem),
                 item.findViewById(R.id.txtTipoVagaItem),
                 item.findViewById(R.id.btnDetalhesVagaItem),
-                item.findViewById(R.id.checkFavoritoVagaItem));
+                item.findViewById(R.id.checkFavoritoVagaItem),
+                item.findViewById(R.id.imgFotoEmpresaItem));
     }
 
     public static ViewHolder criarItemFavorito(View item) {
@@ -119,7 +131,47 @@ public class VagasAdapter extends ListAdapter<VagaDados, VagasAdapter.ViewHolder
                 item.findViewById(R.id.txtTelefoneFavoritoItem),
                 item.findViewById(R.id.txtTipoFavoritoItem),
                 item.findViewById(R.id.btnDetalhesFavoritoItem),
-                item.findViewById(R.id.checkFavoritoSalvoItem));
+                item.findViewById(R.id.checkFavoritoSalvoItem),
+                item.findViewById(R.id.imgFotoEmpresaFavoritoItem));
+    }
+
+    private static void carregarFoto(ViewHolder holder, VagaDados vaga) {
+        if (holder.fotoEmpresa == null) {
+            return;
+        }
+
+        holder.fotoEmpresa.setClipToOutline(true);
+        Glide.with(holder.fotoEmpresa).clear(holder.fotoEmpresa);
+        if (vaga.fotoEmpresa == null || vaga.fotoEmpresa.trim().isEmpty()) {
+            holder.fotoEmpresa.setVisibility(View.GONE);
+            holder.sigla.setVisibility(View.VISIBLE);
+            return;
+        }
+
+        holder.fotoEmpresa.setVisibility(View.VISIBLE);
+        holder.sigla.setVisibility(View.GONE);
+        Glide.with(holder.fotoEmpresa)
+                .load(vaga.fotoEmpresa)
+                .centerCrop()
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                                Target<Drawable> target, boolean isFirstResource) {
+                        holder.fotoEmpresa.setVisibility(View.GONE);
+                        holder.sigla.setVisibility(View.VISIBLE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model,
+                                                   Target<Drawable> target, DataSource dataSource,
+                                                   boolean isFirstResource) {
+                        holder.fotoEmpresa.setVisibility(View.VISIBLE);
+                        holder.sigla.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
+                .into(holder.fotoEmpresa);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -133,10 +185,18 @@ public class VagasAdapter extends ListAdapter<VagaDados, VagasAdapter.ViewHolder
         public final TextView tipo;
         public final Button detalhes;
         public final CheckBox favorito;
+        public final ImageView fotoEmpresa;
 
         public ViewHolder(View card, TextView sigla, TextView empresa, TextView titulo,
                           TextView cidade, TextView salario, TextView telefone, TextView tipo,
                           Button detalhes, CheckBox favorito) {
+            this(card, sigla, empresa, titulo, cidade, salario, telefone, tipo,
+                    detalhes, favorito, null);
+        }
+
+        public ViewHolder(View card, TextView sigla, TextView empresa, TextView titulo,
+                          TextView cidade, TextView salario, TextView telefone, TextView tipo,
+                          Button detalhes, CheckBox favorito, ImageView fotoEmpresa) {
             super(card);
             this.card = card;
             this.sigla = sigla;
@@ -148,6 +208,7 @@ public class VagasAdapter extends ListAdapter<VagaDados, VagasAdapter.ViewHolder
             this.tipo = tipo;
             this.detalhes = detalhes;
             this.favorito = favorito;
+            this.fotoEmpresa = fotoEmpresa;
         }
     }
 }

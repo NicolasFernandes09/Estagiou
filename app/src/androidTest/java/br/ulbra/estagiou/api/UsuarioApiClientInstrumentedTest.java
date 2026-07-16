@@ -61,4 +61,25 @@ public class UsuarioApiClientInstrumentedTest {
         ));
         assertFalse(UsuarioApiClient.respostaLoginOk("{\"mensagem\":\"Credenciais inválidas\"}"));
     }
+
+    @Test
+    public void atualizacaoDePerfilEnviaCamposParaApi() {
+        Map<String, String> params = UsuarioApiClient.parametrosAtualizacao(
+                7,
+                "filipe",
+                "Filipe Machado",
+                "filipe@email.com",
+                "Descrição profissional",
+                "Descrição pessoal",
+                "content://foto"
+        );
+
+        assertEquals("atualizar", params.get("action"));
+        assertEquals("PUT", params.get("_method"));
+        assertEquals("7", params.get("id_usuario"));
+        assertEquals("filipe", params.get("usuario"));
+        assertEquals("Descrição profissional", params.get("descricao_profissional"));
+        assertEquals("Descrição pessoal", params.get("descricao_pessoal"));
+        assertFalse(params.containsKey("foto"));
+    }
 }
