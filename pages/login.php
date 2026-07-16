@@ -3,7 +3,6 @@ session_start();
 
 require_once __DIR__ . '/../api/conexao.php';
 require_once __DIR__ . '/../classes/Admin.php';
-require_once __DIR__ . '/../classes/Usuario.php';
 require_once __DIR__ . '/../classes/Empresas.php';
 
 $erros   = $_SESSION['erros'] ?? [];
@@ -51,16 +50,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        $usuarioModel = new Usuario($conn);
-        $usuario = $usuarioModel->login($dados['email'], $dados['senha']);
+        $stmt = $conn->prepare("SELECT * FROM usuarios WHERE usuario = ? OR email = ?");
+        if ($stmt) {
+            $stmt->bind_param("ss", $dados['email'], $dados['email']);
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+            $usuario = $resultado->fetch_assoc();
 
-        if ($usuario) {
-            $_SESSION['usuario_id']   = $usuario['ID_usuario'];
-            $_SESSION['usuario_nome'] = $usuario['nome'];
-            $_SESSION['usuario_tipo'] = 'usuario';
+            if ($usuario) {
+                $senhaArmazenada = (string) ($usuario['senha'] ?? '');
+                if (password_verify($dados['senha'], $senhaArmazenada) || $dados['senha'] === $senhaArmazenada) {
+                    if (!password_verify($dados['senha'], $senhaArmazenada) && $dados['senha'] === $senhaArmazenada) {
+                        $novoHash = password_hash($dados['senha'], PASSWORD_BCRYPT);
+                        $updateStmt = $conn->prepare("UPDATE usuarios SET senha = ? WHERE ID_usuario = ?");
+                        if ($updateStmt) {
+                            $updateStmt->bind_param("si", $novoHash, $usuario['ID_usuario']);
+                            $updateStmt->execute();
+                        }
+                    }
 
-            header('Location: listarVagas.php');
-            exit;
+                    $_SESSION['usuario_id']   = $usuario['ID_usuario'];
+                    $_SESSION['usuario_nome'] = $usuario['nome'];
+                    $_SESSION['usuario_tipo'] = 'usuario';
+
+                    header('Location: listarVagas.php');
+                    exit;
+                }
+            }
         }
 
         $empresaModel = new Empresas($conn);

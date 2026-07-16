@@ -15,8 +15,11 @@ function usuarioPublico(array $usuario)
     return [
         'id_usuario' => (int) $usuario['ID_usuario'],
         'nome' => $usuario['nome'],
+        'usuario' => $usuario['usuario'],
         'email' => $usuario['email'],
         'foto' => $usuario['foto'],
+        'descricao_pessoal' => $usuario['descricao_pessoal'],
+        'descricao_profissional' => $usuario['descricao_profissional'],
     ];
 }
 
@@ -114,7 +117,7 @@ switch ($method) {
             $email = trim($input['email'] ?? '');
             $senha = (string) ($input['senha'] ?? '');
 
-            $usuario = $usuarioModel->login($email, $senha);
+            $usuario = $usuarioModel->login($usuario, $email, $senha);
             if (!$usuario) {
                 sendJson(['mensagem' => 'E-mail ou senha inválidos.'], 401);
             }
@@ -122,7 +125,7 @@ switch ($method) {
 
             sendJson(usuarioPublico($usuario));
         }
-
+        $usuario = trim($input['usuario'] ?? '');
         $nome = trim($input['nome'] ?? '');
         $email = trim($input['email'] ?? '');
         $senha = (string) ($input['senha'] ?? '');
@@ -133,8 +136,6 @@ switch ($method) {
         }
         if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $erros['email'] = 'Informe um e-mail válido.';
-        } elseif ($usuarioModel->emailExiste($email)) {
-            $erros['email'] = 'Este e-mail já está cadastrado.';
         }
         if (strlen($senha) < 6) {
             $erros['senha'] = 'A senha deve ter pelo menos 6 caracteres.';
@@ -151,7 +152,7 @@ switch ($method) {
         }
 
         try {
-            $usuarioModel->registrar($nome, $email, $senha, $foto);
+            $usuarioModel->registrar($nome, $usuario, $email, $senha, $descricaoPessoal, $descricaoProfissional, $foto);
             sendJson(['mensagem' => 'Usuário cadastrado com sucesso.', 'id_usuario' => $conn->insert_id], 201);
         } catch (Exception $e) {
             removerFoto($foto);
@@ -178,9 +179,6 @@ switch ($method) {
         }
         if ($senha !== null && strlen($senha) < 6) {
             sendJson(['mensagem' => 'A senha deve ter pelo menos 6 caracteres.'], 400);
-        }
-        if ($email !== $usuarioAtual['email'] && $usuarioModel->emailExiste($email)) {
-            sendJson(['mensagem' => 'Este e-mail já está cadastrado.'], 400);
         }
 
         [$novaFoto, $erroFoto] = salvarFoto();
