@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
-def apiBaseUrl = project.findProperty("ESTAGIOU_API_BASE_URL") ?: "http://172.29.20.159/Estagiou/api/"
+def apiBaseUrl = project.findProperty("ESTAGIOU_API_BASE_URL") ?: "http://172.29.20.137/Estagiou/api/"
 
 android {
     namespace 'br.ulbra.estagiou'
