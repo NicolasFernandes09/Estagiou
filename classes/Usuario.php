@@ -9,23 +9,36 @@ class Usuario
         $this->conn = $conn;
     }
 
-    public function registrar($nome, $email, $senha, $foto = '')
+    public function registrar($nome, $usuario, $email, $senha, $descricaoPessoal = '', $descricaoProfissional = '', $foto = '')
     {
         $hash = password_hash($senha, PASSWORD_DEFAULT);
         $stmt = $this->conn->prepare(
-            'INSERT INTO usuarios (nome, senha, email, foto) VALUES (?, ?, ?, ?)'
+            'INSERT INTO usuarios (nome, usuario, senha, email, foto, descricao_pessoal, descricao_profissional)
+             VALUES (?, ?, ?, ?, ?, ?, ?)'
         );
-        $stmt->bind_param('ssss', $nome, $hash, $email, $foto);
+        $stmt->bind_param(
+            'sssssss',
+            $nome,
+            $usuario,
+            $hash,
+            $email,
+            $foto,
+            $descricaoPessoal,
+            $descricaoProfissional
+        );
         $stmt->execute();
         return (int) $this->conn->insert_id;
     }
 
-    public function login($email, $senha)
+    public function login($usuario, $email, $senha)
     {
         $stmt = $this->conn->prepare(
-            'SELECT ID_usuario, nome, senha, email, foto FROM usuarios WHERE email = ? LIMIT 1'
+            "SELECT ID_usuario, nome, usuario, senha, email, foto, descricao_pessoal, descricao_profissional
+             FROM usuarios
+             WHERE email = ? AND (usuario = ? OR usuario = '')
+             LIMIT 1"
         );
-        $stmt->bind_param('s', $email);
+        $stmt->bind_param('ss', $email, $usuario);
         $stmt->execute();
         $dados = $stmt->get_result()->fetch_assoc();
 
@@ -49,7 +62,8 @@ class Usuario
     public function listar()
     {
         $resultado = $this->conn->query(
-            'SELECT ID_usuario, nome, email, foto FROM usuarios ORDER BY nome'
+            'SELECT ID_usuario, nome, usuario, email, foto, descricao_pessoal, descricao_profissional
+             FROM usuarios ORDER BY nome'
         );
         return $resultado->fetch_all(MYSQLI_ASSOC);
     }
@@ -57,7 +71,8 @@ class Usuario
     public function buscarPorId($id)
     {
         $stmt = $this->conn->prepare(
-            'SELECT ID_usuario, nome, email, foto FROM usuarios WHERE ID_usuario = ? LIMIT 1'
+            'SELECT ID_usuario, nome, usuario, email, foto, descricao_pessoal, descricao_profissional
+             FROM usuarios WHERE ID_usuario = ? LIMIT 1'
         );
         $stmt->bind_param('i', $id);
         $stmt->execute();
@@ -74,30 +89,53 @@ class Usuario
         return $stmt->get_result()->num_rows > 0;
     }
 
-    public function atualizar($id, $nome, $email, $foto = null, $senha = null)
+    public function usuarioExiste($usuario, $ignorarId = 0)
     {
-        if ($foto !== null && $senha !== null && $senha !== '') {
+        $stmt = $this->conn->prepare(
+            "SELECT ID_usuario FROM usuarios
+             WHERE usuario = ? AND usuario <> '' AND ID_usuario <> ? LIMIT 1"
+        );
+        $stmt->bind_param('si', $usuario, $ignorarId);
+        $stmt->execute();
+        return $stmt->get_result()->num_rows > 0;
+    }
+
+    public function atualizar($id, $nome, $usuario, $email, $descricaoPessoal, $descricaoProfissional, $foto, $senha = '')
+    {
+        if ($senha !== '') {
             $hash = password_hash($senha, PASSWORD_DEFAULT);
             $stmt = $this->conn->prepare(
-                'UPDATE usuarios SET nome = ?, email = ?, foto = ?, senha = ? WHERE ID_usuario = ?'
+                'UPDATE usuarios
+                 SET nome = ?, usuario = ?, email = ?, descricao_pessoal = ?, descricao_profissional = ?, foto = ?, senha = ?
+                 WHERE ID_usuario = ?'
             );
-            $stmt->bind_param('ssssi', $nome, $email, $foto, $hash, $id);
-        } elseif ($foto !== null) {
-            $stmt = $this->conn->prepare(
-                'UPDATE usuarios SET nome = ?, email = ?, foto = ? WHERE ID_usuario = ?'
+            $stmt->bind_param(
+                'sssssssi',
+                $nome,
+                $usuario,
+                $email,
+                $descricaoPessoal,
+                $descricaoProfissional,
+                $foto,
+                $hash,
+                $id
             );
-            $stmt->bind_param('sssi', $nome, $email, $foto, $id);
-        } elseif ($senha !== null && $senha !== '') {
-            $hash = password_hash($senha, PASSWORD_DEFAULT);
-            $stmt = $this->conn->prepare(
-                'UPDATE usuarios SET nome = ?, email = ?, senha = ? WHERE ID_usuario = ?'
-            );
-            $stmt->bind_param('sssi', $nome, $email, $hash, $id);
         } else {
             $stmt = $this->conn->prepare(
-                'UPDATE usuarios SET nome = ?, email = ? WHERE ID_usuario = ?'
+                'UPDATE usuarios
+                 SET nome = ?, usuario = ?, email = ?, descricao_pessoal = ?, descricao_profissional = ?, foto = ?
+                 WHERE ID_usuario = ?'
             );
-            $stmt->bind_param('ssi', $nome, $email, $id);
+            $stmt->bind_param(
+                'ssssssi',
+                $nome,
+                $usuario,
+                $email,
+                $descricaoPessoal,
+                $descricaoProfissional,
+                $foto,
+                $id
+            );
         }
 
         return $stmt->execute();

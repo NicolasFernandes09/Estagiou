@@ -7,12 +7,32 @@ require_once __DIR__ . '/../classes/Usuario.php';
 
 function usuarioPublico($dados)
 {
+    $id = $dados['ID_usuario'] ?? $dados['id_usuario'] ?? 0;
+
     return [
-        'id_usuario' => (int) $dados['ID_usuario'],
-        'nome' => (string) $dados['nome'],
-        'email' => (string) $dados['email'],
+        'id_usuario' => (int) $id,
+        'nome' => (string) ($dados['nome'] ?? ''),
+        'usuario' => (string) ($dados['usuario'] ?? ''),
+        'email' => (string) ($dados['email'] ?? ''),
+        'descricao_pessoal' => (string) ($dados['descricao_pessoal'] ?? ''),
+        'descricao_profissional' => (string) ($dados['descricao_profissional'] ?? ''),
         'foto' => (string) ($dados['foto'] ?? '')
     ];
+}
+
+function tamanhoTextoUsuario($texto)
+{
+    return function_exists('mb_strlen') ? mb_strlen($texto, 'UTF-8') : strlen($texto);
+}
+
+function nomeUsuarioValido($usuario)
+{
+    return preg_match('/^[\p{L}\p{N}_]{3,20}$/u', $usuario) === 1;
+}
+
+function idUsuarioRecebido($entrada)
+{
+    return (int) ($_GET['id'] ?? $_GET['id_usuario'] ?? $entrada['id'] ?? $entrada['id_usuario'] ?? 0);
 }
 
 function removerFotoUsuario($caminho)
@@ -82,19 +102,21 @@ if ($metodo === 'POST' && isset($entrada['_method'])) {
 }
 
 $acao = acaoRecebida($entrada);
+$fotoEnviada = null;
 
 try {
     if ($metodo === 'POST' && $acao === 'login') {
+        $usuarioInformado = textoRecebido($entrada, 'usuario');
         $email = textoRecebido($entrada, 'email');
         $senha = (string) ($entrada['senha'] ?? '');
 
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || $senha === '') {
-            responderJson(['success' => false, 'mensagem' => 'Informe e-mail e senha válidos.'], 400);
+        if ($usuarioInformado === '' || !filter_var($email, FILTER_VALIDATE_EMAIL) || $senha === '') {
+            responderJson(['success' => false, 'mensagem' => 'Informe usuário, e-mail e senha válidos.'], 400);
         }
 
-        $usuario = $model->login($email, $senha);
+        $usuario = $model->login($usuarioInformado, $email, $senha);
         if (!$usuario) {
-            responderJson(['success' => false, 'mensagem' => 'E-mail ou senha inválidos.'], 401);
+            responderJson(['success' => false, 'mensagem' => 'Usuário, e-mail ou senha inválidos.'], 401);
         }
 
         responderJson([
@@ -110,12 +132,21 @@ try {
 
     if ($metodo === 'POST') {
         $nome = textoRecebido($entrada, 'nome');
+        $usuario = textoRecebido($entrada, 'usuario');
         $email = textoRecebido($entrada, 'email');
         $senha = (string) ($entrada['senha'] ?? '');
+        $descricaoPessoal = textoRecebido($entrada, 'descricao_pessoal');
+        $descricaoProfissional = textoRecebido($entrada, 'descricao_profissional');
         $erros = [];
 
         if ($nome === '') {
             $erros['nome'] = 'Informe o nome completo.';
+        }
+
+        if (!nomeUsuarioValido($usuario)) {
+            $erros['usuario'] = 'O usuário deve ter de 3 a 20 letras, números ou sublinhado.';
+        } elseif ($model->usuarioExiste($usuario)) {
+            $erros['usuario'] = 'Este nome de usuário já está cadastrado.';
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -126,6 +157,14 @@ try {
 
         if (strlen($senha) < 6) {
             $erros['senha'] = 'A senha deve ter pelo menos 6 caracteres.';
+        }
+
+        if (tamanhoTextoUsuario($descricaoPessoal) > 450) {
+            $erros['descricao_pessoal'] = 'A descrição pessoal deve ter no máximo 450 caracteres.';
+        }
+
+        if (tamanhoTextoUsuario($descricaoProfissional) > 450) {
+            $erros['descricao_profissional'] = 'A descrição profissional deve ter no máximo 450 caracteres.';
         }
 
         [$fotoEnviada, $erroFoto] = salvarFotoUsuario();
@@ -143,19 +182,27 @@ try {
         }
 
         $foto = $fotoEnviada ?? fotoInformada($entrada);
-        $id = $model->registrar($nome, $email, $senha, $foto);
-        $usuario = $model->buscarPorId($id);
+        $id = $model->registrar(
+            $nome,
+            $usuario,
+            $email,
+            $senha,
+            $descricaoPessoal,
+            $descricaoProfissional,
+            $foto
+        );
+        $usuarioCadastrado = $model->buscarPorId($id);
 
         responderJson([
             'success' => true,
             'mensagem' => 'Usuário cadastrado com sucesso.',
             'id_usuario' => $id,
-            'usuario' => usuarioPublico($usuario)
+            'usuario' => usuarioPublico($usuarioCadastrado)
         ], 201);
     }
 
     if ($metodo === 'GET') {
-        $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+        $id = idUsuarioRecebido($entrada);
         if ($id > 0) {
             $usuario = $model->buscarPorId($id);
             if (!$usuario) {
@@ -169,18 +216,32 @@ try {
     }
 
     if ($metodo === 'PUT') {
-        $id = isset($_GET['id']) ? (int) $_GET['id'] : (int) ($entrada['id'] ?? 0);
+        $id = idUsuarioRecebido($entrada);
         $atual = $model->buscarPorId($id);
         if (!$atual) {
             responderJson(['success' => false, 'mensagem' => 'Usuário não encontrado.'], 404);
         }
 
         $nome = textoRecebido($entrada, 'nome', $atual['nome']);
+        $usuario = textoRecebido($entrada, 'usuario', $atual['usuario']);
         $email = textoRecebido($entrada, 'email', $atual['email']);
         $senha = (string) ($entrada['senha'] ?? '');
+        $descricaoPessoal = textoRecebido(
+            $entrada,
+            'descricao_pessoal',
+            $atual['descricao_pessoal'] ?? ''
+        );
+        $descricaoProfissional = textoRecebido(
+            $entrada,
+            'descricao_profissional',
+            $atual['descricao_profissional'] ?? ''
+        );
 
         if ($nome === '') {
             responderJson(['success' => false, 'mensagem' => 'Informe o nome completo.'], 400);
+        }
+        if (!nomeUsuarioValido($usuario) || $model->usuarioExiste($usuario, $id)) {
+            responderJson(['success' => false, 'mensagem' => 'Informe um nome de usuário disponível e válido.'], 400);
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL) || $model->emailExiste($email, $id)) {
             responderJson(['success' => false, 'mensagem' => 'Informe um e-mail disponível e válido.'], 400);
@@ -188,18 +249,32 @@ try {
         if ($senha !== '' && strlen($senha) < 6) {
             responderJson(['success' => false, 'mensagem' => 'A senha deve ter pelo menos 6 caracteres.'], 400);
         }
+        if (tamanhoTextoUsuario($descricaoPessoal) > 450 || tamanhoTextoUsuario($descricaoProfissional) > 450) {
+            responderJson(['success' => false, 'mensagem' => 'Cada descrição deve ter no máximo 450 caracteres.'], 400);
+        }
 
         [$fotoEnviada, $erroFoto] = salvarFotoUsuario();
         if ($erroFoto !== null) {
             responderJson(['success' => false, 'mensagem' => $erroFoto], 400);
         }
 
-        $foto = $fotoEnviada;
-        if ($foto === null && array_key_exists('foto', $entrada)) {
+        $foto = $atual['foto'] ?? '';
+        if ($fotoEnviada !== null) {
+            $foto = $fotoEnviada;
+        } elseif (array_key_exists('foto', $entrada)) {
             $foto = fotoInformada($entrada);
         }
 
-        $model->atualizar($id, $nome, $email, $foto, $senha);
+        $model->atualizar(
+            $id,
+            $nome,
+            $usuario,
+            $email,
+            $descricaoPessoal,
+            $descricaoProfissional,
+            $foto,
+            $senha
+        );
         if ($fotoEnviada !== null) {
             removerFotoUsuario($atual['foto'] ?? '');
         }
@@ -212,7 +287,7 @@ try {
     }
 
     if ($metodo === 'DELETE') {
-        $id = isset($_GET['id']) ? (int) $_GET['id'] : (int) ($entrada['id'] ?? 0);
+        $id = idUsuarioRecebido($entrada);
         $usuario = $model->buscarPorId($id);
         if (!$usuario) {
             responderJson(['success' => false, 'mensagem' => 'Usuário não encontrado.'], 404);
@@ -225,7 +300,14 @@ try {
 
     responderJson(['success' => false, 'mensagem' => 'Método não permitido.'], 405);
 } catch (Throwable $erro) {
+    removerFotoUsuario($fotoEnviada);
     registrarErroApi($erro);
+    if ((int) $erro->getCode() === 1062) {
+        responderJson([
+            'success' => false,
+            'mensagem' => 'E-mail ou nome de usuário já cadastrado.'
+        ], 409);
+    }
     responderJson([
         'success' => false,
         'mensagem' => 'A API encontrou um erro ao processar o usuário.'

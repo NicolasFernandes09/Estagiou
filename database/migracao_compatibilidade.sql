@@ -1,6 +1,9 @@
 USE db_estagiou;
 
 ALTER TABLE usuarios
+    ADD COLUMN IF NOT EXISTS usuario VARCHAR(255) NOT NULL DEFAULT '' AFTER nome,
+    ADD COLUMN IF NOT EXISTS descricao_pessoal TEXT NULL AFTER foto,
+    ADD COLUMN IF NOT EXISTS descricao_profissional TEXT NULL AFTER descricao_pessoal,
     MODIFY foto VARCHAR(255) NOT NULL DEFAULT '';
 
 SET @indice_nome = (

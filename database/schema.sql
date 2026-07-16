@@ -17,9 +17,12 @@ CREATE TABLE IF NOT EXISTS admin (
 CREATE TABLE IF NOT EXISTS usuarios (
     ID_usuario INT NOT NULL AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL,
+    usuario VARCHAR(255) NOT NULL DEFAULT '',
     senha VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     foto VARCHAR(255) NOT NULL DEFAULT '',
+    descricao_pessoal TEXT NULL,
+    descricao_profissional TEXT NULL,
     PRIMARY KEY (ID_usuario),
     UNIQUE KEY uk_usuarios_email (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

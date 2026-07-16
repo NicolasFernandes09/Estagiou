@@ -166,21 +166,31 @@ public class UsuarioApiClient {
 
             int usuarioId = dados.optInt("id_usuario", json.optInt("id_usuario", 0));
             String token = json.optString("token", "");
-            String nome = dados.optString("nome", usuario);
+            String usuarioServidor = dados.optString("usuario", "").trim();
+            String usuarioResolvido = usuarioServidor.isEmpty() ? usuario : usuarioServidor;
+            String nome = dados.optString("nome", usuarioResolvido);
             String email = dados.optString("email", emailInformado);
             String fotoServidor = dados.optString("foto", "");
+            String descricaoProfissionalServidor = dados.optString("descricao_profissional", "");
+            String descricaoPessoalServidor = dados.optString("descricao_pessoal", "");
 
-            SessaoManager.salvar(context, token, usuarioId, usuario);
+            SessaoManager.salvar(context, token, usuarioId, usuarioResolvido);
 
-            UsuarioStore.UsuarioDados local = UsuarioStore.buscarUsuario(context, usuario);
+            UsuarioStore.UsuarioDados local = UsuarioStore.buscarUsuario(context, usuarioResolvido);
             String foto = local.foto.isEmpty() ? fotoServidor : local.foto;
+            String descricaoProfissional = local.descricaoProfissional.isEmpty()
+                    ? descricaoProfissionalServidor
+                    : local.descricaoProfissional;
+            String descricaoPessoal = local.descricaoPessoal.isEmpty()
+                    ? descricaoPessoalServidor
+                    : local.descricaoPessoal;
             UsuarioStore.salvarUsuario(
                     context,
-                    nome.isEmpty() ? usuario : nome,
-                    usuario,
+                    nome.isEmpty() ? usuarioResolvido : nome,
+                    usuarioResolvido,
                     email,
-                    local.descricaoProfissional,
-                    local.descricaoPessoal,
+                    descricaoProfissional,
+                    descricaoPessoal,
                     foto
             );
         } catch (Exception ignored) {
